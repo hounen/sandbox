@@ -1,0 +1,3 @@
+[submodule "nn/crud"]
+	path = nn/crud
+	url = https://github.com/Ahmed512w/Python-PostgreSQL-CRUD.git
