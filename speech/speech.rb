@@ -1,3 +1,5 @@
+# UTF-8(BOMなし)で保存しないと2バイト文字が怒られます
+
 require "yaml"
 require "mail"
 require "clockwork"
@@ -16,7 +18,7 @@ loop do
 
   request_yell = @driver.find_element(xpath: '//*[@id="root"]/div[1]/div[1]/div/input')
   sleep INPUT_INTERVAL
-  request_yell.send_keys('わたしはいまべんきょうしています。はげましてください。')
+  request_yell.send_keys('かれはじんせいのもくてきをさがしています。かれのじんせいはなんのためにありますか？')
   sleep INPUT_INTERVAL
   @driver.switch_to.active_element.send_keys(:return)
   sleep LISTENING_YELL
