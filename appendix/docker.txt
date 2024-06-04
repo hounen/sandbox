@@ -1,4 +1,5 @@
-
-
 # 現在実行中のすべてのコンテナを一覧表示
 docker ps
+
+# 実行中のコンテナ内にシェルを起動
+docker exec -it <container_id> /bin/bash
