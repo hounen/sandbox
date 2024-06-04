@@ -1,0 +1,4 @@
+mysql -h <hostname> -P <port> -u <username> -p
+mysql -h 192.168.1.100 -P 3306 -u root -p
+
+
