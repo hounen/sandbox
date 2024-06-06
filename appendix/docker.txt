@@ -3,3 +3,9 @@ docker ps
 
 # 実行中のコンテナ内にシェルを起動
 docker exec -it <container_id> /bin/bash
+
+# Dockerfileの更新を反映させる
+docker-compose up -d --build
+
+# docker-compose.ymlの更新を反映させる
+docker-compose up -d
