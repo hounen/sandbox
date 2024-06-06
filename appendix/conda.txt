@@ -1,15 +1,13 @@
-@echo off
+conda activate venv01
+conda deactivate
 
-C:\Users\airat\miniconda3\Library\bin\conda.bat activate venv01
-rem C:\Users\airat\miniconda3\Library\bin\conda.bat deactivate
+conda install -c conda-forge cyipopt
+pip install pynrrd
 
-pause
+conda list --export > packages_conda.txt
+pip freeze > packages_pip.txt
 
-rem conda install -c conda-forge cyipopt
-rem pip install pynrrd
+conda install --file packages_conda.txt
+pip install -r packages_pip.txt
 
-rem conda list --export > packages_conda.txt
-rem pip freeze > packages_pip.txt
-
-rem conda install --file packages_conda.txt
-rem pip install -r packages_pip.txt
+conda env remove --name venv01
