@@ -1,1 +1,2 @@
-python -m venv [virtual_env_name]
+python -m venv venv02
+./venv02/Scripts/activate
