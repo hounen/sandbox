@@ -1,0 +1,2 @@
+python -m venv venv02
+./venv02/Scripts/activate
