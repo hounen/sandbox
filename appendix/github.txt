@@ -8,5 +8,6 @@ git fetch origin
 # pushが失敗して埒が明かないとき
 $ git fetch origin
 $ git reset --hard origin/main
+
 上記のコマンドは簡単に言うと、リモートブランチの状態に強制的に合わせるということを行っている
 
