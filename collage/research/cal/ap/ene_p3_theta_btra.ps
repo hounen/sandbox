@@ -1,0 +1,1853 @@
+%!PS-Adobe-2.0
+%%Title: ene_p3_theta_btra.ps
+%%Creator: gnuplot 4.0 patchlevel 0-0vl1
+%%CreationDate: Fri May 22 22:12:31 2009
+%%DocumentFonts: (atend)
+%%BoundingBox: 50 50 554 770
+%%Orientation: Landscape
+%%Pages: (atend)
+%%EndComments
+/gnudict 256 dict def
+gnudict begin
+/Color true def
+/Solid false def
+/gnulinewidth 5.000 def
+/userlinewidth gnulinewidth def
+/vshift -46 def
+/dl {10.0 mul} def
+/hpt_ 31.5 def
+/vpt_ 31.5 def
+/hpt hpt_ def
+/vpt vpt_ def
+/Rounded false def
+/M {moveto} bind def
+/L {lineto} bind def
+/R {rmoveto} bind def
+/V {rlineto} bind def
+/N {newpath moveto} bind def
+/C {setrgbcolor} bind def
+/f {rlineto fill} bind def
+/vpt2 vpt 2 mul def
+/hpt2 hpt 2 mul def
+/Lshow { currentpoint stroke M
+  0 vshift R show } def
+/Rshow { currentpoint stroke M
+  dup stringwidth pop neg vshift R show } def
+/Cshow { currentpoint stroke M
+  dup stringwidth pop -2 div vshift R show } def
+/UP { dup vpt_ mul /vpt exch def hpt_ mul /hpt exch def
+  /hpt2 hpt 2 mul def /vpt2 vpt 2 mul def } def
+/DL { Color {setrgbcolor Solid {pop []} if 0 setdash }
+ {pop pop pop 0 setgray Solid {pop []} if 0 setdash} ifelse } def
+/BL { stroke userlinewidth 2 mul setlinewidth
+      Rounded { 1 setlinejoin 1 setlinecap } if } def
+/AL { stroke userlinewidth 2 div setlinewidth
+      Rounded { 1 setlinejoin 1 setlinecap } if } def
+/UL { dup gnulinewidth mul /userlinewidth exch def
+      dup 1 lt {pop 1} if 10 mul /udl exch def } def
+/PL { stroke userlinewidth setlinewidth
+      Rounded { 1 setlinejoin 1 setlinecap } if } def
+/LTw { PL [] 1 setgray } def
+/LTb { BL [] 0 0 0 DL } def
+/LTa { AL [1 udl mul 2 udl mul] 0 setdash 0 0 0 setrgbcolor } def
+/LT0 { PL [] 1 0 0 DL } def
+/LT1 { PL [4 dl 2 dl] 0 1 0 DL } def
+/LT2 { PL [2 dl 3 dl] 0 0 1 DL } def
+/LT3 { PL [1 dl 1.5 dl] 1 0 1 DL } def
+/LT4 { PL [5 dl 2 dl 1 dl 2 dl] 0 1 1 DL } def
+/LT5 { PL [4 dl 3 dl 1 dl 3 dl] 1 1 0 DL } def
+/LT6 { PL [2 dl 2 dl 2 dl 4 dl] 0 0 0 DL } def
+/LT7 { PL [2 dl 2 dl 2 dl 2 dl 2 dl 4 dl] 1 0.3 0 DL } def
+/LT8 { PL [2 dl 2 dl 2 dl 2 dl 2 dl 2 dl 2 dl 4 dl] 0.5 0.5 0.5 DL } def
+/Pnt { stroke [] 0 setdash
+   gsave 1 setlinecap M 0 0 V stroke grestore } def
+/Dia { stroke [] 0 setdash 2 copy vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath stroke
+  Pnt } def
+/Pls { stroke [] 0 setdash vpt sub M 0 vpt2 V
+  currentpoint stroke M
+  hpt neg vpt neg R hpt2 0 V stroke
+  } def
+/Box { stroke [] 0 setdash 2 copy exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath stroke
+  Pnt } def
+/Crs { stroke [] 0 setdash exch hpt sub exch vpt add M
+  hpt2 vpt2 neg V currentpoint stroke M
+  hpt2 neg 0 R hpt2 vpt2 V stroke } def
+/TriU { stroke [] 0 setdash 2 copy vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath stroke
+  Pnt  } def
+/Star { 2 copy Pls Crs } def
+/BoxF { stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V  hpt2 0 V  0 vpt2 V
+  hpt2 neg 0 V  closepath fill } def
+/TriUF { stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath fill } def
+/TriD { stroke [] 0 setdash 2 copy vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath stroke
+  Pnt  } def
+/TriDF { stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath fill} def
+/DiaF { stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath fill } def
+/Pent { stroke [] 0 setdash 2 copy gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath stroke grestore Pnt } def
+/PentF { stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath fill grestore } def
+/Circle { stroke [] 0 setdash 2 copy
+  hpt 0 360 arc stroke Pnt } def
+/CircleF { stroke [] 0 setdash hpt 0 360 arc fill } def
+/C0 { BL [] 0 setdash 2 copy moveto vpt 90 450  arc } bind def
+/C1 { BL [] 0 setdash 2 copy        moveto
+       2 copy  vpt 0 90 arc closepath fill
+               vpt 0 360 arc closepath } bind def
+/C2 { BL [] 0 setdash 2 copy moveto
+       2 copy  vpt 90 180 arc closepath fill
+               vpt 0 360 arc closepath } bind def
+/C3 { BL [] 0 setdash 2 copy moveto
+       2 copy  vpt 0 180 arc closepath fill
+               vpt 0 360 arc closepath } bind def
+/C4 { BL [] 0 setdash 2 copy moveto
+       2 copy  vpt 180 270 arc closepath fill
+               vpt 0 360 arc closepath } bind def
+/C5 { BL [] 0 setdash 2 copy moveto
+       2 copy  vpt 0 90 arc
+       2 copy moveto
+       2 copy  vpt 180 270 arc closepath fill
+               vpt 0 360 arc } bind def
+/C6 { BL [] 0 setdash 2 copy moveto
+      2 copy  vpt 90 270 arc closepath fill
+              vpt 0 360 arc closepath } bind def
+/C7 { BL [] 0 setdash 2 copy moveto
+      2 copy  vpt 0 270 arc closepath fill
+              vpt 0 360 arc closepath } bind def
+/C8 { BL [] 0 setdash 2 copy moveto
+      2 copy vpt 270 360 arc closepath fill
+              vpt 0 360 arc closepath } bind def
+/C9 { BL [] 0 setdash 2 copy moveto
+      2 copy  vpt 270 450 arc closepath fill
+              vpt 0 360 arc closepath } bind def
+/C10 { BL [] 0 setdash 2 copy 2 copy moveto vpt 270 360 arc closepath fill
+       2 copy moveto
+       2 copy vpt 90 180 arc closepath fill
+               vpt 0 360 arc closepath } bind def
+/C11 { BL [] 0 setdash 2 copy moveto
+       2 copy  vpt 0 180 arc closepath fill
+       2 copy moveto
+       2 copy  vpt 270 360 arc closepath fill
+               vpt 0 360 arc closepath } bind def
+/C12 { BL [] 0 setdash 2 copy moveto
+       2 copy  vpt 180 360 arc closepath fill
+               vpt 0 360 arc closepath } bind def
+/C13 { BL [] 0 setdash  2 copy moveto
+       2 copy  vpt 0 90 arc closepath fill
+       2 copy moveto
+       2 copy  vpt 180 360 arc closepath fill
+               vpt 0 360 arc closepath } bind def
+/C14 { BL [] 0 setdash 2 copy moveto
+       2 copy  vpt 90 360 arc closepath fill
+               vpt 0 360 arc } bind def
+/C15 { BL [] 0 setdash 2 copy vpt 0 360 arc closepath fill
+               vpt 0 360 arc closepath } bind def
+/Rec   { newpath 4 2 roll moveto 1 index 0 rlineto 0 exch rlineto
+       neg 0 rlineto closepath } bind def
+/Square { dup Rec } bind def
+/Bsquare { vpt sub exch vpt sub exch vpt2 Square } bind def
+/S0 { BL [] 0 setdash 2 copy moveto 0 vpt rlineto BL Bsquare } bind def
+/S1 { BL [] 0 setdash 2 copy vpt Square fill Bsquare } bind def
+/S2 { BL [] 0 setdash 2 copy exch vpt sub exch vpt Square fill Bsquare } bind def
+/S3 { BL [] 0 setdash 2 copy exch vpt sub exch vpt2 vpt Rec fill Bsquare } bind def
+/S4 { BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt Square fill Bsquare } bind def
+/S5 { BL [] 0 setdash 2 copy 2 copy vpt Square fill
+       exch vpt sub exch vpt sub vpt Square fill Bsquare } bind def
+/S6 { BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt vpt2 Rec fill Bsquare } bind def
+/S7 { BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt vpt2 Rec fill
+       2 copy vpt Square fill
+       Bsquare } bind def
+/S8 { BL [] 0 setdash 2 copy vpt sub vpt Square fill Bsquare } bind def
+/S9 { BL [] 0 setdash 2 copy vpt sub vpt vpt2 Rec fill Bsquare } bind def
+/S10 { BL [] 0 setdash 2 copy vpt sub vpt Square fill 2 copy exch vpt sub exch vpt Square fill
+       Bsquare } bind def
+/S11 { BL [] 0 setdash 2 copy vpt sub vpt Square fill 2 copy exch vpt sub exch vpt2 vpt Rec fill
+       Bsquare } bind def
+/S12 { BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill Bsquare } bind def
+/S13 { BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill
+       2 copy vpt Square fill Bsquare } bind def
+/S14 { BL [] 0 setdash 2 copy exch vpt sub exch vpt sub vpt2 vpt Rec fill
+       2 copy exch vpt sub exch vpt Square fill Bsquare } bind def
+/S15 { BL [] 0 setdash 2 copy Bsquare fill Bsquare } bind def
+/D0 { gsave translate 45 rotate 0 0 S0 stroke grestore } bind def
+/D1 { gsave translate 45 rotate 0 0 S1 stroke grestore } bind def
+/D2 { gsave translate 45 rotate 0 0 S2 stroke grestore } bind def
+/D3 { gsave translate 45 rotate 0 0 S3 stroke grestore } bind def
+/D4 { gsave translate 45 rotate 0 0 S4 stroke grestore } bind def
+/D5 { gsave translate 45 rotate 0 0 S5 stroke grestore } bind def
+/D6 { gsave translate 45 rotate 0 0 S6 stroke grestore } bind def
+/D7 { gsave translate 45 rotate 0 0 S7 stroke grestore } bind def
+/D8 { gsave translate 45 rotate 0 0 S8 stroke grestore } bind def
+/D9 { gsave translate 45 rotate 0 0 S9 stroke grestore } bind def
+/D10 { gsave translate 45 rotate 0 0 S10 stroke grestore } bind def
+/D11 { gsave translate 45 rotate 0 0 S11 stroke grestore } bind def
+/D12 { gsave translate 45 rotate 0 0 S12 stroke grestore } bind def
+/D13 { gsave translate 45 rotate 0 0 S13 stroke grestore } bind def
+/D14 { gsave translate 45 rotate 0 0 S14 stroke grestore } bind def
+/D15 { gsave translate 45 rotate 0 0 S15 stroke grestore } bind def
+/DiaE { stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V closepath stroke } def
+/BoxE { stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V closepath stroke } def
+/TriUE { stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V closepath stroke } def
+/TriDE { stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V closepath stroke } def
+/PentE { stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  closepath stroke grestore } def
+/CircE { stroke [] 0 setdash 
+  hpt 0 360 arc stroke } def
+/Opaque { gsave closepath 1 setgray fill grestore 0 setgray closepath } def
+/DiaW { stroke [] 0 setdash vpt add M
+  hpt neg vpt neg V hpt vpt neg V
+  hpt vpt V hpt neg vpt V Opaque stroke } def
+/BoxW { stroke [] 0 setdash exch hpt sub exch vpt add M
+  0 vpt2 neg V hpt2 0 V 0 vpt2 V
+  hpt2 neg 0 V Opaque stroke } def
+/TriUW { stroke [] 0 setdash vpt 1.12 mul add M
+  hpt neg vpt -1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt 1.62 mul V Opaque stroke } def
+/TriDW { stroke [] 0 setdash vpt 1.12 mul sub M
+  hpt neg vpt 1.62 mul V
+  hpt 2 mul 0 V
+  hpt neg vpt -1.62 mul V Opaque stroke } def
+/PentW { stroke [] 0 setdash gsave
+  translate 0 hpt M 4 {72 rotate 0 hpt L} repeat
+  Opaque stroke grestore } def
+/CircW { stroke [] 0 setdash 
+  hpt 0 360 arc Opaque stroke } def
+/BoxFill { gsave Rec 1 setgray fill grestore } def
+/BoxColFill {
+  gsave Rec
+  /Fillden exch def
+  currentrgbcolor
+  /ColB exch def /ColG exch def /ColR exch def
+  /ColR ColR Fillden mul Fillden sub 1 add def
+  /ColG ColG Fillden mul Fillden sub 1 add def
+  /ColB ColB Fillden mul Fillden sub 1 add def
+  ColR ColG ColB setrgbcolor
+  fill grestore } def
+%
+% PostScript Level 1 Pattern Fill routine
+% Usage: x y w h s a XX PatternFill
+%	x,y = lower left corner of box to be filled
+%	w,h = width and height of box
+%	  a = angle in degrees between lines and x-axis
+%	 XX = 0/1 for no/yes cross-hatch
+%
+/PatternFill { gsave /PFa [ 9 2 roll ] def
+    PFa 0 get PFa 2 get 2 div add PFa 1 get PFa 3 get 2 div add translate
+    PFa 2 get -2 div PFa 3 get -2 div PFa 2 get PFa 3 get Rec
+    gsave 1 setgray fill grestore clip
+    currentlinewidth 0.5 mul setlinewidth
+    /PFs PFa 2 get dup mul PFa 3 get dup mul add sqrt def
+    0 0 M PFa 5 get rotate PFs -2 div dup translate
+	0 1 PFs PFa 4 get div 1 add floor cvi
+	{ PFa 4 get mul 0 M 0 PFs V } for
+    0 PFa 6 get ne {
+	0 1 PFs PFa 4 get div 1 add floor cvi
+	{ PFa 4 get mul 0 2 1 roll M PFs 0 V } for
+    } if
+    stroke grestore } def
+%
+/Symbol-Oblique /Symbol findfont [1 0 .167 1 0 0] makefont
+dup length dict begin {1 index /FID eq {pop pop} {def} ifelse} forall
+currentdict end definefont pop
+/MFshow {
+   { dup 5 get 3 ge
+     { 5 get 3 eq {gsave} {grestore} ifelse }
+     {dup dup 0 get findfont exch 1 get scalefont setfont
+     [ currentpoint ] exch dup 2 get 0 exch R dup 5 get 2 ne {dup dup 6
+     get exch 4 get {show} {stringwidth pop 0 R} ifelse }if dup 5 get 0 eq
+     {dup 3 get {2 get neg 0 exch R pop} {pop aload pop M} ifelse} {dup 5
+     get 1 eq {dup 2 get exch dup 3 get exch 6 get stringwidth pop -2 div
+     dup 0 R} {dup 6 get stringwidth pop -2 div 0 R 6 get
+     show 2 index {aload pop M neg 3 -1 roll neg R pop pop} {pop pop pop
+     pop aload pop M} ifelse }ifelse }ifelse }
+     ifelse }
+   forall} bind def
+/MFwidth {0 exch {dup 3 get{dup dup 0 get findfont exch 1 get scalefont
+     setfont 6 get stringwidth pop add} {pop} ifelse} forall} bind def
+/MLshow { currentpoint stroke M
+  0 exch R MFshow } bind def
+/MRshow { currentpoint stroke M
+  exch dup MFwidth neg 3 -1 roll R MFshow } def
+/MCshow { currentpoint stroke M
+  exch dup MFwidth -2 div 3 -1 roll R MFshow } def
+/makecompfont {
+15 dict begin
+ findfont /kanjifont exch def
+ findfont /asciifont exch def
+ /FontType 0 def
+ /WMode 0 def
+ /FMapType 3 def
+ /FontMatrix matrix def
+ /Encoding [0 1] def
+ /FDepVector
+ [asciifont 1 scalefont
+  kanjifont 1 scalefont] def
+ dup /FontName exch def
+ currentdict
+end
+definefont pop
+} def
+/Helvetica-Ryumin /Helvetica /Ryumin-Light-H makecompfont
+end
+%%EndProlog
+%%Page: 1 1
+gnudict begin
+gsave
+50 50 translate
+0.100 0.100 scale
+90 rotate
+0 -5040 translate
+0 setgray
+newpath
+(Helvetica-Ryumin) findfont 140 scalefont setfont
+1.000 UL
+LTb
+574 280 M
+63 0 V
+6325 0 R
+-63 0 V
+stroke
+490 280 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 (-3)]
+] -46.7 MRshow
+grestore
+1.000 UL
+LTb
+574 1045 M
+63 0 V
+6325 0 R
+-63 0 V
+stroke
+490 1045 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 (-2.5)]
+] -46.7 MRshow
+grestore
+1.000 UL
+LTb
+574 1811 M
+63 0 V
+6325 0 R
+-63 0 V
+stroke
+490 1811 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 (-2)]
+] -46.7 MRshow
+grestore
+1.000 UL
+LTb
+574 2576 M
+63 0 V
+6325 0 R
+-63 0 V
+stroke
+490 2576 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 (-1.5)]
+] -46.7 MRshow
+grestore
+1.000 UL
+LTb
+574 3341 M
+63 0 V
+6325 0 R
+-63 0 V
+stroke
+490 3341 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 (-1)]
+] -46.7 MRshow
+grestore
+1.000 UL
+LTb
+574 4107 M
+63 0 V
+6325 0 R
+-63 0 V
+stroke
+490 4107 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 (-0.5)]
+] -46.7 MRshow
+grestore
+1.000 UL
+LTb
+574 4872 M
+63 0 V
+6325 0 R
+-63 0 V
+stroke
+490 4872 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 ( 0)]
+] -46.7 MRshow
+grestore
+1.000 UL
+LTb
+574 280 M
+0 63 V
+0 4529 R
+0 -63 V
+stroke
+574 140 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 ( 0)]
+] -46.7 MCshow
+grestore
+1.000 UL
+LTb
+1639 280 M
+0 63 V
+0 4529 R
+0 -63 V
+stroke
+1639 140 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 ( 0.5)]
+] -46.7 MCshow
+grestore
+1.000 UL
+LTb
+2703 280 M
+0 63 V
+0 4529 R
+0 -63 V
+stroke
+2703 140 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 ( 1)]
+] -46.7 MCshow
+grestore
+1.000 UL
+LTb
+3768 280 M
+0 63 V
+0 4529 R
+0 -63 V
+stroke
+3768 140 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 ( 1.5)]
+] -46.7 MCshow
+grestore
+1.000 UL
+LTb
+4833 280 M
+0 63 V
+0 4529 R
+0 -63 V
+stroke
+4833 140 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 ( 2)]
+] -46.7 MCshow
+grestore
+1.000 UL
+LTb
+5897 280 M
+0 63 V
+0 4529 R
+0 -63 V
+stroke
+5897 140 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 ( 2.5)]
+] -46.7 MCshow
+grestore
+1.000 UL
+LTb
+6962 280 M
+0 63 V
+0 4529 R
+0 -63 V
+stroke
+6962 140 M
+gsave 0 setgray
+[ [(Helvetica-Ryumin) 140.0 0.0 true true 0 ( 3)]
+] -46.7 MCshow
+grestore
+1.000 UL
+LTb
+1.000 UL
+LTb
+574 280 M
+6388 0 V
+0 4592 V
+-6388 0 V
+574 280 L
+1.000 UP
+1.000 UP
+1.000 UL
+LT0
+LTb
+6311 4739 M
+gsave 0 setgray
+("ene_p3_theta.d" u 2:3) Rshow
+grestore
+LT0
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4872 Pls
+579 4872 Pls
+581 4872 Pls
+584 4872 Pls
+588 4872 Pls
+594 4872 Pls
+605 4872 Pls
+621 4872 Pls
+646 4872 Pls
+689 4872 Pls
+759 4872 Pls
+880 4872 Pls
+1087 4872 Pls
+1446 4872 Pls
+2065 4872 Pls
+3054 4872 Pls
+4337 4872 Pls
+6437 4872 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4872 Pls
+579 4872 Pls
+581 4872 Pls
+584 4872 Pls
+588 4872 Pls
+594 4872 Pls
+605 4871 Pls
+621 4871 Pls
+646 4871 Pls
+689 4870 Pls
+759 4868 Pls
+880 4865 Pls
+1087 4861 Pls
+1446 4852 Pls
+2064 4839 Pls
+3053 4823 Pls
+4336 4811 Pls
+6433 4747 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4872 Pls
+579 4872 Pls
+581 4872 Pls
+584 4872 Pls
+588 4872 Pls
+594 4871 Pls
+605 4871 Pls
+621 4870 Pls
+646 4869 Pls
+689 4867 Pls
+759 4864 Pls
+879 4859 Pls
+1086 4849 Pls
+1445 4833 Pls
+2062 4806 Pls
+3052 4774 Pls
+4333 4750 Pls
+6422 4622 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4872 Pls
+579 4872 Pls
+581 4872 Pls
+583 4872 Pls
+588 4871 Pls
+594 4871 Pls
+604 4870 Pls
+620 4869 Pls
+646 4868 Pls
+688 4865 Pls
+759 4861 Pls
+878 4853 Pls
+1085 4838 Pls
+1442 4813 Pls
+2059 4773 Pls
+3049 4726 Pls
+4327 4689 Pls
+6403 4497 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4872 Pls
+579 4872 Pls
+581 4872 Pls
+583 4871 Pls
+588 4871 Pls
+594 4871 Pls
+604 4870 Pls
+620 4869 Pls
+646 4867 Pls
+688 4863 Pls
+758 4857 Pls
+877 4846 Pls
+1083 4827 Pls
+1439 4794 Pls
+2054 4740 Pls
+3046 4676 Pls
+4319 4629 Pls
+6376 4373 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4872 Pls
+579 4872 Pls
+581 4872 Pls
+583 4871 Pls
+588 4871 Pls
+594 4870 Pls
+604 4869 Pls
+620 4868 Pls
+646 4865 Pls
+688 4861 Pls
+757 4853 Pls
+876 4840 Pls
+1081 4816 Pls
+1436 4775 Pls
+2048 4707 Pls
+3042 4627 Pls
+4308 4570 Pls
+6341 4250 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4872 Pls
+579 4872 Pls
+581 4871 Pls
+583 4871 Pls
+588 4871 Pls
+594 4870 Pls
+604 4869 Pls
+620 4867 Pls
+645 4864 Pls
+687 4859 Pls
+757 4849 Pls
+875 4833 Pls
+1078 4805 Pls
+1431 4755 Pls
+2041 4674 Pls
+3037 4578 Pls
+4296 4512 Pls
+6299 4127 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4872 Pls
+579 4872 Pls
+581 4871 Pls
+583 4871 Pls
+588 4870 Pls
+594 4870 Pls
+604 4868 Pls
+620 4866 Pls
+645 4863 Pls
+686 4856 Pls
+756 4846 Pls
+873 4827 Pls
+1075 4794 Pls
+1425 4736 Pls
+2032 4641 Pls
+3031 4528 Pls
+4281 4456 Pls
+6250 4006 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4872 Pls
+579 4871 Pls
+581 4871 Pls
+583 4871 Pls
+588 4870 Pls
+594 4869 Pls
+604 4868 Pls
+620 4865 Pls
+645 4861 Pls
+686 4854 Pls
+754 4842 Pls
+871 4821 Pls
+1071 4783 Pls
+1419 4717 Pls
+2022 4608 Pls
+3024 4477 Pls
+4265 4401 Pls
+6193 3885 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4872 Pls
+579 4871 Pls
+581 4871 Pls
+583 4871 Pls
+588 4870 Pls
+594 4869 Pls
+604 4867 Pls
+619 4865 Pls
+644 4860 Pls
+685 4852 Pls
+753 4838 Pls
+868 4814 Pls
+1067 4772 Pls
+1411 4698 Pls
+2011 4576 Pls
+3016 4426 Pls
+4247 4348 Pls
+6128 3767 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4872 Pls
+579 4871 Pls
+580 4871 Pls
+583 4871 Pls
+587 4870 Pls
+594 4869 Pls
+604 4867 Pls
+619 4864 Pls
+644 4859 Pls
+684 4850 Pls
+751 4835 Pls
+866 4808 Pls
+1062 4761 Pls
+1403 4680 Pls
+1998 4543 Pls
+3007 4374 Pls
+4227 4298 Pls
+6056 3649 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4871 Pls
+579 4871 Pls
+580 4871 Pls
+583 4870 Pls
+587 4870 Pls
+594 4868 Pls
+603 4866 Pls
+619 4863 Pls
+643 4857 Pls
+683 4848 Pls
+750 4831 Pls
+863 4802 Pls
+1057 4751 Pls
+1394 4661 Pls
+1984 4511 Pls
+2996 4322 Pls
+4206 4251 Pls
+5976 3533 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4871 Pls
+579 4871 Pls
+580 4871 Pls
+583 4870 Pls
+587 4869 Pls
+594 4868 Pls
+603 4866 Pls
+618 4862 Pls
+643 4856 Pls
+682 4846 Pls
+748 4827 Pls
+859 4796 Pls
+1051 4740 Pls
+1385 4643 Pls
+1968 4479 Pls
+2985 4268 Pls
+4184 4206 Pls
+5889 3419 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4871 Pls
+579 4871 Pls
+580 4871 Pls
+583 4870 Pls
+587 4869 Pls
+593 4868 Pls
+603 4865 Pls
+618 4861 Pls
+642 4855 Pls
+681 4843 Pls
+746 4824 Pls
+856 4790 Pls
+1045 4730 Pls
+1374 4625 Pls
+1951 4447 Pls
+2971 4213 Pls
+4161 4165 Pls
+5795 3306 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4871 Pls
+578 4871 Pls
+580 4871 Pls
+583 4870 Pls
+587 4869 Pls
+593 4867 Pls
+603 4865 Pls
+617 4861 Pls
+641 4853 Pls
+680 4841 Pls
+744 4820 Pls
+852 4784 Pls
+1038 4720 Pls
+1362 4607 Pls
+1933 4416 Pls
+2955 4157 Pls
+4138 4128 Pls
+5695 3195 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4872 Pls
+577 4871 Pls
+578 4871 Pls
+580 4871 Pls
+583 4870 Pls
+587 4869 Pls
+593 4867 Pls
+602 4864 Pls
+617 4860 Pls
+640 4852 Pls
+678 4839 Pls
+742 4817 Pls
+848 4778 Pls
+1031 4710 Pls
+1350 4589 Pls
+1912 4385 Pls
+2937 4100 Pls
+4116 4095 Pls
+5587 3086 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4871 Pls
+577 4871 Pls
+578 4871 Pls
+580 4870 Pls
+583 4870 Pls
+587 4869 Pls
+593 4867 Pls
+602 4864 Pls
+617 4859 Pls
+640 4851 Pls
+677 4837 Pls
+739 4814 Pls
+844 4772 Pls
+1024 4700 Pls
+1337 4572 Pls
+1891 4354 Pls
+2916 4041 Pls
+4094 4066 Pls
+5473 2978 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4871 Pls
+577 4871 Pls
+578 4871 Pls
+580 4870 Pls
+583 4870 Pls
+587 4868 Pls
+593 4866 Pls
+602 4863 Pls
+616 4858 Pls
+639 4850 Pls
+676 4835 Pls
+737 4810 Pls
+839 4767 Pls
+1016 4690 Pls
+1323 4555 Pls
+1868 4324 Pls
+2891 3980 Pls
+4074 4042 Pls
+5353 2873 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4871 Pls
+577 4871 Pls
+578 4871 Pls
+580 4870 Pls
+583 4869 Pls
+587 4868 Pls
+593 4866 Pls
+601 4863 Pls
+616 4858 Pls
+638 4849 Pls
+674 4833 Pls
+734 4807 Pls
+835 4761 Pls
+1008 4681 Pls
+1309 4538 Pls
+1843 4294 Pls
+2861 3919 Pls
+4056 4022 Pls
+5227 2769 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4871 Pls
+577 4871 Pls
+578 4871 Pls
+580 4870 Pls
+583 4869 Pls
+587 4868 Pls
+592 4866 Pls
+601 4862 Pls
+615 4857 Pls
+637 4847 Pls
+672 4832 Pls
+731 4804 Pls
+830 4756 Pls
+999 4671 Pls
+1293 4522 Pls
+1817 4264 Pls
+2826 3857 Pls
+4040 4006 Pls
+5096 2668 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4871 Pls
+577 4871 Pls
+578 4871 Pls
+580 4870 Pls
+583 4869 Pls
+586 4868 Pls
+592 4866 Pls
+601 4862 Pls
+614 4856 Pls
+636 4846 Pls
+671 4830 Pls
+728 4801 Pls
+825 4751 Pls
+990 4662 Pls
+1277 4506 Pls
+1790 4235 Pls
+2786 3795 Pls
+4027 3994 Pls
+4960 2568 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4871 Pls
+577 4871 Pls
+578 4871 Pls
+580 4870 Pls
+583 4869 Pls
+586 4868 Pls
+592 4865 Pls
+600 4862 Pls
+614 4855 Pls
+635 4845 Pls
+669 4828 Pls
+725 4798 Pls
+819 4746 Pls
+980 4653 Pls
+1260 4491 Pls
+1761 4207 Pls
+2741 3733 Pls
+4018 3984 Pls
+4820 2471 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4872 Pls
+576 4871 Pls
+577 4871 Pls
+578 4871 Pls
+580 4870 Pls
+582 4869 Pls
+586 4867 Pls
+592 4865 Pls
+600 4861 Pls
+613 4855 Pls
+634 4844 Pls
+667 4826 Pls
+722 4795 Pls
+813 4741 Pls
+970 4645 Pls
+1243 4476 Pls
+1731 4179 Pls
+2689 3673 Pls
+4011 3975 Pls
+4676 2377 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4871 Pls
+580 4870 Pls
+582 4869 Pls
+586 4867 Pls
+591 4865 Pls
+600 4861 Pls
+612 4854 Pls
+633 4843 Pls
+665 4824 Pls
+718 4792 Pls
+808 4736 Pls
+960 4636 Pls
+1224 4461 Pls
+1699 4152 Pls
+2633 3614 Pls
+4008 3968 Pls
+4529 2285 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4870 Pls
+580 4870 Pls
+582 4869 Pls
+586 4867 Pls
+591 4864 Pls
+599 4860 Pls
+612 4853 Pls
+631 4842 Pls
+663 4823 Pls
+715 4789 Pls
+802 4731 Pls
+949 4628 Pls
+1205 4447 Pls
+1666 4126 Pls
+2572 3557 Pls
+4008 3960 Pls
+4378 2197 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4870 Pls
+580 4870 Pls
+582 4869 Pls
+586 4867 Pls
+591 4864 Pls
+599 4860 Pls
+611 4853 Pls
+630 4841 Pls
+661 4821 Pls
+711 4787 Pls
+795 4726 Pls
+938 4620 Pls
+1186 4433 Pls
+1631 4101 Pls
+2506 3503 Pls
+4012 3952 Pls
+4225 2112 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+576 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4870 Pls
+580 4870 Pls
+582 4868 Pls
+585 4867 Pls
+591 4864 Pls
+598 4859 Pls
+610 4852 Pls
+629 4840 Pls
+659 4819 Pls
+708 4784 Pls
+789 4722 Pls
+927 4613 Pls
+1165 4419 Pls
+1595 4076 Pls
+2437 3451 Pls
+4020 3942 Pls
+4070 2031 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4870 Pls
+580 4870 Pls
+582 4868 Pls
+585 4867 Pls
+590 4864 Pls
+598 4859 Pls
+610 4852 Pls
+628 4839 Pls
+657 4818 Pls
+704 4781 Pls
+782 4718 Pls
+915 4606 Pls
+1144 4406 Pls
+1558 4053 Pls
+2364 3402 Pls
+3913 1953 Pls
+4033 3930 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4870 Pls
+579 4869 Pls
+582 4868 Pls
+585 4866 Pls
+590 4863 Pls
+597 4859 Pls
+609 4851 Pls
+626 4838 Pls
+654 4816 Pls
+700 4779 Pls
+775 4714 Pls
+903 4599 Pls
+1123 4394 Pls
+1520 4030 Pls
+2288 3356 Pls
+3755 1880 Pls
+4054 3912 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4870 Pls
+579 4869 Pls
+582 4868 Pls
+585 4866 Pls
+590 4863 Pls
+597 4858 Pls
+608 4850 Pls
+625 4837 Pls
+652 4815 Pls
+696 4777 Pls
+768 4710 Pls
+890 4592 Pls
+1101 4382 Pls
+1480 4008 Pls
+2209 3313 Pls
+3596 1811 Pls
+4084 3888 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4870 Pls
+579 4869 Pls
+581 4868 Pls
+585 4866 Pls
+589 4863 Pls
+596 4858 Pls
+607 4850 Pls
+624 4836 Pls
+650 4813 Pls
+692 4774 Pls
+761 4706 Pls
+878 4585 Pls
+1078 4371 Pls
+1439 3988 Pls
+2128 3273 Pls
+3436 1747 Pls
+4129 3854 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4870 Pls
+579 4869 Pls
+581 4868 Pls
+584 4866 Pls
+589 4863 Pls
+596 4858 Pls
+606 4849 Pls
+622 4835 Pls
+647 4812 Pls
+688 4772 Pls
+754 4702 Pls
+865 4579 Pls
+1055 4360 Pls
+1397 3968 Pls
+2044 3237 Pls
+3278 1688 Pls
+4194 3806 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4870 Pls
+579 4869 Pls
+581 4868 Pls
+584 4866 Pls
+589 4862 Pls
+595 4857 Pls
+605 4849 Pls
+621 4835 Pls
+645 4811 Pls
+684 4770 Pls
+746 4699 Pls
+852 4573 Pls
+1031 4350 Pls
+1354 3950 Pls
+1959 3204 Pls
+3122 1634 Pls
+4288 3738 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4871 Pls
+575 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4870 Pls
+579 4869 Pls
+581 4868 Pls
+584 4866 Pls
+588 4862 Pls
+595 4857 Pls
+605 4848 Pls
+619 4834 Pls
+642 4810 Pls
+679 4768 Pls
+739 4696 Pls
+838 4568 Pls
+1007 4341 Pls
+1310 3933 Pls
+1871 3174 Pls
+2968 1588 Pls
+4423 3642 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4871 Pls
+575 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4870 Pls
+579 4869 Pls
+581 4868 Pls
+584 4865 Pls
+588 4862 Pls
+594 4857 Pls
+604 4848 Pls
+618 4833 Pls
+640 4808 Pls
+675 4766 Pls
+731 4692 Pls
+824 4563 Pls
+982 4332 Pls
+1265 3918 Pls
+1783 3147 Pls
+2818 1551 Pls
+4618 3504 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4871 Pls
+575 4871 Pls
+576 4871 Pls
+577 4871 Pls
+578 4870 Pls
+579 4869 Pls
+581 4867 Pls
+584 4865 Pls
+588 4862 Pls
+594 4856 Pls
+603 4847 Pls
+616 4832 Pls
+637 4807 Pls
+670 4764 Pls
+723 4690 Pls
+811 4558 Pls
+957 4324 Pls
+1219 3903 Pls
+1692 3124 Pls
+2670 1525 Pls
+4901 3306 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4871 Pls
+575 4871 Pls
+576 4871 Pls
+576 4870 Pls
+577 4870 Pls
+579 4869 Pls
+581 4867 Pls
+583 4865 Pls
+587 4862 Pls
+593 4856 Pls
+602 4847 Pls
+615 4832 Pls
+635 4806 Pls
+666 4763 Pls
+715 4687 Pls
+796 4554 Pls
+932 4316 Pls
+1172 3890 Pls
+1600 3104 Pls
+2520 1515 Pls
+5312 3023 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4871 Pls
+575 4871 Pls
+576 4871 Pls
+576 4870 Pls
+577 4870 Pls
+579 4869 Pls
+581 4867 Pls
+583 4865 Pls
+587 4861 Pls
+593 4856 Pls
+601 4846 Pls
+613 4831 Pls
+632 4805 Pls
+661 4761 Pls
+707 4684 Pls
+782 4549 Pls
+906 4310 Pls
+1125 3878 Pls
+1507 3087 Pls
+2356 1518 Pls
+5917 2620 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4872 Pls
+575 4871 Pls
+575 4871 Pls
+576 4871 Pls
+576 4870 Pls
+577 4870 Pls
+579 4869 Pls
+580 4867 Pls
+583 4865 Pls
+587 4861 Pls
+592 4855 Pls
+600 4846 Pls
+612 4830 Pls
+629 4804 Pls
+656 4760 Pls
+699 4682 Pls
+768 4546 Pls
+880 4303 Pls
+1077 3868 Pls
+1414 3072 Pls
+2173 1527 Pls
+6804 2048 Pls
+574 4872 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4871 Pls
+575 4871 Pls
+576 4871 Pls
+576 4870 Pls
+577 4870 Pls
+578 4869 Pls
+580 4867 Pls
+583 4865 Pls
+586 4861 Pls
+591 4855 Pls
+599 4846 Pls
+610 4830 Pls
+627 4803 Pls
+652 4758 Pls
+691 4680 Pls
+753 4542 Pls
+854 4298 Pls
+1028 3859 Pls
+1320 3059 Pls
+1974 1532 Pls
+574 4872 Pls
+574 4872 Pls
+574 4872 Pls
+575 4872 Pls
+575 4871 Pls
+575 4871 Pls
+576 4871 Pls
+576 4870 Pls
+577 4870 Pls
+578 4869 Pls
+580 4867 Pls
+582 4865 Pls
+586 4861 Pls
+591 4855 Pls
+598 4845 Pls
+608 4829 Pls
+624 4803 Pls
+647 4757 Pls
+682 4678 Pls
+738 4539 Pls
+828 4293 Pls
+979 3851 Pls
+1228 3048 Pls
+1771 1530 Pls
+6594 4739 Pls
+1.000 UP
+1.000 UL
+LT2
+LTb
+6311 4599 M
+gsave 0 setgray
+("ene_p3_btra.d" u 2:3) Rshow
+grestore
+LT2
+574 4872 Crs
+574 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4871 Crs
+576 4871 Crs
+577 4871 Crs
+578 4870 Crs
+579 4869 Crs
+581 4868 Crs
+585 4866 Crs
+589 4863 Crs
+596 4858 Crs
+607 4850 Crs
+624 4836 Crs
+650 4813 Crs
+692 4774 Crs
+761 4706 Crs
+878 4585 Crs
+1078 4371 Crs
+1439 3988 Crs
+2128 3273 Crs
+3436 1747 Crs
+4129 3854 Crs
+574 4872 Crs
+574 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4871 Crs
+576 4871 Crs
+577 4871 Crs
+578 4870 Crs
+579 4869 Crs
+581 4868 Crs
+584 4866 Crs
+588 4864 Crs
+595 4859 Crs
+605 4851 Crs
+620 4839 Crs
+645 4818 Crs
+684 4782 Crs
+747 4720 Crs
+854 4610 Crs
+1037 4415 Crs
+1365 4067 Crs
+1987 3427 Crs
+3191 2049 Crs
+3925 3813 Crs
+574 4872 Crs
+574 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4871 Crs
+576 4871 Crs
+576 4871 Crs
+577 4870 Crs
+579 4870 Crs
+581 4868 Crs
+584 4867 Crs
+588 4864 Crs
+594 4860 Crs
+603 4853 Crs
+618 4841 Crs
+640 4822 Crs
+676 4789 Crs
+735 4732 Crs
+834 4631 Crs
+1002 4453 Crs
+1301 4134 Crs
+1864 3554 Crs
+2949 2318 Crs
+3765 3907 Crs
+574 4872 Crs
+574 4872 Crs
+574 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4871 Crs
+576 4871 Crs
+576 4871 Crs
+577 4870 Crs
+579 4870 Crs
+580 4869 Crs
+583 4867 Crs
+587 4865 Crs
+593 4861 Crs
+602 4854 Crs
+615 4843 Crs
+636 4826 Crs
+670 4795 Crs
+725 4742 Crs
+816 4650 Crs
+971 4486 Crs
+1245 4193 Crs
+1754 3663 Crs
+2729 2566 Crs
+3771 4051 Crs
+4283 434 Crs
+574 4872 Crs
+574 4872 Crs
+574 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4871 Crs
+576 4871 Crs
+576 4871 Crs
+577 4870 Crs
+578 4870 Crs
+580 4869 Crs
+583 4867 Crs
+586 4865 Crs
+592 4861 Crs
+600 4855 Crs
+613 4845 Crs
+633 4829 Crs
+664 4801 Crs
+715 4752 Crs
+800 4666 Crs
+944 4516 Crs
+1195 4246 Crs
+1657 3759 Crs
+2542 2786 Crs
+3931 4141 Crs
+4031 841 Crs
+574 4872 Crs
+574 4872 Crs
+574 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4871 Crs
+576 4871 Crs
+576 4871 Crs
+577 4871 Crs
+578 4870 Crs
+580 4869 Crs
+582 4868 Crs
+586 4865 Crs
+591 4862 Crs
+599 4856 Crs
+611 4847 Crs
+629 4832 Crs
+659 4805 Crs
+707 4760 Crs
+785 4681 Crs
+919 4542 Crs
+1151 4292 Crs
+1574 3845 Crs
+2382 2975 Crs
+3814 1192 Crs
+4133 4117 Crs
+574 4872 Crs
+574 4872 Crs
+574 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4871 Crs
+576 4871 Crs
+577 4871 Crs
+578 4870 Crs
+580 4869 Crs
+582 4868 Crs
+585 4866 Crs
+590 4862 Crs
+598 4857 Crs
+609 4848 Crs
+626 4834 Crs
+654 4810 Crs
+699 4768 Crs
+773 4694 Crs
+897 4565 Crs
+1112 4334 Crs
+1502 3920 Crs
+2244 3136 Crs
+3622 1495 Crs
+4248 3998 Crs
+574 4872 Crs
+574 4872 Crs
+574 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4871 Crs
+576 4871 Crs
+577 4871 Crs
+578 4870 Crs
+579 4869 Crs
+581 4868 Crs
+585 4866 Crs
+589 4863 Crs
+596 4858 Crs
+607 4850 Crs
+624 4836 Crs
+650 4813 Crs
+692 4774 Crs
+761 4706 Crs
+878 4585 Crs
+1078 4371 Crs
+1439 3988 Crs
+2124 3274 Crs
+3444 1756 Crs
+4214 3854 Crs
+574 4872 Crs
+574 4872 Crs
+574 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4871 Crs
+576 4871 Crs
+577 4871 Crs
+578 4870 Crs
+579 4869 Crs
+581 4868 Crs
+584 4866 Crs
+589 4863 Crs
+595 4859 Crs
+606 4851 Crs
+621 4838 Crs
+646 4817 Crs
+686 4780 Crs
+751 4716 Crs
+860 4604 Crs
+1047 4404 Crs
+1383 4048 Crs
+2018 3392 Crs
+3272 1981 Crs
+4053 3764 Crs
+574 4872 Crs
+574 4872 Crs
+574 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4871 Crs
+576 4871 Crs
+577 4871 Crs
+578 4870 Crs
+579 4870 Crs
+581 4868 Crs
+584 4867 Crs
+588 4864 Crs
+594 4859 Crs
+604 4852 Crs
+619 4840 Crs
+642 4820 Crs
+680 4786 Crs
+741 4726 Crs
+844 4621 Crs
+1020 4434 Crs
+1333 4101 Crs
+1924 3493 Crs
+3095 2180 Crs
+3848 3768 Crs
+574 4872 Crs
+574 4872 Crs
+574 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4872 Crs
+575 4871 Crs
+576 4871 Crs
+576 4871 Crs
+577 4870 Crs
+579 4870 Crs
+581 4869 Crs
+583 4867 Crs
+588 4864 Crs
+594 4860 Crs
+603 4853 Crs
+617 4842 Crs
+639 4823 Crs
+675 4791 Crs
+733 4734 Crs
+830 4636 Crs
+995 4461 Crs
+1289 4149 Crs
+1839 3582 Crs
+2916 2365 Crs
+3690 3861 Crs
+6594 4599 Crs
+1.000 UL
+LTb
+574 280 M
+6388 0 V
+0 4592 V
+-6388 0 V
+574 280 L
+1.000 UP
+stroke
+grestore
+end
+showpage
+%%Trailer
+%%DocumentFonts: Helvetica-Ryumin
+%%Pages: 1

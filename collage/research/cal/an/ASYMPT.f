@@ -1,0 +1,66 @@
+C----------------------------------------------------------------------
+      SUBROUTINE ASYMPT(KVAL,CPH)
+C----------------------------------------------------------------------
+      INCLUDE 'DIM_INC.f'
+      INTEGER I,J,LREL,NREL,IMESH,NW
+      REAL*8  KVAL,RVAL,DMESH,CPH,RHO,ETA,COUF,FF,FFP,GG,GGP,CP,
+     &        DMU1,DMU2
+      COMPLEX*16 ZA_REL,ZN_REL,ZK_REL,ZNN,ZDATA,SIMPSON
+      DIMENSION FF(NOL+2),FFP(NOL+2),GG(NOL+2),GGP(NOL+2),
+     &          CP(NOL+2),NW(NOL+2),COUF(0:10000),ZDATA(0:10000),
+     &          DMU1(3),DMU2(3),ZA_REL(NDR),ZN_REL(NDR),ZK_REL(NDR)
+      COMMON /RED_MAS/DMU1,DMU2
+      COMMON /REL_INF/LREL,NREL
+      COMMON /BAS_REL/ZA_REL,ZN_REL
+      COMMON /REL_KFN/ZK_REL
+      IF(KVAL.EQ.0.D0) GOTO 9999
+      IMESH=10000
+      DMESH=0.01D0
+      ETA=2.D0*ALPHA*DMU2(3)/HBC/KVAL
+      DO 5000 I=1,IMESH
+      RVAL=DMESH*I
+      RHO=KVAL*RVAL
+      CALL COULP(RHO,ETA,LREL,FF,FFP,GG,GGP,CP,NW)
+      IF(NW(LREL+1).EQ.1) GOTO 9998
+      COUF(I)=FF(LREL+1)
+ 5000 CPH    =CP(LREL+1)
+      COUF(0)=0.D0
+      DO 5001 I=1,NREL
+      DO 5002 J=0,IMESH
+      RVAL=DMESH*J
+ 5002 ZDATA(J)=COUF(J)*RVAL**(LREL+1)/KVAL
+     &        *CDEXP(-0.5D0*ZA_REL(I)*RVAL*RVAL)*ZN_REL(I)
+ 5001 ZK_REL(I)=SIMPSON(ZDATA,IMESH,DMESH)
+      RETURN
+C
+C ERROR MESSAGE
+C
+ 9999 WRITE(NOUT,*) '!!! MOMENTUM IS ZERO !!!'
+      STOP
+ 9998 WRITE(NOUT,*) '!!! ERROR IN COULOMB WAVE FUNCTION !!!'
+      STOP
+      END
+
+C----------------------------------------------------------------------
+      FUNCTION ZSIMPSON(ZDATA,IMESH,DMESH)
+C----------------------------------------------------------------------
+      INCLUDE 'DIM_INC.f'
+      INTEGER I,IO,IE,IMESH
+      REAL*8  DMESH
+      COMPLEX*16 SIMPSON,ZDATA
+      DIMENSION ZDATA(0:10000)
+      IF(IMESH/2*2.NE.IMESH) GOTO 9999
+      SIMPSON=ZDATA(0)-ZDATA(IMESH)
+      DO 5000 I=1,IMESH/2
+      IO=2*I-1
+      IE=2*I
+ 5000 SIMPSON=SIMPSON+4.D0*ZDATA(IO)+2.D0*ZDATA(IE)
+      SIMPSON=SIMPSON/3.D0*DMESH
+      RETURN 
+C
+C ERROR MESSAGE
+C
+ 9999 WRITE(NOUT,*) '!!! NUMBER OF IMESH IS INVALID !!!'
+      STOP
+      END
+

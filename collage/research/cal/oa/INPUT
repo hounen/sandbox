@@ -1,0 +1,12 @@
+#=======================================================================
+[ initial condition ]
+      jtot       db0         gamma
+      6          0.10d0       1.16d0
+[ trajectory ]
+      degi       degf       ddeg
+      17.0d0     17.0d0     1.00d0
+      bi/b0      bf/b0      db/b0
+      1.0d0      1.0d0      0.01d0
+      nb         nf         dn
+      40         40         1.d0
+

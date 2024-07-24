@@ -1,0 +1,16 @@
+#!/usr/bin/gnuplot -persist
+set terminal postscript eps enhanced color 30 solid
+set xrange [0:40]
+set yrange [0:360]
+set xlabel "Energy [MeV]"
+set ylabel "{/Symbol d} [deg.]"
+set x2tics ("E_{r}" 4.21)
+set ytics 0,60,360
+set arrow 1 from 4.21,0 rto 4.21,360 nohead lt -1 lw 3 
+set output "deco_phs_k4_j2.eps"
+p "../data/analysis/phs_k4_j2.d" u 1:($2+180) t "K^{/Symbol p}=0_{4}^{+} J^{/Symbol p}=2^{+}" w l lw 6.0 ,\
+  "../data/analysis/phs_k4_j2.d" u 1:($3+180) t "resonance" w l lw 6.0 ,\
+  "../data/analysis/phs_k4_j2.d" u 1:($4+180) t "continuum" w l lw 6.0
+
+
+

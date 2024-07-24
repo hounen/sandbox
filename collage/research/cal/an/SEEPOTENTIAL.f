@@ -1,0 +1,86 @@
+      PROGRAM SEEPOTENTIAL
+      INCLUDE 'LI_INC.f'
+      DIMENSION DKKNN(10000),SBB(10000),CENT(10000),CENL(10000),
+     &          DLSFRS(10000),WS(10000),WSLS(10000),DCNTR(10000),
+     &          VCCE(2),RCCE(2),VCCL(3),RCCL(3),VCLS(2),RCLS(2)
+      OPEN(UNIT=60,FILE='KKNN.d',STATUS='UNKNOWN')
+      OPEN(UNIT=61,FILE='SBB.d',STATUS='UNKNOWN')
+      IMESH=10000
+      DIST=50.D0
+      DMESH=DIST/IMESH
+      DMH=HBC**2.D0/1.6D0/DMASS
+      DL=1.D0
+      DJ=DL+0.5D0
+
+C CENTRIFUGAL POTENTIAL
+      
+      DO IR=0,IMESH
+      R=DMESH*IR
+      DMH=HBC**2.D0/1.6D0/DMASS
+      DCNTR(IR)=DMH*DL*(DL+1.D0)/R**2.D0
+      ENDDO
+      
+C KKNN POTENTIAL
+
+      DO IR=0,IMESH
+      R=DMESH*IR
+
+      VCCE(1)=-96.3D0
+      RCCE(1)= 0.36D0
+      VCCE(2)= 77.0D0
+      RCCE(2)=  0.9D0
+      CENT(IR)=0.D0
+      DO I=1,2
+      CENT(IR)=CENT(IR)+VCCE(I)*DEXP(-RCCE(I)*R**2.D0)
+      ENDDO
+
+      VCCL(1)= 34.0D0
+      RCCL(1)= 0.20D0
+      VCCL(2)=-85.0D0
+      RCCL(2)= 0.53D0
+      VCCL(3)= 51.0D0
+      RCCL(3)= 2.50D0
+      CENL(IR)=0.D0
+      DO I=1,3
+      CENL(IR)=CENL(IR)+VCCL(I)*DEXP(-RCCL(I)*R**2.D0)
+      ENDDO
+      CENL(IR)=(-1.D0)**DL*CENL(IR)
+
+      VALS=    -8.4D0
+      RALS=    0.52D0
+      VCLS(1)= -10.D0
+      RCLS(1)=0.396D0
+      VCLS(2)= 10.0D0
+      RCLS(2)= 2.20D0
+      DLSFRS(IR)=0.D0
+      DO I=1,2
+      DLSFRS(IR)=DLSFRS(IR)+VCLS(I)*DEXP(-RCLS(I)*R**2.D0)
+      ENDDO
+      DLSFRS(IR)=(1.D0+0.3D0*(-1.D0)**(DL-1.D0))*DLSFRS(IR)
+      DLSFRS(IR)=VALS*DEXP(-RALS*R**2.D0)+DLSFRS(IR)
+      DLS=DJ*(DJ+1.D0)-DL*(DL+1.D0)-0.75D0
+      DLSFRS(IR)=DLS*DLSFRS(IR)
+
+      DKKNN(IR)=CENT(IR)+CENL(IR)+DLSFRS(IR)+DCNTR(IR)
+      WRITE(60,*) R,DKKNN(IR)
+      ENDDO
+
+C SBB POTENTIAL
+      
+      DO JR=0,IMESH
+      R=DMESH*JR
+      WSLS(JR)=40.D0/(1.D0+DEXP((R-1.5D0)/0.35D0))
+      ENDDO
+
+      DO IR=0,IMESH
+      R=DMESH*IR
+      WS(IR)=-43.D0/(1.D0+DEXP((R-2.D0)/0.7D0))
+      DLS=0.5D0*(DJ*(DJ+1.D0)-DL*(DL+1.D0)-0.75D0)
+      WSLS(IR)=1.D0/R*DLS*(WSLS(IR+1)-WSLS(IR))/DMESH
+      SBB(IR)=WS(IR)+WSLS(IR)+DCNTR(IR)
+      WRITE(61,*) R,SBB(IR)
+      ENDDO
+      CLOSE(60)
+      CLOSE(61)
+
+      END PROGRAM SEEPOTENTIAL

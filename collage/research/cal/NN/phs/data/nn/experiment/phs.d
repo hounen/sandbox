@@ -1,0 +1,14 @@
+#The experiment data in R.B.Wiringa's paper PHYSICAL REVIEW C Vol.51 p38
+#Energy[lab]	1s0[deg.]
+1		57.07
+5		60.64
+10		57.48
+25		48.80
+50		38.47
+100		24.45
+150		14.38
+200		6.34
+250		-0.42
+300		-6.31
+350		-11.53
+

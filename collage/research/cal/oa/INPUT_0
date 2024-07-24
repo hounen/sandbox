@@ -1,0 +1,9 @@
+#=======================================================================
+[ initial condition ]
+      jtot       basis       db0         gamma
+        0          40       0.10d0       1.19d0
+[ trajectory ]
+      degi       degf       ddeg
+      14.0d0     14.0d0      1.d0
+      bi/b0      bf/b0      db/b0
+      1.0d0       2.d0      0.01d0

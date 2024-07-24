@@ -1,0 +1,14 @@
+# input file for NN system
+particle : n1   n2 (0->neutron, 1->proton)
+           1    1
+total spin     spin      isospin
+     0	        0           1
+theta-trajectry : degi,   degf,   ddeg
+                  17.d0    17.d0   1.0d0
+b-trajectory    : bbi,    bbf,    dbb
+                  1.d0    1.d0    0.01d0
+no of channels
+       1
+angular momentum   no of basis      b0       gamma
+       0               30         0.1d0     1.3d0
+       2               30         0.1d0     1.3d0

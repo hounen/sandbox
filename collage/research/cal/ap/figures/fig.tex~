@@ -1,0 +1,40 @@
+\documentclass[english,a4paper]{jsarticle}
+\usepackage{graphicx}
+\begin{document}
+\begin{figure}
+  \begin{minipage}{0.5\textwidth}
+    \begin{flushright}
+      \includegraphics[width=1.0\textwidth,clip]{../helium5/phs/phs_exp_com_s1.eps}
+    \end{flushright}
+  \end{minipage}
+  \begin{minipage}{0.5\textwidth}
+    \begin{flushright}
+      \includegraphics[width=1.0\textwidth,clip]{../lithium5/phs/li5_phs_exp_com_s1.eps}
+    \end{flushright}
+  \end{minipage}
+\end{figure}
+\begin{figure}
+  \begin{minipage}{0.5\textwidth}
+    \begin{flushright}
+      \includegraphics[width=1.0\textwidth,clip]{../helium5/phs/phs_exp_com_p1.eps}
+    \end{flushright}
+  \end{minipage}
+  \begin{minipage}{0.5\textwidth}
+    \begin{flushright}
+      \includegraphics[width=1.0\textwidth,clip]{../lithium5/phs/li5_phs_exp_com_p1.eps}
+    \end{flushright}
+  \end{minipage}
+\end{figure}
+\begin{figure}
+  \begin{minipage}{0.5\textwidth}
+    \begin{flushright}
+      \includegraphics[width=1.0\textwidth,clip]{../helium5/phs/phs_exp_com_p3.eps}
+    \end{flushright}
+  \end{minipage}
+  \begin{minipage}{0.5\textwidth}
+    \begin{flushright}
+      \includegraphics[width=1.0\textwidth,clip]{../lithium5/phs/li5_phs_exp_com_p3.eps}
+    \end{flushright}
+  \end{minipage}
+\end{figure}
+\end{document}

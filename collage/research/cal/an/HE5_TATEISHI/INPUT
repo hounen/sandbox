@@ -1,0 +1,9 @@
+#input file 5he
+#angular momentum     all angular momentum
+ 1.D0                 1.5D0
+#no of basis b0       gamma
+ 35          0.1D0    1.15D0
+#degi        degf     ddeg
+ 30.D0       30.D0    1.D0
+#bbi         bbf      dbb
+ 1.D0        1.0D0    0.01D0

@@ -1,0 +1,508 @@
+C==== READ INPUT FILE ==================================================
+
+      SUBROUTINE READ_FILE
+
+C-----------------------------------------------------------------------
+      INCLUDE 'DIM_INC.f'
+      INCLUDE 'GEM_INC.f'
+      CHARACTER*80 MEMO
+      REWIND NIN
+      READ(NIN,'(A)') MEMO
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     INF_NN(1),INF_NN(2),INF_NN(3)
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     ITRANS
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     JTOTI,TTOTI
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     JTOTF,TTOTF
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     IS_NN,IS_LS,IS_TN
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     IS_CN,U_PARA
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     IS_TB,V_TB,R_TB
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     IS_PF,V_PF
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     IOUT
+
+      CALL SET_POT
+
+      NOALPH=0
+      NONUCL=0
+      DO I=1,3
+        IF(INF_NN(I).EQ.0) THEN
+          S_INF(I)=0.D0
+          T_INF(I)=0.D0
+          NOALPH=NOALPH+1
+        ELSE
+          S_INF(I)=0.5D0
+          T_INF(I)=0.5D0
+        ENDIF
+        NONUCL=NONUCL+INF_NN(I)
+      ENDDO
+      NO_EQ=0
+      DO I=1,2
+      DO J=I+1,3
+        IF(INF_NN(I).EQ.INF_NN(J)) NO_EQ=NO_EQ+1
+        K=6-I-J
+        IF(INF_NN(I)+INF_NN(J).EQ.0) INF_POT(K)=0
+        IF(INF_NN(I)+INF_NN(J).EQ.1) INF_POT(K)=1
+        IF(INF_NN(I)+INF_NN(J).EQ.2.AND.INF_NN(I).EQ.1) INF_POT(K)=2
+        IF(INF_NN(I)+INF_NN(J).EQ.2.AND.INF_NN(I).NE.1) INF_POT(K)=3
+        IF(INF_NN(I)+INF_NN(J).EQ.3) INF_POT(K)=5
+        IF(INF_NN(I)+INF_NN(J).EQ.4) INF_POT(K)=4
+      ENDDO
+      ENDDO
+      IF(ITRANS.EQ.1) THEN
+        IF(JTOTI.NE.JTOTF) GOTO 9999
+      ELSEIF(ITRANS.EQ.2) THEN
+        IF(DABS(JTOTI-JTOTF).GT.1.D0.OR.JTOTI+JTOTF.LT.1.D0) GOTO 9999
+      ELSEIF(ITRANS.EQ.3) THEN
+        IF(DABS(JTOTI-JTOTF).GT.2.D0.OR.JTOTI+JTOTF.LT.2.D0) GOTO 9999
+      ENDIF
+C
+C INITIAL STATE
+C
+      READ(NIN,'(A)') MEMO
+      READ(NIN,'(A)') MEMO
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     DEGII,DEGFI,DDEGI
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     BBII,BBFI,DBBI
+      READ(NIN,'(A)') MEMO
+      READ(NIN,'(A)') MEMO
+      READ(NIN,'(A)') MEMO
+      NOCHI=0
+      READ(NIN,*)     NTMP
+      READ(NIN,'(A)') MEMO
+      DO I=1,NTMP
+        READ(NIN,*) IDET,LSS,SSS,TSS,LLL,LTT,STT,NN1,BB1,GG1,NN2,BB2,GG2
+        IF(IDET.EQ.1) THEN
+          NOCHI=NOCHI+1
+          IBI(NOCHI)=1
+          LSI(NOCHI)=LSS
+          SSI(NOCHI)=SSS
+          TSI(NOCHI)=TSS
+          LLI(NOCHI)=LLL
+          LTI(NOCHI)=LTT
+          STI(NOCHI)=STT
+          N1I(NOCHI)=NN1
+          B1I(NOCHI)=BB1
+          G1I(NOCHI)=GG1
+          N2I(NOCHI)=NN2
+          B2I(NOCHI)=BB2
+          G2I(NOCHI)=GG2
+          IF(DABS(LTT-STT)     .GT.JTOTI) GOTO 9999
+          IF(     LTT+STT      .LT.JTOTI) GOTO 9999
+          IF(IABS(LSS-LLL)     .GT.LTT)   GOTO 9999
+          IF(     LSS+LLL      .LT.LTT)   GOTO 9999
+          IF(DABS(SSS-S_INF(1)).GT.STT)   GOTO 9999
+          IF(     SSS+S_INF(1) .LT.STT)   GOTO 9999
+          IF(DABS(TSS-T_INF(1)).GT.TTOTI) GOTO 9999
+          IF(     TSS+T_INF(1) .LT.TTOTI) GOTO 9999
+        ENDIF
+      ENDDO
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     NTMP
+      READ(NIN,'(A)') MEMO
+      DO I=1,NTMP
+        READ(NIN,*) IDET,LSS,SSS,TSS,LLL,LTT,STT,NN1,BB1,GG1,NN2,BB2,GG2
+        IF(IDET.EQ.1) THEN
+          NOCHI=NOCHI+1
+          IBI(NOCHI)=2
+          LSI(NOCHI)=LSS
+          SSI(NOCHI)=SSS
+          TSI(NOCHI)=TSS
+          LLI(NOCHI)=LLL
+          LTI(NOCHI)=LTT
+          STI(NOCHI)=STT
+          N1I(NOCHI)=NN1
+          B1I(NOCHI)=BB1
+          G1I(NOCHI)=GG1
+          N2I(NOCHI)=NN2
+          B2I(NOCHI)=BB2
+          IF(DABS(LTT-STT)     .GT.JTOTI) GOTO 9999
+          IF(     LTT+STT      .LT.JTOTI) GOTO 9999
+          IF(IABS(LSS-LLL)     .GT.LTT)   GOTO 9999
+          IF(     LSS+LLL      .LT.LTT)   GOTO 9999
+          IF(DABS(SSS-S_INF(2)).GT.STT)   GOTO 9999
+          IF(     SSS+S_INF(2) .LT.STT)   GOTO 9999
+          IF(DABS(TSS-T_INF(2)).GT.TTOTI) GOTO 9999
+          IF(     TSS+T_INF(2) .LT.TTOTI) GOTO 9999
+          G2I(NOCHI)=GG2
+        ENDIF
+      ENDDO
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     NTMP
+      READ(NIN,'(A)') MEMO
+      DO I=1,NTMP
+        READ(NIN,*) IDET,LSS,SSS,TSS,LLL,LTT,STT,NN1,BB1,GG1,NN2,BB2,GG2
+        IF(IDET.EQ.1) THEN
+          NOCHI=NOCHI+1
+          IBI(NOCHI)=3
+          LSI(NOCHI)=LSS
+          SSI(NOCHI)=SSS
+          TSI(NOCHI)=TSS
+          LLI(NOCHI)=LLL
+          LTI(NOCHI)=LTT
+          STI(NOCHI)=STT
+          N1I(NOCHI)=NN1
+          B1I(NOCHI)=BB1
+          G1I(NOCHI)=GG1
+          N2I(NOCHI)=NN2
+          B2I(NOCHI)=BB2
+          G2I(NOCHI)=GG2
+          IF(DABS(LTT-STT)     .GT.JTOTI) GOTO 9999
+          IF(     LTT+STT      .LT.JTOTI) GOTO 9999
+          IF(IABS(LSS-LLL)     .GT.LTT)   GOTO 9999
+          IF(     LSS+LLL      .LT.LTT)   GOTO 9999
+          IF(DABS(SSS-S_INF(3)).GT.STT)   GOTO 9999
+          IF(     SSS+S_INF(3) .LT.STT)   GOTO 9999
+          IF(DABS(TSS-T_INF(3)).GT.TTOTI) GOTO 9999
+          IF(     TSS+T_INF(3) .LT.TTOTI) GOTO 9999
+        ENDIF
+      ENDDO
+      READ(NIN,'(A)') MEMO
+C
+C FINAL STATE
+C
+      READ(NIN,'(A)') MEMO
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     DEGIF,DEGFF,DDEGF
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     BBIF,BBFF,DBBF
+      READ(NIN,'(A)') MEMO
+      READ(NIN,'(A)') MEMO
+      READ(NIN,'(A)') MEMO
+      NOCHF=0
+      READ(NIN,*)     NTMP
+      READ(NIN,'(A)') MEMO
+      DO I=1,NTMP
+        READ(NIN,*) IDET,LSS,SSS,TSS,LLL,LTT,STT,NN1,BB1,GG1,NN2,BB2,GG2
+        IF(IDET.EQ.1) THEN
+          NOCHF=NOCHF+1
+          IBF(NOCHF)=1
+          LSF(NOCHF)=LSS
+          SSF(NOCHF)=SSS
+          TSF(NOCHF)=TSS
+          LLF(NOCHF)=LLL
+          LTF(NOCHF)=LTT
+          STF(NOCHF)=STT
+          N1F(NOCHF)=NN1
+          B1F(NOCHF)=BB1
+          G1F(NOCHF)=GG1
+          N2F(NOCHF)=NN2
+          B2F(NOCHF)=BB2
+          G2F(NOCHF)=GG2
+          IF(DABS(LTT-STT)     .GT.JTOTF) GOTO 9999
+          IF(     LTT+STT      .LT.JTOTF) GOTO 9999
+          IF(IABS(LSS-LLL)     .GT.LTT)   GOTO 9999
+          IF(     LSS+LLL      .LT.LTT)   GOTO 9999
+          IF(DABS(SSS-S_INF(1)).GT.STT)   GOTO 9999
+          IF(     SSS+S_INF(1) .LT.STT)   GOTO 9999
+          IF(DABS(TSS-T_INF(1)).GT.TTOTF) GOTO 9999
+          IF(     TSS+T_INF(1) .LT.TTOTF) GOTO 9999
+        ENDIF
+      ENDDO
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     NTMP
+      READ(NIN,'(A)') MEMO
+      DO I=1,NTMP
+        READ(NIN,*) IDET,LSS,SSS,TSS,LLL,LTT,STT,NN1,BB1,GG1,NN2,BB2,GG2
+        IF(IDET.EQ.1) THEN
+          NOCHF=NOCHF+1
+          IBF(NOCHF)=2
+          LSF(NOCHF)=LSS
+          SSF(NOCHF)=SSS
+          TSF(NOCHF)=TSS
+          LLF(NOCHF)=LLL
+          LTF(NOCHF)=LTT
+          STF(NOCHF)=STT
+          N1F(NOCHF)=NN1
+          B1F(NOCHF)=BB1
+          G1F(NOCHF)=GG1
+          N2F(NOCHF)=NN2
+          B2F(NOCHF)=BB2
+          G2F(NOCHF)=GG2
+          IF(DABS(LTT-STT)     .GT.JTOTF) GOTO 9999
+          IF(     LTT+STT      .LT.JTOTF) GOTO 9999
+          IF(IABS(LSS-LLL)     .GT.LTT)   GOTO 9999
+          IF(     LSS+LLL      .LT.LTT)   GOTO 9999
+          IF(DABS(SSS-S_INF(2)).GT.STT)   GOTO 9999
+          IF(     SSS+S_INF(2) .LT.STT)   GOTO 9999
+          IF(DABS(TSS-T_INF(2)).GT.TTOTF) GOTO 9999
+          IF(     TSS+T_INF(2) .LT.TTOTF) GOTO 9999
+        ENDIF
+      ENDDO
+      READ(NIN,'(A)') MEMO
+      READ(NIN,*)     NTMP
+      READ(NIN,'(A)') MEMO
+      DO I=1,NTMP
+        READ(NIN,*) IDET,LSS,SSS,TSS,LLL,LTT,STT,NN1,BB1,GG1,NN2,BB2,GG2
+        IF(IDET.EQ.1) THEN
+          NOCHF=NOCHF+1
+          IBF(NOCHF)=3
+          LSF(NOCHF)=LSS
+          SSF(NOCHF)=SSS
+          TSF(NOCHF)=TSS
+          LLF(NOCHF)=LLL
+          LTF(NOCHF)=LTT
+          STF(NOCHF)=STT
+          N1F(NOCHF)=NN1
+          B1F(NOCHF)=BB1
+          G1F(NOCHF)=GG1
+          N2F(NOCHF)=NN2
+          B2F(NOCHF)=BB2
+          G2F(NOCHF)=GG2
+          IF(DABS(LTT-STT)     .GT.JTOTF) GOTO 9999
+          IF(     LTT+STT      .LT.JTOTF) GOTO 9999
+          IF(IABS(LSS-LLL)     .GT.LTT)   GOTO 9999
+          IF(     LSS+LLL      .LT.LTT)   GOTO 9999
+          IF(DABS(SSS-S_INF(3)).GT.STT)   GOTO 9999
+          IF(     SSS+S_INF(3) .LT.STT)   GOTO 9999
+          IF(DABS(TSS-T_INF(3)).GT.TTOTF) GOTO 9999
+          IF(     TSS+T_INF(3) .LT.TTOTF) GOTO 9999
+        ENDIF
+      ENDDO
+      READ(NIN,'(A)') MEMO
+C
+C WRITE INPUT DATA
+C
+      IF(NOALPH.EQ.3) THEN
+        WRITE(NOUT,FMT=101)
+        WRITE(NENE,FMT=101)
+        WRITE(NWAV,FMT=101)
+        WRITE(NSCT,FMT=101)
+      ELSEIF(NOALPH.EQ.2.AND.NONUCL.EQ.1) THEN
+        WRITE(NOUT,FMT=102)
+        WRITE(NENE,FMT=102)
+        WRITE(NWAV,FMT=102)
+        WRITE(NSCT,FMT=102)
+        WRITE(NOUT,*) 'NOW CONSTRUCTING...'
+        STOP
+      ELSEIF(NOALPH.EQ.2.AND.NONUCL.EQ.2) THEN
+        WRITE(NOUT,FMT=103)
+        WRITE(NENE,FMT=103)
+        WRITE(NWAV,FMT=103)
+        WRITE(NSCT,FMT=103)
+        WRITE(NOUT,*) 'NOW CONSTRUCTING...'
+        STOP
+      ELSEIF(NOALPH.EQ.1.AND.NONUCL.EQ.2) THEN
+        WRITE(NOUT,FMT=104)
+        WRITE(NENE,FMT=104)
+        WRITE(NWAV,FMT=104)
+        WRITE(NSCT,FMT=104)
+      ELSEIF(NOALPH.EQ.1.AND.NONUCL.EQ.3) THEN
+        WRITE(NOUT,FMT=105)
+        WRITE(NENE,FMT=105)
+        WRITE(NWAV,FMT=105)
+        WRITE(NSCT,FMT=105)
+      ELSEIF(NOALPH.EQ.1.AND.NONUCL.EQ.4) THEN
+        WRITE(NOUT,FMT=106)
+        WRITE(NENE,FMT=106)
+        WRITE(NWAV,FMT=106)
+        WRITE(NSCT,FMT=106)
+      ELSEIF(NOALPH.EQ.0.AND.NONUCL.EQ.3) THEN
+        WRITE(NOUT,FMT=107)
+        WRITE(NENE,FMT=107)
+        WRITE(NWAV,FMT=107)
+        WRITE(NSCT,FMT=107)
+        WRITE(NOUT,*) 'NOW CONSTRUCTING...'
+        STOP
+      ELSEIF(NOALPH.EQ.0.AND.NONUCL.EQ.4) THEN
+        WRITE(NOUT,FMT=108)
+        WRITE(NENE,FMT=108)
+        WRITE(NWAV,FMT=108)
+        WRITE(NSCT,FMT=108)
+        WRITE(NOUT,*) 'NOW CONSTRUCTING...'
+        STOP
+      ELSEIF(NOALPH.EQ.0.AND.NONUCL.EQ.5) THEN
+        WRITE(NOUT,FMT=109)
+        WRITE(NENE,FMT=109)
+        WRITE(NWAV,FMT=109)
+        WRITE(NSCT,FMT=109)
+        WRITE(NOUT,*) 'NOW CONSTRUCTING...'
+        STOP
+      ELSEIF(NOALPH.EQ.0.AND.NONUCL.EQ.6) THEN
+        WRITE(NOUT,FMT=110)
+        WRITE(NENE,FMT=110)
+        WRITE(NWAV,FMT=110)
+        WRITE(NSCT,FMT=110)
+        WRITE(NOUT,*) 'NOW CONSTRUCTING...'
+        STOP
+      ENDIF
+      IF(ITRANS.EQ.0) THEN
+        WRITE(NOUT,FMT=111)
+        WRITE(NENE,FMT=111)
+        WRITE(NWAV,FMT=111)
+        WRITE(NSCT,FMT=111)
+      ELSEIF(ITRANS.EQ.1) THEN
+        WRITE(NOUT,FMT=112)
+        WRITE(NENE,FMT=112)
+        WRITE(NWAV,FMT=112)
+        WRITE(NSCT,FMT=112)
+      ELSEIF(ITRANS.EQ.2) THEN
+        WRITE(NOUT,FMT=113)
+        WRITE(NENE,FMT=113)
+        WRITE(NWAV,FMT=113)
+        WRITE(NSCT,FMT=113)
+      ELSEIF(ITRANS.EQ.3) THEN
+        WRITE(NOUT,FMT=114)
+        WRITE(NENE,FMT=114)
+        WRITE(NWAV,FMT=114)
+        WRITE(NSCT,FMT=114)
+      ENDIF
+      WRITE(NOUT,FMT=115) IDINT(2.D0*JTOTI+0.01D0)
+     &                   ,IDINT(2.D0*TTOTI+0.01D0)
+      WRITE(NENE,FMT=115) IDINT(2.D0*JTOTI+0.01D0)
+     &                   ,IDINT(2.D0*TTOTI+0.01D0)
+      WRITE(NWAV,FMT=115) IDINT(2.D0*JTOTI+0.01D0)
+     &                   ,IDINT(2.D0*TTOTI+0.01D0)
+      WRITE(NSCT,FMT=115) IDINT(2.D0*JTOTI+0.01D0)
+     &                   ,IDINT(2.D0*TTOTI+0.01D0)
+      IF(ITRANS.NE.0) THEN
+        WRITE(NOUT,FMT=116) IDINT(2.D0*JTOTF+0.01D0)
+     &                     ,IDINT(2.D0*TTOTF+0.01D0)
+        WRITE(NENE,FMT=116) IDINT(2.D0*JTOTF+0.01D0)
+     &                     ,IDINT(2.D0*TTOTF+0.01D0)
+        WRITE(NWAV,FMT=116) IDINT(2.D0*JTOTF+0.01D0)
+     &                     ,IDINT(2.D0*TTOTF+0.01D0)
+        WRITE(NSCT,FMT=116) IDINT(2.D0*JTOTF+0.01D0)
+     &                     ,IDINT(2.D0*TTOTF+0.01D0)
+      ENDIF
+      IF(IS_NN.EQ.1) THEN
+        WRITE(NOUT,FMT=117)
+        WRITE(NENE,FMT=117)
+        WRITE(NWAV,FMT=117)
+        WRITE(NSCT,FMT=117)
+      ELSEIF(IS_NN.EQ.2) THEN
+        WRITE(NOUT,FMT=118)
+        WRITE(NENE,FMT=118)
+        WRITE(NWAV,FMT=118)
+        WRITE(NSCT,FMT=118)
+      ENDIF
+      IF(IS_LS.NE.1.AND.IS_TN.NE.1) THEN
+        WRITE(NOUT,FMT=119)
+        WRITE(NENE,FMT=119)
+        WRITE(NWAV,FMT=119)
+        WRITE(NSCT,FMT=119)
+      ELSEIF(IS_LS.EQ.1.AND.IS_TN.NE.1) THEN
+        WRITE(NOUT,FMT=120)
+        WRITE(NENE,FMT=120)
+        WRITE(NWAV,FMT=120)
+        WRITE(NSCT,FMT=120)
+      ELSEIF(IS_LS.NE.1.AND.IS_TN.EQ.1) THEN
+        WRITE(NOUT,FMT=121)
+        WRITE(NENE,FMT=121)
+        WRITE(NWAV,FMT=121)
+        WRITE(NSCT,FMT=121)
+      ELSEIF(IS_LS.EQ.1.AND.IS_TN.EQ.1) THEN
+        WRITE(NOUT,FMT=122)
+        WRITE(NENE,FMT=122)
+        WRITE(NWAV,FMT=122)
+        WRITE(NSCT,FMT=122)
+      ENDIF
+      IF(IS_CN.NE.1) THEN
+        WRITE(NOUT,FMT=123)
+        WRITE(NENE,FMT=123)
+        WRITE(NWAV,FMT=123)
+        WRITE(NSCT,FMT=123)
+      ELSEIF(IS_CN.EQ.1) THEN
+        WRITE(NOUT,FMT=124)
+        WRITE(NENE,FMT=124)
+        WRITE(NWAV,FMT=124)
+        WRITE(NSCT,FMT=124)
+      ENDIF
+      WRITE(NOUT,FMT=125)
+      WRITE(NENE,FMT=125)
+      WRITE(NWAV,FMT=125)
+      WRITE(NSCT,FMT=125)
+      IF(IS_TB.NE.1.AND.IS_TB.NE.2) THEN
+        WRITE(NOUT,FMT=126)
+        WRITE(NENE,FMT=126)
+        WRITE(NWAV,FMT=126)
+        WRITE(NSCT,FMT=126)
+      ELSEIF(IS_TB.EQ.1) THEN
+        WRITE(NOUT,FMT=127)
+        WRITE(NENE,FMT=127)
+        WRITE(NWAV,FMT=127)
+        WRITE(NSCT,FMT=127)
+      ELSEIF(IS_TB.EQ.2) THEN
+        WRITE(NOUT,FMT=128)
+        WRITE(NENE,FMT=128)
+        WRITE(NWAV,FMT=128)
+        WRITE(NSCT,FMT=128)
+        WRITE(NOUT,FMT=129) V_TB,R_TB
+        WRITE(NENE,FMT=129) V_TB,R_TB
+        WRITE(NWAV,FMT=129) V_TB,R_TB
+        WRITE(NSCT,FMT=129) V_TB,R_TB
+      ENDIF
+      IF(IS_PF.NE.1) THEN
+        WRITE(NOUT,FMT=130)
+        WRITE(NENE,FMT=130)
+        WRITE(NWAV,FMT=130)
+        WRITE(NSCT,FMT=130)
+      ELSEIF(IS_PF.EQ.1) THEN
+        WRITE(NOUT,FMT=131)
+        WRITE(NENE,FMT=131)
+        WRITE(NWAV,FMT=131)
+        WRITE(NSCT,FMT=131)
+        WRITE(NOUT,FMT=132) V_PF
+        WRITE(NENE,FMT=132) V_PF
+        WRITE(NWAV,FMT=132) V_PF
+        WRITE(NSCT,FMT=132) V_PF
+      ENDIF
+      WRITE(NOUT,FMT=100)
+      WRITE(NENE,FMT=100)
+      WRITE(NWAV,FMT=100)
+      WRITE(NSCT,FMT=100)
+      RETURN
+C
+C FORMAT
+C
+ 100  FORMAT(
+     &  '#------------------------------------------------------------',
+     &  '------------------'
+     &      )
+ 101  FORMAT('# SYSTEM      : 12C = 4He + 4He + 4He')
+ 102  FORMAT('# SYSTEM      : 9Be = 4He + 4He + n')
+ 103  FORMAT('# SYSTEM      : 9B = 4He + 4He + p')
+ 104  FORMAT('# SYSTEM      : 6He = 4He + n + n')
+ 105  FORMAT('# SYSTEM      : 6Li = 4He + n + p')
+ 106  FORMAT('# SYSTEM      : 6Be = 4He + p + p')
+ 107  FORMAT('# SYSTEM      : 3n = n + n + n')
+ 108  FORMAT('# SYSTEM      : 3H = n + n + p')
+ 109  FORMAT('# SYSTEM      : 3He = n + p + p')
+ 110  FORMAT('# SYSTEM      : 3Li = p + p + p')
+ 111  FORMAT('# TRANSITION  : OFF')
+ 112  FORMAT('# TRANSITION  : E0 TRANSITION')
+ 113  FORMAT('# TRANSITION  : E1 TRANSITION')
+ 114  FORMAT('# TRANSITION  : E2 TRANSITION')
+ 115  FORMAT('# INITIAL     : J=',I2,'/2,   T=',I2,'/2')
+ 116  FORMAT('# FINAL       : J=',I2,'/2,   T=',I2,'/2')
+ 117  FORMAT('# N-N POT.    : MINNESOTA FORCE')
+ 118  FORMAT("# N-N POT.    : AV8' FORCE")
+ 119  FORMAT('#               ( LS : OFF, TENSOR : OFF )')
+ 120  FORMAT('#               ( LS : ON, TENSOR : OFF )')
+ 121  FORMAT('#               ( LS : OFF, TENSOR : ON )')
+ 122  FORMAT('#               ( LS : ON, TENSOR : ON )')
+ 123  FORMAT('# A-N POT.    : KKNN POTENTIAL')
+ 124  FORMAT('# A-N POT.    : ONE-GAUSS CENTRAL POTENTIAL')
+ 125  FORMAT('# A-A POT.    : FOLDED SCHMIDT-WILDERMUTH POTENTIAL')
+ 126  FORMAT('# 3-BODY POT. : OFF')
+ 127  FORMAT('# 3-BODY POT. : ON')
+ 128  FORMAT('# 3-BODY POT. : MODIFIED')
+ 129  FORMAT('#               ( STRENGTH=',F8.4,'[MeV], ',
+     &       'RANGE=',F8.4,'[fm^-2] )')
+ 130  FORMAT('# PSEUDO POT. : OFF')
+ 131  FORMAT('# PSEUDO POT. : ON')
+ 132  FORMAT('#               ( STRENGTH=',E11.4,'[MeV] )')
+C
+C ERROR MESSAGE
+C
+9999  WRITE(NOUT,*) 'INVALID INPUT!!'
+      STOP
+      END
+C=======================================================================

@@ -1,0 +1,9 @@
+#input file 5li
+#angular             momentum
+ 0.0d0               0.5d0
+#no of basis b0      gamma
+ 35          0.3d0   1.25d0
+#degi        degf    ddeg
+ 0.0d0      0.0d0  1.d0
+#bbi         bbf     dbb
+ 1.d0        1.00d0  0.05d0

@@ -1,0 +1,16 @@
+\documentclass[english,a4paper]{jsarticle}
+\usepackage{graphicx}
+\begin{document}
+\begin{figure}
+\centering
+\includegraphics[height=7cm,width=10cm]{../phs_exp_com_s1.eps}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[height=7cm,width=10cm]{../phs_exp_com_p1.eps}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[height=7cm,width=10cm]{../phs_exp_com_p3.eps}
+\end{figure}
+\end{document}
