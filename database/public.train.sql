@@ -27,13 +27,14 @@ create table public."$$train" (
   , "EV5" smallint
   , "EV6" smallint
   , "EV7" smallint
+  , "EV8" smallint
 )
 /
 
 
 -- 新テーブルへデータ投入
-insert into public."$$train"("TD0", "TD1", "TD2", "TD3", "TD4", "TD5", "TD6", "TD7", "TD8", "TD9", "TD10", "TD11", "EV0", "EV1", "EV2", "EV3", "EV4", "EV5", "EV6", "EV7")
-  select org."TD0", org."TD1", org."TD2", org."TD3", org."TD4", org."TD5", org."TD6", org."TD7", org."TD8", org."TD9", org."TD10", org."TD11", org."EV0", org."EV1", org."EV2", org."EV3", org."EV4", org."EV5", org."EV6", org."EV7" from public.train org
+insert into public."$$train"("TD0", "TD1", "TD2", "TD3", "TD4", "TD5", "TD6", "TD7", "TD8", "TD9", "TD10", "TD11", "EV0", "EV1", "EV2", "EV3", "EV4", "EV5", "EV6", "EV7", "EV8")
+  select org."TD0", org."TD1", org."TD2", org."TD3", org."TD4", org."TD5", org."TD6", org."TD7", org."TD8", org."TD9", org."TD10", org."TD11", org."EV0", org."EV1", org."EV2", org."EV3", org."EV4", org."EV5", org."EV6", org."EV7", org."EV8" from public.train org
 /
 
 
@@ -99,7 +100,7 @@ comment on column public.train."EV2" is '握力(右)'
 comment on column public.train."EV3" is '寝起きの良さ(%)'
 /
 
-comment on column public.train."EV4" is '眼瞼ミオキミアがあった'
+comment on column public.train."EV4" is '眼瞼ミオキミアの有無'
 /
 
 comment on column public.train."EV5" is '日中の眠気(%)'
@@ -109,6 +110,9 @@ comment on column public.train."EV6" is '体力(%)'
 /
 
 comment on column public.train."EV7" is '気力(%)'
+/
+
+comment on column public.train."EV8" is '寝付きの良さ(%)'
 /
 
 
