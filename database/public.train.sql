@@ -18,6 +18,7 @@ create table public."$$train" (
   , "TD8" bigint
   , "TD9" bigint
   , "TD10" boolean
+  , "TD11" boolean
   , "EV0" boolean
   , "EV1" real
   , "EV2" real
@@ -31,8 +32,8 @@ create table public."$$train" (
 
 
 -- 新テーブルへデータ投入
-insert into public."$$train"("TD0", "TD1", "TD2", "TD3", "TD4", "TD5", "TD6", "TD7", "TD8", "TD9", "TD10", "EV0", "EV1", "EV2", "EV3", "EV4", "EV5", "EV6", "EV7")
-  select org."TD0", org."TD1", org."TD2", org."TD3", org."TD4", org."TD5", org."TD6", org."TD7", org."TD8", org."TD9", org."TD10", org."EV0", org."EV1", org."EV2", org."EV3", org."EV4", org."EV5", org."EV6", org."EV7" from public.train org
+insert into public."$$train"("TD0", "TD1", "TD2", "TD3", "TD4", "TD5", "TD6", "TD7", "TD8", "TD9", "TD10", "TD11", "EV0", "EV1", "EV2", "EV3", "EV4", "EV5", "EV6", "EV7")
+  select org."TD0", org."TD1", org."TD2", org."TD3", org."TD4", org."TD5", org."TD6", org."TD7", org."TD8", org."TD9", org."TD10", org."TD11", org."EV0", org."EV1", org."EV2", org."EV3", org."EV4", org."EV5", org."EV6", org."EV7" from public.train org
 /
 
 
@@ -56,16 +57,16 @@ comment on column public.train."TD0" is '記録日'
 comment on column public.train."TD1" is 'ビール摂取量(ml)'
 /
 
-comment on column public.train."TD2" is 'フルーツ摂取'
+comment on column public.train."TD2" is 'フルーツ摂取の有無'
 /
 
-comment on column public.train."TD3" is 'ヘパリーゼ摂取'
+comment on column public.train."TD3" is 'ヘパリーゼ摂取の有無'
 /
 
-comment on column public.train."TD4" is '首枕ストレッチ'
+comment on column public.train."TD4" is '首枕ストレッチの有無'
 /
 
-comment on column public.train."TD5" is '背中枕ストレッチ'
+comment on column public.train."TD5" is '背中枕ストレッチの有無'
 /
 
 comment on column public.train."TD6" is '腹筋回数'
@@ -80,7 +81,10 @@ comment on column public.train."TD8" is '腕立回数'
 comment on column public.train."TD9" is 'スクワット回数'
 /
 
-comment on column public.train."TD10" is '秘密の有無'
+comment on column public.train."TD10" is '有無'
+/
+
+comment on column public.train."TD11" is 'サイクリングの有無'
 /
 
 comment on column public.train."EV0" is '---'
