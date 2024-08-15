@@ -1,40 +1,41 @@
 --------------------------------------------------------------------------------
 -- public.train のレイアウト変更
 --   注意！！：テーブルに依存するオブジェクト（ビューなど）が削除される場合があります。それらのオブジェクトは復元されません。
---   2024/08/14 tateishi
+--   2024/08/15 tateishi
 --------------------------------------------------------------------------------
 
 
 -- 新テーブルの作成
 create table public."$$train" (
-  "TD0" date
-  , "TD1" bigint
-  , "TD2" boolean
-  , "TD3" boolean
-  , "TD4" boolean
-  , "TD5" boolean
-  , "TD6" bigint
-  , "TD7" bigint
-  , "TD8" bigint
-  , "TD9" bigint
-  , "TD10" boolean
-  , "TD11" boolean
-  , "EV0" boolean
-  , "EV1" real
-  , "EV2" real
-  , "EV3" smallint
-  , "EV4" boolean
-  , "EV5" smallint
-  , "EV6" smallint
-  , "EV7" smallint
-  , "EV8" smallint
+  "TD00000" date
+  , "TD00100" bigint
+  , "TD00200" boolean
+  , "TD00300" boolean
+  , "TD00400" boolean
+  , "TD00500" boolean
+  , "TD00600" bigint
+  , "TD00700" bigint
+  , "TD00800" bigint
+  , "TD00900" bigint
+  , "TD01000" boolean
+  , "TD01100" boolean
+  , "EV01200" boolean
+  , "EV00100" real
+  , "EV00200" real
+  , "EV00300" smallint
+  , "EV00400" boolean
+  , "EV00410" time without time zone
+  , "EV00500" smallint
+  , "EV00600" smallint
+  , "EV00700" smallint
+  , "EV00800" smallint
 )
 /
 
 
 -- 新テーブルへデータ投入
-insert into public."$$train"("TD0", "TD1", "TD2", "TD3", "TD4", "TD5", "TD6", "TD7", "TD8", "TD9", "TD10", "TD11", "EV0", "EV1", "EV2", "EV3", "EV4", "EV5", "EV6", "EV7", "EV8")
-  select org."TD0", org."TD1", org."TD2", org."TD3", org."TD4", org."TD5", org."TD6", org."TD7", org."TD8", org."TD9", org."TD10", org."TD11", org."EV0", org."EV1", org."EV2", org."EV3", org."EV4", org."EV5", org."EV6", org."EV7", org."EV8" from public.train org
+insert into public."$$train"("TD00000", "TD00100", "TD00200", "TD00300", "TD00400", "TD00500", "TD00600", "TD00700", "TD00800", "TD00900", "TD01000", "TD01100", "EV01200", "EV00100", "EV00200", "EV00300", "EV00400", "EV00410", "EV00500", "EV00600", "EV00700", "EV00800")
+  select org."TD00000", org."TD00100", org."TD00200", org."TD00300", org."TD00400", org."TD00500", org."TD00600", org."TD00700", org."TD00800", org."TD00900", org."TD01000", org."TD01100", org."EV01200", org."EV00100", org."EV00200", org."EV00300", org."EV00400", org."EV00410", org."EV00500", org."EV00600", org."EV00700", org."EV00800" from public.train org
 /
 
 
@@ -52,67 +53,70 @@ alter table public."$$train" rename to train
 comment on table public.train is 'ml_test'
 /
 
-comment on column public.train."TD0" is '記録日'
+comment on column public.train."TD00000" is '記録日'
 /
 
-comment on column public.train."TD1" is 'ビール摂取量(ml)'
+comment on column public.train."TD00100" is 'ビール摂取量(ml)'
 /
 
-comment on column public.train."TD2" is 'フルーツ摂取の有無'
+comment on column public.train."TD00200" is 'フルーツ摂取の有無'
 /
 
-comment on column public.train."TD3" is 'ヘパリーゼ摂取の有無'
+comment on column public.train."TD00300" is 'ヘパリーゼ摂取の有無'
 /
 
-comment on column public.train."TD4" is '首枕ストレッチの有無'
+comment on column public.train."TD00400" is '首枕ストレッチの有無'
 /
 
-comment on column public.train."TD5" is '背中枕ストレッチの有無'
+comment on column public.train."TD00500" is '背中枕ストレッチの有無'
 /
 
-comment on column public.train."TD6" is '腹筋回数'
+comment on column public.train."TD00600" is '腹筋回数'
 /
 
-comment on column public.train."TD7" is '背筋回数'
+comment on column public.train."TD00700" is '背筋回数'
 /
 
-comment on column public.train."TD8" is '腕立回数'
+comment on column public.train."TD00800" is '腕立回数'
 /
 
-comment on column public.train."TD9" is 'スクワット回数'
+comment on column public.train."TD00900" is 'スクワット回数'
 /
 
-comment on column public.train."TD10" is '有無'
+comment on column public.train."TD01000" is '秘密の有無'
 /
 
-comment on column public.train."TD11" is 'サイクリングの有無'
+comment on column public.train."TD01100" is 'サイクリングの有無'
 /
 
-comment on column public.train."EV0" is '---'
+comment on column public.train."EV01200" is '---'
 /
 
-comment on column public.train."EV1" is '握力(左)'
+comment on column public.train."EV00100" is '握力(左)'
 /
 
-comment on column public.train."EV2" is '握力(右)'
+comment on column public.train."EV00200" is '握力(右)'
 /
 
-comment on column public.train."EV3" is '寝起きの良さ(%)'
+comment on column public.train."EV00300" is '寝起きの良さ(%)'
 /
 
-comment on column public.train."EV4" is '眼瞼ミオキミアの有無'
+comment on column public.train."EV00400" is '眼瞼ミオキミアの有無'
 /
 
-comment on column public.train."EV5" is '日中の眠気(%)'
+comment on column public.train."EV00410" is '眼瞼ミオキミアの頻発時刻'
 /
 
-comment on column public.train."EV6" is '体力(%)'
+comment on column public.train."EV00500" is '日中の眠気(%)'
 /
 
-comment on column public.train."EV7" is '気力(%)'
+comment on column public.train."EV00600" is '体力(%)'
 /
 
-comment on column public.train."EV8" is '寝付きの良さ(%)'
+comment on column public.train."EV00700" is '気力(%)'
+/
+
+comment on column public.train."EV00800" is '寝付きの良さ(%)'
 /
 
 
