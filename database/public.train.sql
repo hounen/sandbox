@@ -11,6 +11,7 @@ create table public."$$train" (
   , "TD00100" bigint
   , "TD00200" boolean
   , "TD00300" boolean
+  , "TD00310" boolean
   , "TD00400" boolean
   , "TD00500" boolean
   , "TD00600" bigint
@@ -19,6 +20,11 @@ create table public."$$train" (
   , "TD00900" bigint
   , "TD01000" boolean
   , "TD01100" boolean
+  , "TD01200" time without time zone
+  , "TD01300" time without time zone
+  , "TD01400" time without time zone
+  , "TD01500" time without time zone
+  , "TD01600" time without time zone
   , "EV01200" boolean
   , "EV00100" real
   , "EV00200" real
@@ -34,8 +40,8 @@ create table public."$$train" (
 
 
 -- 新テーブルへデータ投入
-insert into public."$$train"("TD00000", "TD00100", "TD00200", "TD00300", "TD00400", "TD00500", "TD00600", "TD00700", "TD00800", "TD00900", "TD01000", "TD01100", "EV01200", "EV00100", "EV00200", "EV00300", "EV00400", "EV00410", "EV00500", "EV00600", "EV00700", "EV00800")
-  select org."TD00000", org."TD00100", org."TD00200", org."TD00300", org."TD00400", org."TD00500", org."TD00600", org."TD00700", org."TD00800", org."TD00900", org."TD01000", org."TD01100", org."EV01200", org."EV00100", org."EV00200", org."EV00300", org."EV00400", org."EV00410", org."EV00500", org."EV00600", org."EV00700", org."EV00800" from public.train org
+insert into public."$$train"("TD00000", "TD00100", "TD00200", "TD00300", "TD00310", "TD00400", "TD00500", "TD00600", "TD00700", "TD00800", "TD00900", "TD01000", "TD01100", "TD01200", "TD01300", "TD01400", "TD01500", "TD01600", "EV01200", "EV00100", "EV00200", "EV00300", "EV00400", "EV00410", "EV00500", "EV00600", "EV00700", "EV00800")
+  select org."TD00000", org."TD00100", org."TD00200", org."TD00300", org."TD00310", org."TD00400", org."TD00500", org."TD00600", org."TD00700", org."TD00800", org."TD00900", org."TD01000", org."TD01100", org."TD01200", org."TD01400", org."TD01500", org."TD01600", org."TD01300", org."EV01200", org."EV00100", org."EV00200", org."EV00300", org."EV00400", org."EV00410", org."EV00500", org."EV00600", org."EV00700", org."EV00800" from public.train org
 /
 
 
@@ -65,6 +71,9 @@ comment on column public.train."TD00200" is 'フルーツ摂取の有無'
 comment on column public.train."TD00300" is 'ヘパリーゼ摂取の有無'
 /
 
+comment on column public.train."TD00310" is '養命酒摂取の有無'
+/
+
 comment on column public.train."TD00400" is '首枕ストレッチの有無'
 /
 
@@ -87,6 +96,21 @@ comment on column public.train."TD01000" is '秘密の有無'
 /
 
 comment on column public.train."TD01100" is 'サイクリングの有無'
+/
+
+comment on column public.train."TD01200" is '起床時刻'
+/
+
+comment on column public.train."TD01300" is '朝食時刻'
+/
+
+comment on column public.train."TD01400" is '昼食時刻'
+/
+
+comment on column public.train."TD01500" is '夕食時刻'
+/
+
+comment on column public.train."TD01600" is '就寝時刻'
 /
 
 comment on column public.train."EV01200" is '---'
