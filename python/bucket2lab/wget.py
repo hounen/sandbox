@@ -14,9 +14,10 @@
 #     print("Error occurred:")
 #     print(result.stderr)
 
+import os
 import subprocess
 
-def download_file(login_url, username, password, base_url, output_files):
+def download_file(login_url, username, password, base_url, output_path, output_files):
     for output_file in output_files:
         download_command = f""
         # 1. ログインしてクッキーを取得するPowerShellコマンド
@@ -29,7 +30,7 @@ def download_file(login_url, username, password, base_url, output_files):
         # 2. 画像ファイルをダウンロードするPowerShellコマンド
         download_command += f"""
         $url = '{base_url + output_file}';
-        $out = '{output_file + ".png"}';
+        $out = '{os.path.join(output_path, output_file)}';
         Invoke-WebRequest -Uri $url -OutFile $out -WebSession $session;
         """
         # 3. PowerShellコマンドをPythonから実行する
@@ -39,7 +40,7 @@ def download_file(login_url, username, password, base_url, output_files):
         # 実行結果を確認
         if result.returncode == 0:
             print("Download successful.")
-            print(result.stdout)
+            # print(result.stdout)
         else:
             print("Error occurred:")
             with open('stderr.html', 'w') as f:
@@ -56,7 +57,8 @@ if __name__ == '__main__':
         "1725631935090YsLGq7UGEG"
         , "1725884427340NvaVGiSawl"
         ]
-    download_file(login_url, username, password, base_url, output_files)
+    output_path= os.path.join(os.getcwd(), "020_uploaded")
+    download_file(login_url, username, password, base_url, output_path, output_files)
 
 # 1. Privateでファイルをダウンロードする方法の検証
 # 2. (issue説明とコメントの)リンク置換といったん最初から通しで処理が走るか検証(骨格を決める)
