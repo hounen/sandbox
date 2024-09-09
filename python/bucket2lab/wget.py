@@ -47,3 +47,10 @@ if result.returncode == 0:
 else:
     print("Error occurred:")
     print(result.stderr)
+
+# 1. Privateでファイルをダウンロードする方法の検証
+# 2. (issue説明とコメントの)リンク置換といったん最初から通しで処理が走るか検証(骨格を決める)
+# 3. issue作成ユーザーの反映
+# 4. コメント作成ユーザーとコメント作成日時の反映
+# 5. ラベルの反映
+# 6. Asigneeの反映
