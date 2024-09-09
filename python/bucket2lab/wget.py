@@ -18,7 +18,7 @@ import os
 import shutil
 import subprocess
 
-def download_file(login_url, username, password, base_url, output_path, output_files):
+def download_files(login_url, username, password, base_url, output_path, output_files):
 
     # 0. 出力先フォルダを初期化
     shutil.rmtree(output_path)
@@ -64,7 +64,7 @@ if __name__ == '__main__':
         , "1725884427340NvaVGiSawl"
         ]
     output_path= os.path.join(os.getcwd(), "020_uploaded")
-    download_file(login_url, username, password, base_url, output_path, output_files)
+    download_files(login_url, username, password, base_url, output_path, output_files)
 
 # 1. Privateでファイルをダウンロードする方法の検証
 # 2. (issue説明とコメントの)リンク置換といったん最初から通しで処理が走るか検証(骨格を決める)
