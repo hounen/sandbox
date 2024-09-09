@@ -45,7 +45,7 @@ def download_files(login_url, username, password, base_url, output_path, output_
 
         # 実行結果を確認
         if result.returncode == 0:
-            print("Download successful.")
+            print("Download successful. " + base_url + output_file)
             # print(result.stdout)
         else:
             print("Error occurred:")
