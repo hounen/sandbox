@@ -15,9 +15,15 @@
 #     print(result.stderr)
 
 import os
+import shutil
 import subprocess
 
 def download_file(login_url, username, password, base_url, output_path, output_files):
+
+    # 0. 出力先フォルダを初期化
+    shutil.rmtree(output_path)
+    os.makedirs(output_path)
+
     for output_file in output_files:
         download_command = f""
         # 1. ログインしてクッキーを取得するPowerShellコマンド
@@ -43,7 +49,7 @@ def download_file(login_url, username, password, base_url, output_path, output_f
             # print(result.stdout)
         else:
             print("Error occurred:")
-            with open('stderr.html', 'w') as f:
+            with open(os.path.join(output_path, 'stderr.html'), 'w') as f:
                 f.write(result.stderr)
             exit()
 
