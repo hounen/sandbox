@@ -14,13 +14,19 @@ subgraph legend{
         <tr><td>Function call</td><td><font color='black'>&#8594;</font></td></tr>
         </table></td></tr></table>
         >];
-}node_7792bf7c [label="0: (global)()" name="code2flow::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_d9c0bf61 [label="1: fnc_a()" name="code2flow::fnc_a" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_cbb5191f [label="5: fnc_b()" name="code2flow::fnc_b" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_7792bf7c -> node_d9c0bf61 [color="#F0E442" penwidth="2"];
-node_d9c0bf61 -> node_cbb5191f [color="#E69F00" penwidth="2"];
-subgraph cluster_19f63017 {
-    node_d9c0bf61 node_cbb5191f node_7792bf7c;
+}node_cbc12a26 [label="0: (global)()" name="code2flow::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_3dd5f3ca [label="1: find_life_a()" name="code2flow::find_life_a" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_32e1d51b [label="5: find_life_b()" name="code2flow::find_life_b" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_9417f868 [label="8: find_life_c()" name="code2flow::find_life_c" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_2a10487f [label="11: fnc_b()" name="code2flow::fnc_b" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_82b95c54 [label="14: x()" name="code2flow::x" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_cbc12a26 -> node_3dd5f3ca [color="#D55E00" penwidth="2"];
+node_cbc12a26 -> node_32e1d51b [color="#D55E00" penwidth="2"];
+node_cbc12a26 -> node_9417f868 [color="#D55E00" penwidth="2"];
+node_cbc12a26 -> node_82b95c54 [color="#D55E00" penwidth="2"];
+node_3dd5f3ca -> node_2a10487f [color="#56B4E9" penwidth="2"];
+subgraph cluster_090cffac {
+    node_3dd5f3ca node_32e1d51b node_9417f868 node_2a10487f node_82b95c54 node_cbc12a26;
     label="File: code2flow";
     name="code2flow";
     style="filled";
