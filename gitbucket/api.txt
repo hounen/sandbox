@@ -1,0 +1,1 @@
+http://localhost:8081/api/v3/repos/root/test/releases
