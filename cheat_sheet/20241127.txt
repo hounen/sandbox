@@ -1,0 +1,8 @@
+ssh config 最強設定
+https://qiita.com/keiya/items/dec9a1142ac701b19bd9
+
+sshd_config #PubkeyAuthentication yes の件
+https://qiita.com/gotohiro55/items/36a22516de2b381b3c6e
+
+YAMLの読み方
+https://ja.wikipedia.org/wiki/YAML
