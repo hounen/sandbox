@@ -1,0 +1,3 @@
+https://rockylinux.org/ja-JP/download
+
+https://dl.rockylinux.org/vault/rocky/9.5/extras/x86_64/os/
