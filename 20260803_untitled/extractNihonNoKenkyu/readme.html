@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>extractNihonNoKenkyu 使い方</title>
+  <style>
+    body { font-family: "Segoe UI", Arial, sans-serif; line-height: 1.6; margin: 24px; color: #222; }
+    h1, h2, h3 { color: #1f4e79; }
+    pre { background: #f5f5f5; padding: 12px; border-radius: 6px; overflow-x: auto; }
+    code { background: #f5f5f5; padding: 2px 4px; border-radius: 4px; }
+    ul { margin: 0 0 16px 20px; }
+    .note { background: #fff7cc; border-left: 4px solid #f1c40f; padding: 12px; margin: 16px 0; }
+  </style>
+</head>
+<body>
+  <h1>extractNihonNoKenkyu 使い方</h1>
+
+  <section>
+    <h2>概要</h2>
+    <p>このプログラムは、KAKEN と AMED の研究プロジェクト情報を抽出し、Excel 形式で出力するツールです。</p>
+    <p>実行エントリーポイントは <code>code/main.py</code> で、設定は <code>settings/input.ini</code> から読み込みます。</p>
+  </section>
+
+  <section>
+    <h2>準備</h2>
+    <ul>
+      <li><strong>作業ディレクトリ:</strong> <code>extractNihonNoKenkyu</code></li>
+      <li><strong>設定ファイル:</strong> <code>settings/input.ini</code></li>
+      <li><strong>検索対象:</strong> <code>settings/extract_kenkyu_kikan/kaken.yaml</code> と <code>settings/extract_kenkyu_kikan/amed.yaml</code></li>
+      <li><strong>出力先:</strong> <code>output/</code>。実行時に <code>output/nihon_no_kenkyu_YYYYMMDDhhmm</code> 形式で保存されます。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>設定ファイル</h2>
+    <pre>[CROSS_SEARCH] <= 全事業に適用する共通の検索条件を設定するセクションです。
+KENKYU_KIKAN_FROM=2023 <= 抽出対象の開始年度を指定します。2023の場合、2023/4/1以降に開始されるプロジェクトが抽出されます。
+KENKYU_YOSAN_FROM=500 <= 抽出する予算の下限（万円）です。
+    
+[KAKEN_SWITCH]
+KENKYU_KIKAN_SYNC=true <= trueの場合、抽出前にKAKENデータベースから研究機関リストを再取得するか確認します。
+EXTRACTION=true <= trueの場合、KAKENデータベースからプロジェクトデータを抽出するようになります。
+    
+[AMED_SWITCH]
+KENKYU_KIKAN_SYNC=true <= trueの場合、抽出前にAMEDデータベースから研究機関リストを再取得するか確認します。
+EXTRACTION=true <= trueの場合、AMEDデータベースからプロジェクトデータを抽出するようになります。
+    
+[KAKEN_SOURCE] <= KAKENデータベースに登録されている研究機関リストの取得先URLです。
+KENKYU_KIKAN_URL=https://www-kaken.jsps.go.jp/kaken1/kikanList.do
+    
+[CINII_OPENSEARCH]
+URL=https://kaken.nii.ac.jp/opensearch/ <= KAKENプロジェクトデータの取得先URLです。
+APPID=8if8E9qcvGLiwX6YrbW5 <= 取得時に使用するキー情報です。
+USE_CACHE=True <= 一度取得したデータをローカルPCに一時保存するかどうか設定できます(設定すると再抽出時の実行時間が短縮できます)
+    
+[KAKEN_OPTION]
+RESULTS_PER_PAGE=500 <= KAKENデータベースから1度に取り出すプロジェクトの上限数です(基本、変更することはありません)
+    
+[KAKEN_SEARCH]
+KENKYU_KIKAN_FILE=settings/extract_kenkyu_kikan/kaken.yaml <= KAKENデータベースから取得した(検索用としても使う)研究機関リストの保存先ファイルのパスです。
+    
+[AMED_SOURCE]
+URL=https://grants.jst.go.jp/search/ <= AMEDプロジェクトデータの取得先URLです。
+    
+[AMED_OPTION]
+RESULTS_PER_PAGE=500 <= AMEDデータベースから1度に取り出すプロジェクトの上限数です(基本、変更することはありません)
+    
+[AMED_SEARCH]
+KENKYU_KIKAN_FILE=settings/extract_kenkyu_kikan/amed.yaml <= AMEDデータベースから取得した(検索用としても使う)研究機関リストの保存先ファイルのパスです。
+KENKYU_KIKAN_CONDITION=1 <= プロジェクト期間の抽出条件の詳細設定です(1の場合、特定の年度以降に開始されるプロジェクトに限定されます)
+※統一感を優先して、全事業で設定年度以降に開始されるプロジェクトを抽出するように設定しています(過去に研究開始した進行中のプロジェクトは抽出されないようになっています)
+    
+[OPTION]
+IDENTIFY_PREFECTURE=true <= 研究機関名から所在地の都道府県を特定するか設定します(trueの場合、GoogleMapから所在地の緯度・経度を取得して、特定を試みます、外国や同名の法人、複数拠点を持つ法人は特定できません)
+OUTPUT_PLACE_PATH=./output <= 抽出結果を出力するベースフォルダを指定します
+MAX_WAIT_TIME=0.1 <= 管理、デバック用です
+SLEEP_TIME=5 <= 管理、デバック用です
+PAGE_RETRY=3 <= 管理、デバック用です
+    </pre>
+  </section>
+
+  <section>
+    <h2>実行方法</h2>
+    <ol>
+      <li><strong>設定を確認する</strong><br>
+        <code>settings/input.ini</code> を開き、検索 URL、検索条件、出力先を確認します。</li>
+      <li><strong>検索対象を編集する</strong><br>
+        <code>settings/extract_kenkyu_kikan/kaken.yaml</code> と <code>settings/extract_kenkyu_kikan/amed.yaml</code> を必要に応じて編集します(メモ帳で編集する場合は、既定のプログラムをメモ帳に設定します。検索条件から除外したい法人の行をコメントアウト(行頭に#を記入、または検索したい法人の行だけ残して他は削除)して使用します。保存のし忘れに注意してください。)</li>
+      <li><strong>実行する</strong><br>
+        <code>local_online_run_main.bat</code> でローカル実行、または <code>sharefolder_online_run_main.bat</code> で共有フォルダ実行できます。(いずれもダブルクリックです)</li>
+      <li><strong>パス変更時の再構築</strong><br>
+        実行場所を移動した場合は <code>local_online_venv_recreate.bat</code> または <code>sharefolder_offline_venv_recreate.bat</code> を実行してください(※1時間以上かかります)。</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>出力結果</h2>
+    <p>抽出結果は <code>output/</code> 以下にサブフォルダとして保存されます。ファイル名は <code>nihon_no_kenkyu_YYYYMMDDhhmm</code> 形式です。</p>
+    <p>各研究機関ごとに Excel ファイルが生成されます。</p>
+  </section>
+
+  <section>
+    <h2>注意事項</h2>
+    <ul>
+      <li>実行時間の目安、KAKENとAMEDで研究機関リストを更新して、2023年以降開始で予算500万円以上のプロジェクトを都道府県判別ありで抽出する場合、4時間ほどかかります。</li>
+      <li>AMEDはプロジェクトが存在しても予算が未確定な場合が多いので、予算条件によらず未確定の場合は抽出するようにしています。</li>
+      <li>KAKENやAMEDなどの各データベースの取得先が休止中やシステム改修などにより変更が生じた場合はプログラムは動作しなくなります(変更に応じてSYNCオプションなどをfalseにして処理をスキップさせてください)。</li>
+      <li>ネットワークが遅い状態だとタイムアウトエラーが発生しやすくなります。</li>
+      <li>共有フォルダ上から実行する場合、ネットワークドライブレターはR:を使用しますので、既にR:が使用されている場合は、R:を切断するか、R:が使用できない場合、他の端末で実行してください。</li>
+      <li>同一の研究機関でもKAKENとAMEDで登録されている研究機関名が若干違う場合が多いので、特定の研究機関のみ検索する場合は対象とする法人名は注意して選択してください</li>
+    </ul>
+  </section>
+  
+  <section>
+    <h2>トラブルシューティング</h2>
+    <ul>
+      <li><strong>出力ファイルが見つからない:</strong> <code>output/</code> フォルダと生成されたサブフォルダを確認してください。</li>
+      <li><strong>起動に失敗する</strong> 以前動作させたPC環境のEdgeブラウザとバージョンと異なる場合、起動に失敗することがあります。その場合は、もう一度実行させてください。</li>
+      <li><strong>研究機関リストは毎度更新されることはないので基本更新させたくない:</strong> <code>KAKEN_SWITCH</code> / <code>AMED_SWITCH</code> の <code>KENKYU_KIKAN_SYNC</code> を <code>false</code> に設定してください。</li>
+      <li><strong>実行パスが変わった:</strong> <code>local_online_venv_recreate.bat</code> または <code>sharefolder_offline_venv_recreate.bat</code> を実行してください。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>参考(使用頻度の低いファイル)</h2>
+    <ul>
+      <li>.\database\N03-20260101_GML: 都道府県判別用のデータベースです。県境情報が古い場合はデータを差し替えます(https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2025.html)</li>
+      <li>.\local_online_venv_recreate.batはテンプレートフォルダをダウンロードしたときの初回セットアップとして使用する(N03-20260101_GMLのダウンロードも必要)</li>
+    </ul>
+  </section>
+
+</body>
+</html>
