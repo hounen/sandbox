@@ -1,0 +1,13 @@
+REINDEX TABLE m_bases;
+REINDEX TABLE m_bigclasses;
+REINDEX TABLE m_boxnos;
+REINDEX TABLE m_classes;
+REINDEX TABLE m_colors;
+REINDEX TABLE m_hznkkns;
+REINDEX TABLE m_middleclasses;
+REINDEX TABLE m_posts;
+REINDEX TABLE m_sections;
+REINDEX TABLE m_smallclasses;
+REINDEX TABLE m_years;
+REINDEX TABLE t_docboxinfos;
+REINDEX TABLE t_docfileinfos;
