@@ -3,4 +3,5 @@
 /knime-workspace/KNIME_project/.artifacts
 /chatpgt/00100_gpt
 .venv
-.whl
+venv_packages
+__pycache__
