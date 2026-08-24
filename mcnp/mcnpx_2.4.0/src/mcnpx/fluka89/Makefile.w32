@@ -1,0 +1,77 @@
+# Generated automatically from Makefile.in by configure.
+# $Id: Makefile.w32,v 1.1 2002/07/22 17:04:19 jxh Exp $
+
+include Makefile.h
+
+# SOURCEDIR is path relative to this 'make'
+SOURCEDIR = ${srcdir}
+# INCLUDE directory  is two  levels up from this SOURCEDIR
+INCLUDE = -I${SOURCEDIR}/../../include
+
+# construct a list of source files for makedepend to use
+FSRCS := $(wildcard ${SOURCEDIR}/*.F)
+HDRS := $(wildcard ${INCLUDE}/*.h) $(wildcard ${INCLUDE}/*/*.h)
+FOBJS := $(notdir $(patsubst %.F,%.o,${FSRCS}))
+
+# Sources in this directory depend upon BLOCK DATA references, 
+# so there are two targets to make
+TARGET1 = flukad
+TARGET2 = fluka
+
+# Block Data object files
+BDOBJS = bdnopt.o blkdt1.o blkdt2.o blkdt3.o blkdt4.o blkdt5.o blkdt6.o \
+blkdt7.o countr.o f2bd.o
+
+# Object files
+OBJS = aabini.o abbrch.o ainel.o akeka.o altra.o altraf.o amga.o ankeka.o      \
+bamjet.o beexi.o bekeka.o beta.o betarn.o bkeka.o bklass.o bnkeka.o calumo.o   \
+chanwt.o datar3.o decaux.o decayy.o difevt.o disint.o drelab.o eexi.o ekeka.o  \
+energi.o eventq.o evqini.o fcasc.o ferevt.o ferhad.o fermic.o flavor.o         \
+fllink.o fluker.o fobal.o frecol.o frmic.o gamrn.o gauss.o hadcnt.o hadden.o   \
+hadevt.o hadrin.o hklass.o hypero.o iefun.o impuls.o index2.o kinpar.o kpois.o \
+lortra.o nizl.o nucevt.o nucrin.o nudist.o parjet.o poli.o rakeka.o rbkeka.o   \
+rchanw.o rotat.o sfecfe.o sigint.o tchoic.o threpd.o trafo.o trahad.o trans.o  \
+ttrans.o twopad.o twopar.o verein.o vertex.o xlamb.o
+
+#----------------------------
+all : ${TARGET1}.${STATSUF} ${TARGET2}.${STATSUF}
+	@${ECHO} "$@ completed."
+
+# Help file is the shared one at the top level
+help :
+	@more ${SOURCEDIR}/../../../Readme.make
+
+# - - - - - - - - - - - - - - - - - - - 
+# how .o files emerge from .F files
+%.o : %.F
+	${FCOMP} /compile_only ${FPPFLAGS} ${FFLAGS} ${FDEFS} /object:$@ ${srcdir}\$(<F)
+# - - - - - - - - - - - - - - - - - - - 
+
+# the two targets
+${TARGET1}.${STATSUF} : ${BDOBJS}
+	${AR_CMD}${TARGET1}.${STATSUF} ${BDOBJS}
+${TARGET2}.${STATSUF} : ${OBJS}
+	${AR_CMD}${TARGET2}.${STATSUF} ${OBJS}
+
+# force make to execute every time for PHONY targets
+.PHONY : clean distclean
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean :
+	@-${RM} ${CLEANFILES}
+
+# Target distclean should clean then remove executables and dependency files
+distclean : clean
+	@${RM} -f ${TARGET1}.* ${TARGET2}.*
+	@-${RM} -f ${DISTCLEANFILES}
+	@-${RM} -f ${CONFFILES}
+
+depend.mk: ${FSRCS} ${HDRS}
+	@${ECHO} "making dependencies for ${SOURCEDIR}"
+	@makedepend -f- -- $(FFLAGS) ${INCLUDE} -- $(FSRCS) | \
+	sed 's%^${SOURCEDIR}/%%' >depend.mk
+	@${ECHO} "depend.mk for ${SOURCEDIR} has been generated"
+
+# include depend.mk
+
+# DO NOT DELETE THIS LINE -- makedepend depends on it.

@@ -1,0 +1,42 @@
+Energy deposition test problem for mcnpx and the rectangular mesh tally.
+c    Written by Ed Snow 01/19/2001
+1    1  -19.35 1 -2 3 -4 5 -6
+2    0    -7 #1
+3    0     7
+
+1    px  -0.05
+2    px   0.05
+3    py  -0.05
+4    py   0.05
+5    pz  -0.05
+6    pz   0.05
+7    so 100.0
+
+mode e
+imp:e  1 1 0
+c
+c
+c      Material #1: Tungsten
+c      Mass density 19.35 g/cc
+m1     74000.  1.
+sdef   par=3 erg=20.
+nps    100
+c        phys:e  7j 0.0
+prdmp  j -60  -1
+print
+*f8:e   1
++f6     1
+f16:e     1
+c
+tmesh
+rmesh1:e  pedep
+cora1    -0.05 0.05
+corb1    -0.05 0.05
+corc1    -0.05 0.05
+rmesh3
+cora3    -0.05 0.05
+corb3    -0.05 0.05
+corc3    -0.05 0.05
+endmd
+
+

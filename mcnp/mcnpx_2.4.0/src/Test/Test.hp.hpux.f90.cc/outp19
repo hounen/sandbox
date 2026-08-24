@@ -1,0 +1,236 @@
+ *****************************************************
+ *                                                   *
+ *            Copyright Notice for MCNPX             *
+ *                                                   *
+ * This program was prepared by the Regents of the   *
+ * University of California at Los Alamos National   *
+ * Laboratory (the University) under contract number *
+ * W-7405-ENG-36 with the U.S. Department of Energy  *
+ * (DOE).  The University has certain rights in the  *
+ * program pursuant to the contract and the program  *
+ * should not be copied or distributed outside your  *
+ * organization.   All rights in the program are     *
+ * reserved by the DOE and the University.  Neither  *
+ * the U.S. Government nor the University makes any  *
+ * warranty, express or implied, or assumes any      *
+ * liability or responsibility for the use of this   *
+ * software.                                         *
+ *                                                   *
+ *****************************************************
+    1-       testprob19 - multigroup boltzman-fokker-planck ver. of testprob20.              
+    2-       1    1 1 1 -2 3 -4 5 -6                                                         
+    3-       2    0 #1                                                                       
+    4-                                                                                       
+    5-       1    pz 0                                                                       
+    6-       2    pz .00635                                                                  
+    7-       3    px -10                                                                     
+    8-       4    px 10                                                                      
+    9-       5    1 px -10                                                                   
+   10-       6    2 px 10                                                                    
+   11-                                                                                       
+   12-       m1   74184.10m 1                                                                
+   13-       sdef erg=1 sur=1                                                                
+   14-       imp:n 1 0                                                                       
+   15-       *f1:n  1  2                                                                     
+   16-          e1  .1 .191 .282 .373 .464 .555 .645 .736 .827 .918  1.1                     
+   17-       fu1  .511 0                                                                     
+   18-       ft1  ptt                                                                        
+   19-       fq1  e u                                                                        
+   20-       fc1  50 group-electrons  30 group-photons                                       
+   21-       f4:n  1                                                                         
+   22-       fm4  1.  1  703                                                                 
+   23-       sd4  1                                                                          
+   24-       tr1* 0 0 1 90 180 90                                                            
+   25-       tr2 0 0 -1 0 -1 0 j j 1 j j 0 -1                                                
+   26-       mgopt  f  -80                                                                   
+   27-         nps  2000                                                                     
+   28-       ctme  40                                                                        
+   29-       prdmp  2j -1                                                                    
+   30-       print 30                                                                        
+   31-       xs99   74184.10m 11.618600 testlib1 0 1 334189 67275                            
+1tally   1                                                                                              print table 30
++                                   50 group-electrons  30 group-photons                                       
+           tally type 1*   energy crossing a surface.                                     
+           particle(s): neutron     
+
+ order of printing:  e u 
+ surfaces  1 2                                                                                                         
+
+ user bins  5.11000E-01  0.00000E+00   total                                                                      
+
+ energy bins
+      0.00000E+00  to  1.00000E-01 mev   
+      1.00000E-01  to  1.91000E-01 mev   
+      1.91000E-01  to  2.82000E-01 mev   
+      2.82000E-01  to  3.73000E-01 mev   
+      3.73000E-01  to  4.64000E-01 mev   
+      4.64000E-01  to  5.55000E-01 mev   
+      5.55000E-01  to  6.45000E-01 mev   
+      6.45000E-01  to  7.36000E-01 mev   
+      7.36000E-01  to  8.27000E-01 mev   
+      8.27000E-01  to  9.18000E-01 mev   
+      9.18000E-01  to  1.10000E+00 mev   
+      total bin
+1tally   4                                                                                              print table 30
+           tally type 4    track length estimate of particle flux.                        
+           particle(s): neutron     
+ cells     1                                                                                                           
+
+ multiplier bins
+ att  constant    material   reactions or material-rho*x pairs
+     1.00000E+00      1        703
+1cells                                                                                                  print table 60
+
+                      atom        gram                                     neutron                                       
+        cell  mat    density     density     volume       mass     pieces  importance                                    
+
+     1     1    1  1.00000E+00 1.94606E+01 2.54000E+00 4.94300E+01      0  1.0000E+00                                    
+     2     2    0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00      0  0.0000E+00                                    
+
+ total                                     2.54000E+00 4.94300E+01
+
+    minimum source weight = 1.0000E+00    maximum source weight = 1.0000E+00
+1cross-section tables                                                                                   print table 100
+
+     table    length
+
+                        tables from file testlib1                                                        
+
+  74184.10m   67273                                                                                                    
+
+  total       67273
+
+
+
+
+
+ decimal words of dynamically allocated storage
+1problem summary                                                                                                       
+
+      run terminated when      2000 particle histories were done.
+
+ neutron creation       tracks   weight        energy            neutron loss           tracks   weight        energy
+                                 (per source particle)                                           (per source particle)
+
+ source                2000    1.0000E+00    1.0001E+00          escape                1965    9.7968E-01    7.1240E-01
+ nucl. interaction        0    0.            0.                  energy cutoff            0    0.            0.        
+ particle decay           0    0.            0.                  time cutoff              0    0.            0.        
+ weight window            0    0.            0.                  weight window            0    0.            0.        
+ cell importance          0    0.            0.                  cell importance          0    0.            0.        
+ weight cutoff            0    9.0153E-04    1.2881E-04          weight cutoff          438    9.2375E-04    1.6423E-04
+ energy importance        0    0.            0.                  energy importance        0    0.            0.        
+ dxtran                   0    0.            0.                  dxtran                   0    0.            0.        
+ forced collisions        0    0.            0.                  forced collisions        0    0.            0.        
+ exp. transform           0    0.            0.                  exp. transform           0    0.            0.        
+ upscattering             0    0.            2.1052E-01          downscattering           0    0.            6.2370E-01
+ photonuclear             0    0.            0.                  capture                  0    2.1732E-01    2.6804E-02
+ (n,xn)                 793    3.9080E-01    3.0609E-01          loss to (n,xn)         390    1.9378E-01    1.5382E-01
+ prompt fission           0    0.            0.                  loss to fission          0    0.            0.        
+ delayed fission          0    0.            0.                  nucl. interaction        0    0.            0.        
+                                                                 particle decay           0    0.            0.        
+ tabular boundary         0    0.            0.                  tabular boundary         0    0.            0.        
+ tabular sampling         0    0.            0.                                                                        
+     total             2793    1.3917E+00    1.5169E+00              total             2793    1.3917E+00    1.5169E+00
+
+   number of neutrons banked                     403        average time of (shakes)              cutoffs
+   neutron tracks per source particle     1.3965E+00          escape            4.3304E-05          tco   1.0000E+34
+   neutron collisions per source particle 1.0116E+02          capture           8.0808E-05          eco   0.0000E+00
+   total neutron collisions                   202318          capture or escape 5.0113E-05          wc1  -5.0000E-01
+   net multiplication              1.1970E+00 0.0103          any termination   4.3161E-05          wc2  -2.5000E-01
+
+ computer time so far in this run     0.00 minutes            maximum number ever in bank         8
+ computer time in mcrun               0.00 minutes            bank overflows to backup file       0
+ source particles per minute            0.0000E+00            dynamic storage         0 words,          0 bytes.
+ random numbers generated                  1420239            most random numbers used was     8431 in history     1697
+
+ range of sampled source weights = 1.0000E+00 to 1.0000E+00
+1neutron     activity in each cell                                                                      print table 126
+
+                 tracks     population   collisions   collisions     number        flux        average      average
+        cell    entering                               * weight     weighted     weighted   track weight   track mfp
+                                                    (per history)    energy       energy     (relative)      (cm)
+
+     1     1        2000         2403       202318    1.0018E+02   7.2737E-01   7.4159E-01   9.9715E-01   1.3388E-02
+
+     total          2000         2403       202318    1.0018E+02
+1tally   1        nps =     2000
++                                   50 group-electrons  30 group-photons                                       
+           tally type 1*   energy crossing a surface.                   units   mev       
+           particle(s): neutron     
+           this tally is modified by   ft  ptt
+ 
+ surface  1                                                                                                            
+     user bin:       5.1100E-01           0.0000E+00             total                                             
+      energy
+    1.0000E-01   0.00000E+00 0.0000   0.00000E+00 0.0000   0.00000E+00 0.0000
+    1.9100E-01   7.90362E-04 0.3047   1.55815E-03 0.2109   2.34851E-03 0.1728
+    2.8200E-01   2.29088E-03 0.2429   1.30853E-03 0.2930   3.59941E-03 0.1871
+    3.7300E-01   3.66260E-03 0.2127   8.15676E-04 0.4484   4.47827E-03 0.1918
+    4.6400E-01   4.73071E-03 0.2170   8.07012E-04 0.5002   5.53772E-03 0.1988
+    5.5500E-01   1.60253E-02 0.1304   0.00000E+00 0.0000   1.60253E-02 0.1304
+    6.4500E-01   2.51767E-02 0.1096   6.28033E-04 0.7069   2.58048E-02 0.1082
+    7.3600E-01   3.16168E-02 0.1062   3.28684E-04 0.9997   3.19455E-02 0.1056
+    8.2700E-01   5.74266E-02 0.0818   3.68486E-04 0.9997   5.77951E-02 0.0815
+    9.1800E-01   1.08570E-01 0.0619   0.00000E+00 0.0000   1.08570E-01 0.0619
+    1.1000E+00   1.87722E-01 0.0469   0.00000E+00 0.0000   1.87722E-01 0.0469
+      total      4.38012E-01 0.0246   5.81457E-03 0.1701   4.43827E-01 0.0241
+ 
+ surface  2                                                                                                            
+     user bin:       5.1100E-01           0.0000E+00             total                                             
+      energy
+    1.0000E-01   0.00000E+00 0.0000   0.00000E+00 0.0000   0.00000E+00 0.0000
+    1.9100E-01   1.39600E-03 0.2372   1.67880E-03 0.2117   3.07480E-03 0.1572
+    2.8200E-01   2.08394E-03 0.2472   1.72112E-03 0.2596   3.80506E-03 0.1785
+    3.7300E-01   3.68355E-03 0.2186   1.80684E-03 0.3019   5.49039E-03 0.1765
+    4.6400E-01   9.01304E-03 0.1512   1.00792E-03 0.4474   1.00210E-02 0.1429
+    5.5500E-01   1.64120E-02 0.1250   1.00016E-03 0.4996   1.74122E-02 0.1211
+    6.4500E-01   2.26533E-02 0.1179   0.00000E+00 0.0000   2.26533E-02 0.1179
+    7.3600E-01   4.10927E-02 0.0938   1.00481E-03 0.5772   4.20975E-02 0.0924
+    8.2700E-01   8.34258E-02 0.0670   0.00000E+00 0.0000   8.34258E-02 0.0670
+    9.1800E-01   7.64400E-02 0.0756   4.17311E-04 0.9997   7.68574E-02 0.0753
+    1.1000E+00   3.73569E-03 0.3529   0.00000E+00 0.0000   3.73569E-03 0.3529
+      total      2.59936E-01 0.0351   8.63696E-03 0.1444   2.68573E-01 0.0339
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 9.267E-01)**2 = (0.000E+00)*(8.589E-01) = 0.000E+00
+1tally   4        nps =     2000
+           tally type 4    track length estimate of particle flux.                        
+           particle(s): neutron     
+
+           volumes 
+                   cell:       1                                                                                   
+                         1.00000E+00
+ 
+ cell  1                                                                                                               
+ multiplier bin:   1.00000E+00    1        703                                                                         
+                 2.86716E-01 0.0220
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 1.016E+00)**2 = (0.000E+00)*(1.032E+00) = 0.000E+00
+1status of the statistical checks used to form confidence intervals for the mean for each tally bin
+
+
+ tally   result of statistical checks for the tfc bin (the first check not passed is listed) and error magnitude check for all bins
+
+     1   passed the 10 statistical checks for the tally fluctuation chart bin result               
+         missed all bin error check:    72 tally bins had    12 bins with zeros and    44 bins with relative errors exceeding 0.10
+
+     4   passed the 10 statistical checks for the tally fluctuation chart bin result               
+         passed all bin error check:     1 tally bins all have relative errors less than 0.10 with no zero bins
+
+
+ the 10 statistical checks are only for the tally fluctuation chart bin and do not apply to other tally bins.
+
+ the tally bins with zeros may or may not be correct: compare the source, cutoffs, multipliers, et cetera with the tally bins.
+
+ warning.     1 of the   2 tallies had bins with relative errors greater than recommended.
+1tally fluctuation charts                         
+
+                       tally    1                                tally    4                                
+       nps      mean     error   vov  slope    fom      mean     error   vov  slope    fom      
+      1000   4.4501E-01 0.0341 0.0033 10.0           2.9017E-01 0.0306 0.0090 10.0          
+      2000   4.4383E-01 0.0241 0.0012 10.0           2.8672E-01 0.0220 0.0046  8.4          
+ tally data written to file inp19m  
+
+          1 warning message so far.
+
+
+ run terminated when      2000 particle histories were done.

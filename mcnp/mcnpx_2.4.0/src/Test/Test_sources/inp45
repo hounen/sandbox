@@ -1,0 +1,20 @@
+Test RNOK bug fix.  Strong biasing.
+1     1  -2.25    -1
+2     0            1
+
+1     so  1.
+
+nps       15
+imp:e,p   1 0
+sdef      erg 0.75  pos 0. 0. 0.  par 3
+mode      p  e
+prdmp     2j  -1
+f4:e      1
+e         .1  .5  .75
+m1        6000  1
+c
+phys:e    .75   6j   10   j
+c
+c         For unbiased comparison use the following:
+c         phys:e    .75   6j   j   j
+

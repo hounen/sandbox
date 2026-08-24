@@ -1,0 +1,38 @@
+Test5 for mcnpx and mesh tallies.  (5/29/98)
+c     This inp set up to test the dxtran track mesh
+c     tallies.
+c      >>CELL CARDS<<
+1     0 -1
+2     0  1 -2
+3     0  2
+
+c      >>SURFACE CARDS<<
+1     so  5.0
+2     so 100.0
+
+c      >>DATA CARDS<<
+mode  n
+imp:n  1 1 0
+sdef  cel 1 pos 0 0 0 rad d1
+si1  0. 5.
+nps   20000
+print
+prdmp  2j -1
+c
+dxt:n  0 0 50 5 5
+c
+tmesh
+c
+*rmesh4:n
+cora4 -5.0 0.0 5.0
+corb4 -5.0 0.0 5.0
+corc4 10.0 11.0 12.0
+c
+*cmesh14:n
+cora14  0.001 5.0
+corb14  10.0 11.0 12.0
+corc14  90. 180. 270. 360.
+c
+endmd
+
+

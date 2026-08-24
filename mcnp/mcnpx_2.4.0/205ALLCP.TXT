@@ -1,0 +1,89 @@
+-------------------------------------------------------------------------------------------------------------------------
+At this time, RSICC distributes 2 versions of MCNPX and their corresponding data packages. 
+MCNPX2.3.0 users should request D00205ALLCP02 MCNPXDATA. 
+MCNPX2.4.0 users should request D00205ALLCP03 MCNPXDATA.
+The September 2002 D00205ALLCP03 MCNPXDATA release includes all files in the previous 
+D00205ALLCP02 plus the EL03 electron data library. EL03 requires new functionality in MCNP4C 
+or MCNPX 2.4.0. EL03 cannot be used with MCNP4B, MCNPX2.3.0 or earlier versions.
+The D00205ALLCP03 MCNPXDATA "tapelist" is displayed below. 
+--------------------------------------------------------------------------------------------------------------------------
+
+
+
+                                        ID#:                D00205ALLCP03
+  For MCNPX 2.4.0                       RSIC #:             DLC-205
+                                        CODE PKG NAME:      MCNPXDATA
+								for MCNPX 2.4.0
+                                        COMPUTER:           Unix, Linux & Windows
+                                        PACKAGED:           08/21/2000
+                                        MOST RECENT UPDATE: 09/13/2002
+*****************************************************************************
+
+ The cross sections are for use with CCC-715/MCNPX 2.4.0.
+ This package was created by adding EL03 to D00205ALLCP02.
+
+ These ASCII data are distributed on CD in a GNU compressed Unix tar file.
+ Windows users should extract the files with WinZIP 8.0 or later.
+ Alternately, Windows users may use GNU utilities for GZIP and TAR, but these
+ utilities will require end-of-lines translation with a utility such as flip.
+
+********************************************************************************
+
+  See C715.PDF & D205.PDF in the DOC subdirectory for documentation. Various 
+  additional reports on the MCNPXDATA files are included in the distribution 
+  tar file and will be expanded to mcnpxdata/DOC on your computer.
+
+  Unix files on distribution CD
+  09/11/2002                       README_X.1ST   info on package contents
+  09/11/2002  14:28   354,556,454  D205TAR3.TGZ   MCNPXDATA files 
+
+********************************************************************************
+ On unix or linux systems:
+ Assume your CD-ROM drive is called "cdrom" and position to the parent
+ directory on your hard disk to which you will extract files from the CD.
+
+ gzip -dc /cdrom/D205TAR3.TGZ | tar xvf -
+
+********************************************************************************
+An "mcnpxdata" subdirectory will be created under the present working directory 
+and will include the files listed below. The ASCII files require approximately 
+1.2 GByte of disk space. MAKXS is distributed in the mcnpx code package and
+can be used to convert them to binary files which will be smaller. 
+
+Review the Readme* files in the DOC subdirectory for descriptions of libraries.
+./mcnpxdata:
+-rw-r--r--   1 jib      staff    18047466 Apr 12  2000 100xs
+-rw-r--r--   1 jib      staff    1270845 Apr 12  2000 531dos
+-rw-r--r--   1 jib      staff    3736121 Apr 12  2000 532dos
+drwxr-xr-x   2 jib      staff       1024 Jun  3 14:56 DOC   *ReadDATA.txt revised*
+-rw-r--r--   1 jib      staff    12789799 Apr 12  2000 dre5
+-rw-r--r--   1 jib      staff    24478380 Apr 12  2000 drmccs
+-rw-r--r--   1 jib      staff     994238 Apr 12  2000 el
+-rw-r--r--   1 jib      staff    4865984 Apr 12  2000 el03	** added **
+-rw-r--r--   1 jib      staff    14227532 Apr 12  2000 endf5mt
+-rw-r--r--   1 jib      staff    28728575 Apr 12  2000 endf5p
+-rw-r--r--   1 jib      staff    29578931 Apr 12  2000 endf5u
+-rw-r--r--   1 jib      staff    183967588 Apr 12  2000 endf60
+-rw-r--r--   1 jib      staff    172589631 Apr 12  2000 endf62mt
+-rw-r--r--   1 jib      staff    41940585 Apr 12  2000 endf6dn
+-rw-r--r--   1 jib      staff    28478061 Apr 12  2000 endl85
+-rw-r--r--   1 jib      staff    98570143 Apr 12  2000 endl92
+-rw-r--r--   1 jib      staff    5990882 Apr 12  2000 kidman
+-rw-------   1 jib      staff    77359519 Nov  2  2001 la150h
+-rw-------   1 jib      staff    202968534 Apr 10 18:07 la150n
+-rw-------   1 jib      staff    17513092 Sep 14  2000 la150u
+-rw-r--r--   1 jib      staff    3410506 Apr 12  2000 llldos
+-rw-r--r--   1 jib      staff     971639 Apr 12  2000 mcplib
+-rw-r--r--   1 jib      staff    1420622 Apr 12  2000 mcplib02
+-rw-r--r--   1 jib      staff    5913327 Apr 12  2000 mgxsnp
+-rw-r--r--   1 jib      staff    19028054 Apr 12  2000 misc5xs
+-rw-r--r--   1 jib      staff    9073173 Apr 12  2000 newxs
+-rw-r--r--   1 jib      staff    3543708 Apr 12  2000 newxsd
+-rw-r--r--   1 jib      staff    40544028 Apr 12  2000 rmccs
+-rw-r--r--   1 jib      staff    17493624 Apr  3  1997 rmccsa
+-rw-r-----   1 jib      staff        663 Sep 11 14:17 specs.dos	 * revised *
+-rw-r-----   1 jib      staff        665 Sep 11 14:19 specs.unix * revised *
+-rw-r--r--   1 jib      staff     361380 Apr 12  2000 therxs
+-rw-r--r--   1 jib      staff    11662572 Apr 12  2000 tmccs
+-rw-r-----   1 jib      staff    93621322 Feb  9  2001 uresa
+-rw-r--r--   1 jib      staff     119158 Sep 11 13:09  xsdir	 * revised *

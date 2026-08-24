@@ -1,0 +1,73 @@
+# Generated automatically from Makefile.in by configure.
+# $Id: Makefile.w32,v 1.1 2002/07/22 17:04:19 jxh Exp $
+
+include Makefile.h
+
+# SOURCEDIR is path relative to this 'make'
+SOURCEDIR = ${srcdir}
+# INCLUDE directory  is two  levels up from this SOURCEDIR
+INCLUDE = -I${SOURCEDIR}/../../include
+
+# construct a list of source files for makedepend to use
+FSRCS := $(wildcard ${SOURCEDIR}/*.F)
+HDRS := $(wildcard ${INCLUDE}/*.h) $(wildcard ${INCLUDE}/*/*.h)
+FOBJS := $(notdir $(patsubst %.F,%.o,${FSRCS}))
+
+# Sources in this directory depend upon BLOCK DATA references, 
+# so there are two targets to make
+TARGET1 = dedxd
+TARGET2 = dedx
+
+# Block Data object files
+BDOBJS = atmdat.o
+
+# Object files
+OBJS = alin.o alin3d.o dedx.o dedx0.o dedx1.o del1.o eta.o f_linhard.o  \
+shelbl.o shelbm.o sheljl.o sheljm.o sheljn.o sheljo.o sheljp.o shelkk.o \
+shelkl.o shelkm.o shellj.o shelsm.o shelsn.o shelso.o shelsp.o shelwk.o \
+shelwl.o shlbil.o shlkim.o subb1l.o subb1m.o subb2l.o subb2m.o subb3m.o \
+subk1l.o subk1m.o subk2l.o subk2m.o subk3m.o subshl.o theta.o thetag.o
+
+#----------------------------
+all : ${TARGET1}.${STATSUF} ${TARGET2}.${STATSUF}
+	@${ECHO} "$@ completed."
+
+# Help file is the shared one at the top level
+help :
+	@more ${SOURCEDIR}/../../../Readme.make
+
+# - - - - - - - - - - - - - - - - - - - 
+# how .o files emerge from .F files
+%.o : %.F
+	${FCOMP} /compile_only ${FPPFLAGS} ${FFLAGS} ${FDEFS} /object:$@ ${srcdir}\$(<F)
+# - - - - - - - - - - - - - - - - - - - 
+
+# the two targets
+${TARGET1}.${STATSUF} : ${BDOBJS}
+	${AR_CMD}${TARGET1}.${STATSUF} ${BDOBJS}
+${TARGET2}.${STATSUF} : ${OBJS}
+	${AR_CMD}${TARGET2}.${STATSUF} ${OBJS}
+
+# force make to execute every time for PHONY targets
+.PHONY : clean distclean
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean :
+	@-${RM} ${CLEANFILES}
+
+# Target distclean should clean then remove executables and dependency files
+distclean :	clean
+	@${RM} -f ${TARGET1}.* ${TARGET2}.*
+	@-${RM} -f ${DISTCLEANFILES}
+	@-${RM} -f ${CONFFILES}
+
+depend.mk: ${FSRCS} ${HDRS}
+	@${ECHO} "making dependencies for ${SOURCEDIR}"
+	@makedepend -f- -- $(FFLAGS) ${INCLUDE} -- $(FSRCS) | \
+	sed 's%^${SOURCEDIR}/%%' >depend.mk
+	@${ECHO} "depend.mk for ${SOURCEDIR} has been generated"
+
+# include depend.mk
+
+# DO NOT DELETE THIS LINE -- makedepend depends on it.
+

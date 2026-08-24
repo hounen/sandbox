@@ -1,0 +1,19 @@
+                                       2       1000        3321798
+ Energy deposition test problem for mcnpx and the mesh tally                    
+ntal     1
+    4
+tally    4   -1    0
+ 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+f        1
+      1
+d        1
+u        0
+s        0
+m        0
+c        0
+e        0
+t        0
+vals
+  8.22690E-05  .0099
+tfc    1       1       1       1       1       1       1       1       1
+       1000  8.22690E-05  9.88831E-03

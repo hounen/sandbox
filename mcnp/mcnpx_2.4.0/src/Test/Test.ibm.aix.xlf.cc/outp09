@@ -1,0 +1,683 @@
+ *****************************************************
+ *                                                   *
+ *            Copyright Notice for MCNPX             *
+ *                                                   *
+ * This program was prepared by the Regents of the   *
+ * University of California at Los Alamos National   *
+ * Laboratory (the University) under contract number *
+ * W-7405-ENG-36 with the U.S. Department of Energy  *
+ * (DOE).  The University has certain rights in the  *
+ * program pursuant to the contract and the program  *
+ * should not be copied or distributed outside your  *
+ * organization.   All rights in the program are     *
+ * reserved by the DOE and the University.  Neither  *
+ * the U.S. Government nor the University makes any  *
+ * warranty, express or implied, or assumes any      *
+ * liability or responsibility for the use of this   *
+ * software.                                         *
+ *                                                   *
+ *****************************************************
+    1-       testprob09 -- kcode in complicated cells and sdef                               
+    2-       1     1 -14.1   -1 2 3(-4:-16)5 -6(12:13:-14)(10:-9:-11:-7:6)15                 
+    3-       2     2 -7.58   -10 9 11 7 -6 -1:2 -12 14 -6 -13 3                              
+    4-       3     3 -.01    -17(1:-2:-5:6:-3:-15:16 4)                                      
+    5-       4     0 17                                                                      
+    6-                                                                                       
+    7-       1     pz 10                                                                     
+    8-       2     pz -10                                                                    
+    9-       3     py -10                                                                    
+   10-       4     py 10                                                                     
+   11-       5     px -10                                                                    
+   12-       6     px 10                                                                     
+   13-       7     px -1                                                                     
+   14-       9     py -2                                                                     
+   15-       10    py 0                                                                      
+   16-       11    pz 5                                                                      
+   17-       12    pz -8                                                                     
+   18-       13    py -3                                                                     
+   19-       14    px 2                                                                      
+   20-       15    3 kx  1 .3 1 $ MCNP4.2 cone rotation bug (X-6:HGH-92-337)                 
+   21-       16    2 kz 13 1 -1 $ MCNP4.2 cone rotation bug (X-6:HGH-92-337)                 
+   22-       17    so 20                                                                     
+   23-                                                                                       
+   24-       imp:n 1 1 1 0                                                                   
+   25-       nonu 2 0 0 0                                                                    
+ warning.  tallies with nonu card do not include any fission neutrons.
+   26-       tr3   0 0 0  0 -1 0  1 0 0  0 0 1                                               
+   27-       tr2   0 0 0  1 0 0  0 0 -1  0 1 0                                               
+   28-       kcode 150 1 10 51                                                               
+   29-       sdef  cel=1 x=d3 y=d2 z=d1 erg=d6                                               
+   30-       si1   -10 10                                                                    
+   31-       sp1    0  1                                                                     
+   32-       si3   -10 10                                                                    
+   33-       sp3    0  3                                                                     
+   34-       si2   -10 10                                                                    
+   35-       sp2 0 2                                                                         
+   36-       si6 1 2                                                                         
+   37-       sp6 -5                                                                          
+   38-       m1    92235 1   nlib=50d                                                        
+   39-       m2    29000.02c -1                                                              
+   40-       m3    8016.40c 1  7014.000 1 nlib .50                                           
+ warning.  zeros after the period will be dropped from 7014.000       
+   41-       drxs 7014                                                                       
+   42-       print 178                                                                       
+   43-       prdmp 2j -1                                                                     
+   44-       f7:n   1 2 3                                                                    
+   45-       vol  1 j 1                                                                      
+ warning.      3 entries not equal to number of cells =    4.
+   46-       fq0   e f                                                                       
+   47-       f4:n   1 2 3                                                                    
+   48-       e0               .162524  .266043  .358425  .445672  .530293  .613680           
+   49-               .696783  .780264  .864702  .950540 1.038286 1.128326 1.221111           
+   50-              1.317206 1.417070 1.521302 1.630646 1.745929 1.868073 1.998282           
+   51-              2.138046 2.289259 2.454356 2.636707 2.840830 3.073518 3.344965           
+   52-              3.672134 4.086420 4.656234 5.588725 9.000000                             
+   53-       ssw  cel 1                                                                      
+   54-                                                                                       
+  total fission nubar data are being used.
+ 
+ warning.    1 materials had unnormalized fractions. print table 40.
+
+1particles and energy limits                                                                            print table 41
+
+                         minimum       table         maximum
+   particle type         energy        energy        energy
+
+    1  n  neutron       0.0000E+00    2.0000E+01    1.0000E+37
+
+
+1LAHET physics options:                                                                                 print table 41
+
+ lca    ielas   ipreq  iexisa  ichoic   jcoul  nexite   npidk   noact    icem
+ lca        2       1       1      23       1       1       0       1       0
+
+ lcb    flenb(i),i=1,6                                                          ctofe       flim0
+ lcb    3.4900E+03  3.4900E+03  2.4900E+03  2.4900E+03  8.0000E+02  8.0000E+02 -1.0000E+00 -1.0000E+00
+
+ lea     ipht     icc  nobalc  nobale   ifbrk  ilvden   ievap   nofis
+ lea        1       4       1       0       1       0       0       1
+
+ leb    yzere       bzere       yzero       bzero
+ leb    1.5000E+00  8.0000E+00  1.5000E+00  1.0000E+01
+
+1cells                                                                                                  print table 60
+
+                      atom        gram                                     neutron                                       
+        cell  mat    density     density     volume       mass     pieces  importance                                    
+
+     1     1    1  3.61255E-02 1.41000E+01 1.00000E+00 1.41000E+01      0  1.0000E+00                                    
+     2     2    2  7.18335E-02 7.58000E+00 2.22000E+02 1.68276E+03      0  1.0000E+00                                    
+     3     3    3  4.01496E-04 1.00000E-02 1.00000E+00 1.00000E-02      0  1.0000E+00                                    
+     4     4    0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00      0  0.0000E+00                                    
+
+ total                                     2.24000E+02 1.69687E+03
+
+         4 warning messages so far.
+1cross-section tables                                                                                   print table 100
+
+     table    length
+
+                        tables from file testlib1                                                        
+
+   8016.40c    5358   ENDL library name:  nd900719  MCNP translation:  900831 14:10:05                       900207    
+                     temperature = 2.5860E-08 adjusted to 2.5300E-08
+  29000.02c    4087  cu        uk 1967                                                          (  2249)     17jan75   
+                     temperature = 0.0000E+00 adjusted to 2.5300E-08
+   7014.50d   15517  njoy                                                                       (  1275)      79/09/08.
+  92235.50d    6819  njoy                                               total nu                (  1395)      79/09/12.
+ 
+ warning.   92235.50d lacks delayed neutron cross sections.
+
+  total       31781
+ 
+ warning.  neutron energy cutoff is below some cross-section tables.
+ 
+ warning.     2 cross sections modified by free gas thermal treatment.
+
+
+
+
+
+ decimal words of dynamically allocated storage
+
+         7 warning messages so far.
+1estimated keff results by cycle                                                                        print table 175
+ warning.  tally not scored beyond last energy bin.                    
+ nps =      2244     nrn =           88703     tal =    4     erg = 9.0056E+00      
+ warning.  tally not scored beyond last energy bin.                    
+ nps =      2244     nrn =           88703     tal =    7     erg = 9.0056E+00      
+
+  estimator     cycle    47   ave of    37 cycles      combination         simple average    combined average     corr
+ k(collision)       .854942        .996764  .0109     k(col/abs)           .996764  .0109      .996764  .0109   1.0000
+ k(absorption)      .854942        .996764  .0109     k(abs/tk ln)         .997289  .0087      .997518  .0086    .5584
+ k(trk length)      .902672        .997815  .0089     k(tk ln/col)         .997289  .0087      .997518  .0086    .5584
+ rem life(col)   1.1576E+00     1.1938E+00  .0106     k(col/abs/tk ln)     .997114  .0092      .997518  .0086
+ rem life(abs)   1.1576E+00     1.1938E+00  .0106     life(col/abs/tl)  1.1932E+00  .0103   1.1917E+00  .0100
+ source points generated    128
+
+  estimator     cycle    48   ave of    38 cycles      combination         simple average    combined average     corr
+ k(collision)       .993804        .996686  .0106     k(col/abs)           .996686  .0106      .996686  .0106   1.0000
+ k(absorption)      .993804        .996686  .0106     k(abs/tk ln)         .997292  .0085      .997556  .0084    .5583
+ k(trk length)     1.000994        .997898  .0087     k(tk ln/col)         .997292  .0085      .997556  .0084    .5583
+ rem life(col)   1.3477E+00     1.1978E+00  .0109     k(col/abs/tk ln)     .997090  .0090      .997556  .0084
+ rem life(abs)   1.3477E+00     1.1978E+00  .0109     life(col/abs/tl)  1.1969E+00  .0104   1.1938E+00  .0100
+ source points generated    166
+
+  estimator     cycle    49   ave of    39 cycles      combination         simple average    combined average     corr
+ k(collision)       .983776        .996355  .0103     k(col/abs)           .996355  .0103      .996355  .0103   1.0000
+ k(absorption)      .983776        .996355  .0103     k(abs/tk ln)         .996074  .0084      .995971  .0083    .5492
+ k(trk length)      .915785        .995793  .0087     k(tk ln/col)         .996074  .0084      .995971  .0083    .5492
+ rem life(col)   1.0479E+00     1.1940E+00  .0111     k(col/abs/tk ln)     .996168  .0088      .995971  .0083
+ rem life(abs)   1.0479E+00     1.1940E+00  .0111     life(col/abs/tl)  1.1930E+00  .0107   1.1898E+00  .0104
+ source points generated    144
+
+  estimator     cycle    50   ave of    40 cycles      combination         simple average    combined average     corr
+ k(collision)       .907680        .994138  .0103     k(col/abs)           .994138  .0103      .994138  .0103   1.0000
+ k(absorption)      .907680        .994138  .0103     k(abs/tk ln)         .993461  .0086      .993249  .0086    .5776
+ k(trk length)      .875440        .992784  .0090     k(tk ln/col)         .993461  .0086      .993249  .0086    .5776
+ rem life(col)   1.2792E+00     1.1961E+00  .0109     k(col/abs/tk ln)     .993687  .0090      .993249  .0086
+ rem life(abs)   1.2792E+00     1.1961E+00  .0109     life(col/abs/tl)  1.1953E+00  .0106   1.1929E+00  .0103
+ source points generated    128
+
+  estimator     cycle    51   ave of    41 cycles      combination         simple average    combined average     corr
+ k(collision)       .871606        .991150  .0105     k(col/abs)           .991150  .0105      .991150  .0105   1.0000
+ k(absorption)      .871606        .991150  .0105     k(abs/tk ln)         .991210  .0087      .991233  .0086    .5941
+ k(trk length)      .930726        .991270  .0090     k(tk ln/col)         .991210  .0087      .991233  .0086    .5941
+ rem life(col)   1.1408E+00     1.1947E+00  .0107     k(col/abs/tk ln)     .991190  .0091      .991233  .0086
+ rem life(abs)   1.1408E+00     1.1948E+00  .0107     life(col/abs/tl)  1.1941E+00  .0104   1.1922E+00  .0101
+ source points generated    136
+
+ source distribution written to file inp09s          cycle =    51
+1problem summary (active cycles only)              source particle weight for summary table normalization =     6150.00
+
+      run terminated when    51 kcode cycles were done.
+
+ neutron creation       tracks   weight        energy            neutron loss           tracks   weight        energy
+                                 (per source particle)                                           (per source particle)
+
+ source                6114    1.0000E+00    2.0327E+00          escape                5308    5.8296E-01    9.7906E-01
+ nucl. interaction        0    0.            0.                  energy cutoff            0    0.            0.        
+ particle decay           0    0.            0.                  time cutoff              0    0.            0.        
+ weight window            0    0.            0.                  weight window            0    0.            0.        
+ cell importance          0    0.            0.                  cell importance          0    0.            0.        
+ weight cutoff            0    3.2034E-02    1.7301E-02          weight cutoff          820    3.0645E-02    1.6386E-02
+ energy importance        0    0.            0.                  energy importance        0    0.            0.        
+ dxtran                   0    0.            0.                  dxtran                   0    0.            0.        
+ forced collisions        0    0.            0.                  forced collisions        0    0.            0.        
+ exp. transform           0    0.            0.                  exp. transform           0    0.            0.        
+ upscattering             0    0.            0.                  downscattering           0    0.            4.1522E-01
+ photonuclear             0    0.            0.                  capture                  0    3.9897E-02    3.0389E-02
+ (n,xn)                  28    3.0467E-03    1.5160E-03          loss to (n,xn)          14    1.5233E-03    1.0479E-02
+ prompt fission           0    0.            0.                  loss to fission          0    3.8005E-01    6.0001E-01
+ delayed fission          0    0.            0.                  nucl. interaction        0    0.            0.        
+                                                                 particle decay           0    0.            0.        
+ tabular boundary         0    0.            0.                  tabular boundary         0    0.            0.        
+ tabular sampling         0    0.            0.                                                                        
+     total             6142    1.0351E+00    2.0515E+00              total             6142    1.0351E+00    2.0515E+00
+
+   number of neutrons banked                      15        average time of (shakes)              cutoffs
+   neutron tracks per source particle     9.9870E-01          escape            1.5259E+00          tco   1.0000E+34
+   neutron collisions per source particle 3.6969E+00          capture           1.1565E+00          eco   0.0000E+00
+   total neutron collisions                    22736          capture or escape 1.5022E+00          wc1  -5.0000E-01
+   net multiplication              1.0015E+00  .0004          any termination   1.2373E+00          wc2  -2.5000E-01
+
+ computer time so far in this run      .00 minutes            maximum number ever in bank         1
+ computer time in mcrun                .00 minutes            bank overflows to backup file       0
+ source particles per minute            0.0000E+00            dynamic storage         0 words,          0 bytes.
+ random numbers generated                   326732            most random numbers used was      304 in history      184
+
+ range of sampled source weights = 2.7667E-01 to 3.6585E+00
+
+ source efficiency =  .9317  in cell     1
+1neutron     activity in each cell                                                                      print table 126
+
+                 tracks     population   collisions   collisions     number        flux        average      average
+        cell    entering                               * weight     weighted     weighted   track weight   track mfp
+                                                    (per history)    energy       energy     (relative)      (cm)
+
+     1     1        6723         6128        22260    2.4102E+00   9.9073E-01   1.5922E+00   6.7988E-01   3.5910E+00
+     2     2         561          495          418    4.3740E-02   8.8059E-01   1.4162E+00   6.5598E-01   3.6962E+00
+     3     3        5558         5356           58    6.3042E-03   1.0569E+00   1.6594E+00   6.7564E-01   1.1259E+03
+
+     total         12842        11979        22736    2.4602E+00
+
+ the initial fission neutron source distribution was generated from a general sdef source description.
+ the criticality problem was scheduled to skip  10 cycles and run a total of   51 cycles with nominally      150 neutrons per cycle.
+ this problem has run  10 inactive cycles with     1716 neutron histories and   41 active cycles with        6114 neutron histories.
+
+
+ this calculation has completed the requested number of keff cycles using a total of        7830 fission neutron source histories.
+ all cells with fissionable material were sampled and had fission neutron source points.
+
+
+ the results of the w test for normality applied to the individual collision, absorption, and track-length keff cycle values are:
+
+           the k( collision) cycle values appear normally distributed at the 95 percent confidence level                       
+           the k(absorption) cycle values appear normally distributed at the 95 percent confidence level                       
+           the k(trk length) cycle values appear normally distributed at the 95 percent confidence level                       
+
+
+ -----------------------------------------------------------------------------------------------------------------------------------
+ |                                                                                                                                 |
+ | the final estimated combined collision/absorption/track-length keff =  .99123 with an estimated standard deviation of  .00857   |
+ |                                                                                                                                 |
+ | the estimated 68, 95, & 99 percent keff confidence intervals are  .98259 to  .99987,  .97388 to 1.00859, and  .96799 to 1.01448 |
+ |                                                                                                                                 |
+ | the final combined (col/abs/tl) prompt removal lifetime = 1.1922E-08 seconds with an estimated standard deviation of 1.2024E-10 |
+ |                                                                                                                                 |
+ -----------------------------------------------------------------------------------------------------------------------------------
+
+
+ the estimated average keffs, one standard deviations, and 68, 95, and 99 percent confidence intervals are:
+
+        keff estimator       keff     standard deviation      68% confidence        95% confidence        99% confidence       corr
+
+             collision      .99115          .01045           .98063 to 1.00167     .97003 to 1.01227     .96289 to 1.01941
+            absorption      .99115          .01045           .98063 to 1.00167     .97003 to 1.01227     .96289 to 1.01941
+          track length      .99127          .00888           .98233 to 1.00021     .97331 to 1.00923     .96725 to 1.01529
+            col/absorp      .99115          .01045           .98062 to 1.00168     .97002 to 1.01228     .96286 to 1.01944    1.0000
+           abs/trk len      .99123          .00857           .98259 to  .99987     .97390 to 1.00857     .96803 to 1.01444     .5941
+           col/trk len      .99123          .00857           .98259 to  .99987     .97390 to 1.00857     .96803 to 1.01444     .5941
+       col/abs/trk len      .99123          .00857           .98259 to  .99987     .97388 to 1.00859     .96799 to 1.01448
+
+
+ if the largest of each keff occurred on the next cycle, the keff results and 68, 95, and 99 percent confidence intervals would be:
+
+        keff estimator       keff     standard deviation      68% confidence        95% confidence        99% confidence
+
+             collision      .99424          .01065           .98351 to 1.00497     .97272 to 1.01576     .96546 to 1.02303
+            absorption      .99424          .01065           .98351 to 1.00497     .97272 to 1.01576     .96546 to 1.02303
+          track length      .99426          .00917           .98503 to 1.00349     .97574 to 1.01278     .96949 to 1.01903
+       col/abs/trk len      .99425          .00890           .98528 to 1.00322     .97624 to 1.01224     .97015 to 1.01831
+
+
+ the estimated average prompt removal lifetimes, one standard deviations, and 68, 95, and 99 percent confidence intervals are (sec):
+
+       estimator      lifetime     std. dev.         68% confidence           95% confidence           99% confidence           corr
+
+       collision   1.19474E-08   1.28261E-10    1.1818E-08 to 1.2077E-08 1.1688E-08 to 1.2206E-08 1.1601E-08 to 1.2294E-08
+      absorption   1.19477E-08   1.28282E-10    1.1818E-08 to 1.2077E-08 1.1689E-08 to 1.2207E-08 1.1601E-08 to 1.2294E-08
+    track length   1.19284E-08   1.19035E-10    1.1809E-08 to 1.2048E-08 1.1688E-08 to 1.2169E-08 1.1607E-08 to 1.2250E-08
+      col/absorp   1.19408E-08   1.30707E-10    1.1809E-08 to 1.2073E-08 1.1676E-08 to 1.2205E-08 1.1587E-08 to 1.2295E-08    1.0000
+     abs/trk len   1.19216E-08   1.20255E-10    1.1800E-08 to 1.2043E-08 1.1678E-08 to 1.2165E-08 1.1596E-08 to 1.2247E-08     .9589
+     col/trk len   1.19216E-08   1.20240E-10    1.1800E-08 to 1.2043E-08 1.1678E-08 to 1.2165E-08 1.1596E-08 to 1.2247E-08     .9591
+ col/abs/trk len   1.19216E-08   1.20240E-10    1.1800E-08 to 1.2043E-08 1.1678E-08 to 1.2165E-08 1.1596E-08 to 1.2247E-08
+
+ absorption estimates of prompt lifetimes (sec):
+
+                             escape        capture        fission        removal
+
+            lifespan    1.52588E-08    1.15646E-08    6.91823E-09    1.19512E-08
+            fraction    5.81269E-01    3.97809E-02    3.78950E-01    1.00000E+00
+       lifetime(abs)    2.05545E-08    3.00337E-07    3.15284E-08    1.19477E-08
+     lifetime(c/a/t)    2.05097E-08    2.99682E-07    3.14597E-08    1.19216E-08
+
+
+ no batch keff table is available because there is not a factor for   41 active cycles to produce a combined keff estimator.
+1individual and average keff estimator results by cycle
+
+  keff     neutron    keff estimators by cycle           average keff estimators and deviations                average k(c/a/t)
+ cycle   histories   k(coll)  k(abs)  k(track)     k(coll)  st dev    k(abs)  st dev   k(track) st dev    k(c/a/t)  st dev    fom
+
+     1         150 |  .25562   .25562   .23769  | 
+     2          41 |  .62820   .62820   .77801  | 
+     3         366 |  .95914   .95914   .97417  | 
+     4         255 |  .94244   .94244   .94799  | 
+     5         147 | 1.01098  1.01098  1.00458  | 
+     6         170 |  .95407   .95407   .96191  | 
+     7         148 | 1.03552  1.03552  1.05384  | 
+     8         150 | 1.05819  1.05819  1.01534  | 
+     9         145 | 1.01033  1.01033  1.00705  | 
+    10         144 | 1.01436  1.01436  1.00902  | 
+ -------------------  begin active keff cycles  ------------------------------------------------------------------------------------
+    11         148 | 1.12108  1.12108  1.03296  | 
+    12         168 | 1.01514  1.01514   .99591  |  1.06811  .05297   1.06811  .05297   1.01443  .01853  | 
+    13         135 |  .93513   .93513  1.01945  |  1.02378  .05385   1.02378  .05385   1.01611  .01083  | 
+    14         133 |  .93251   .93251  1.05261  |  1.00096  .04439   1.00096  .04439   1.02523  .01191  |  1.02285  .01398          
+    15         140 | 1.02105  1.02105  1.06680  |  1.00498  .03462   1.00498  .03462   1.03355  .01242  |  1.03004  .01428          
+    16         160 | 1.02167  1.02167   .98231  |  1.00776  .02840   1.00776  .02840   1.02501  .01326  |  1.02156  .01329          
+    17         163 | 1.10536  1.10536  1.05670  |  1.02170  .02776   1.02170  .02776   1.02953  .01208  |  1.02853  .01268          
+    18         160 | 1.04557  1.04557   .98928  |  1.02469  .02423   1.02469  .02423   1.02450  .01161  |  1.02453  .01152          
+    19         136 |  .99655   .99655   .97113  |  1.02156  .02159   1.02156  .02159   1.01857  .01183  |  1.01918  .01161          
+    20         143 | 1.01655  1.01655   .97049  |  1.02106  .01932   1.02106  .01932   1.01376  .01163  |  1.01551  .01115          
+ -----------------------------------------------------------------------------------------------------------------------------------
+    21         152 | 1.05881  1.05881   .96507  |  1.02449  .01781   1.02449  .01781   1.00934  .01141  |  1.01366  .01053          
+    22         150 |  .85118   .85118   .89746  |  1.01005  .02175   1.01005  .02175   1.00001  .01398  |  1.00145  .01453          
+    23         109 |  .89239   .89239   .94957  |  1.00100  .02196   1.00100  .02196    .99613  .01343  |   .99650  .01399          
+    24         149 |  .91539   .91539   .93841  |   .99488  .02123    .99488  .02123    .99201  .01310  |   .99215  .01362          
+    25         166 |  .98011   .98011   .87928  |   .99390  .01979    .99390  .01979    .98450  .01433  |   .98638  .01456          
+    26         164 |  .92249   .92249   .92873  |   .98944  .01904    .98944  .01904    .98101  .01385  |   .98258  .01409          
+    27         168 | 1.01724  1.01724  1.04559  |   .99107  .01796    .99107  .01796    .98481  .01355  |   .98617  .01362          
+    28         149 | 1.05302  1.05302  1.00541  |   .99451  .01728    .99451  .01728    .98595  .01283  |   .98766  .01298          
+    29         147 | 1.00112  1.00112  1.11683  |   .99486  .01635    .99486  .01635    .99284  .01395  |   .99355  .01322          
+    30         143 | 1.05794  1.05794  1.04467  |   .99801  .01582    .99801  .01582    .99543  .01349  |   .99632  .01285          
+ -----------------------------------------------------------------------------------------------------------------------------------
+    31         159 | 1.05156  1.05156  1.02282  |  1.00056  .01527   1.00056  .01527    .99674  .01289  |   .99801  .01234          
+    32         157 |  .94695   .94695  1.02333  |   .99813  .01476    .99813  .01476    .99795  .01235  |   .99801  .01173          
+    33         144 | 1.03819  1.03819  1.00125  |   .99987  .01421    .99987  .01421    .99809  .01181  |   .99867  .01123          
+    34         162 | 1.01339  1.01339  1.00025  |  1.00043  .01362   1.00043  .01362    .99818  .01130  |   .99891  .01074          
+    35         152 |  .98338   .98338   .95157  |   .99975  .01308    .99975  .01308    .99632  .01100  |   .99747  .01041          
+    36         135 |  .92558   .92558  1.03419  |   .99690  .01289    .99690  .01289    .99777  .01067  |   .99748  .00998          
+    37         156 |  .90119   .90119   .95792  |   .99335  .01290    .99335  .01290    .99630  .01037  |   .99539  .00985          
+    38         162 | 1.05574  1.05574  1.01362  |   .99558  .01262    .99558  .01262    .99692  .01001  |   .99652  .00954          
+    39         182 | 1.00065  1.00065  1.00955  |   .99576  .01218    .99576  .01218    .99735  .00967  |   .99688  .00921          
+    40         114 | 1.06670  1.06670  1.11195  |   .99812  .01200    .99812  .01200   1.00117  .01009  |  1.00015  .00954          
+ -----------------------------------------------------------------------------------------------------------------------------------
+    41         170 | 1.09292  1.09292  1.05715  |  1.00118  .01201   1.00118  .01201   1.00298  .00993  |  1.00242  .00948          
+    42         158 | 1.01913  1.01913   .99804  |  1.00174  .01164   1.00174  .01164   1.00282  .00962  |  1.00249  .00917          
+    43         138 |  .96363   .96363   .97296  |  1.00058  .01134   1.00058  .01134   1.00192  .00936  |  1.00151  .00894          
+    44         136 | 1.00457  1.00457  1.00658  |  1.00070  .01100   1.00070  .01100   1.00205  .00908  |  1.00164  .00867          
+    45         148 | 1.00069  1.00069   .94667  |  1.00070  .01068   1.00070  .01068   1.00047  .00896  |  1.00055  .00849          
+    46         144 | 1.00076  1.00076   .99995  |  1.00070  .01038   1.00070  .01038   1.00046  .00871  |  1.00054  .00824          
+    47         148 |  .85494   .85494   .90267  |   .99676  .01084    .99676  .01084    .99781  .00887  |   .99752  .00859          
+    48         128 |  .99380   .99380  1.00099  |   .99669  .01055    .99669  .01055    .99790  .00864  |   .99756  .00836          
+    49         166 |  .98378   .98378   .91578  |   .99636  .01028    .99636  .01028    .99579  .00867  |   .99597  .00829          
+    50         144 |  .90768   .90768   .87544  |   .99414  .01026    .99414  .01026    .99278  .00897  |   .99325  .00855          
+ -----------------------------------------------------------------------------------------------------------------------------------
+    51         128 |  .87161   .87161   .93073  |   .99115  .01045    .99115  .01045    .99127  .00888  |   .99123  .00857          
+
+
+  the largest active cycle keffs by estimator are:                               the smallest active cycle keffs by estimator are:
+
+                   collision 1.12108 on cycle  11                                                  collision  .85118 on cycle  22
+                  absorption 1.12108 on cycle  11                                                 absorption  .85118 on cycle  22
+                track length 1.11683 on cycle  29                                               track length  .87544 on cycle  50
+1plot of the estimated col/abs/track-length keff one standard deviation interval versus cycle number (| = final keff =  .99123)
+
+    cycle   active  .96       .97        .98        .99       1.00       1.01       1.02       1.03       1.04        1.05  
+   number   cycles  |---------|----------|----------|----------|----------|----------|----------|----------|-----------|
+       16        6  |                                |                  (--------------k--------------)                |
+       17        7  |                                |                           (-------------k-------------)         |
+       18        8  |                                |                       (------------k------------)               |
+       19        9  |                                |                 (------------k------------)                     |
+       20       10  |                                |              (-----------k------------)                         |
+       21       11  |                                |            (-----------k-----------)                            |
+       22       12  |                           (----|-----------k---------------)                                     |
+       23       13  |                       (--------|-----k---------------)                                           |
+       24       14  |                  (-------------|k--------------)                                                 |
+       25       15  +           (---------------k----|----------)                                                      +
+       26       16  |       (---------------k--------|-----)                                                           |
+       27       17  |           (---------------k----|---------)                                                       |
+       28       18  |              (-------------k---|----------)                                                      |
+       29       19  |                    (-----------|--k-------------)                                                |
+       30       20  |                        (-------|-----k-------------)                                             |
+       31       21  |                          (-----|-------k------------)                                            |
+       32       22  |                           (----|-------k------------)                                            |
+       33       23  |                            (---|-------k------------)                                            |
+       34       24  |                             (--|--------k-----------)                                            |
+       35       25  +                            (---|------k-----------)                                              +
+       36       26  |                            (---|------k----------)                                               |
+       37       27  |                          (-----|----k----------)                                                 |
+       38       28  |                           (----|-----k----------)                                                |
+       39       29  |                            (---|-----k----------)                                                |
+       40       30  |                                |---------k----------)                                            |
+       41       31  |                                | (----------k---------)                                          |
+       42       32  |                                |  (---------k---------)                                          |
+       43       33  |                                | (---------k---------)                                           |
+       44       34  |                                | (---------k--------)                                            |
+       45       35  +                                |(---------k--------)                                             +
+       46       36  |                                |(---------k--------)                                             |
+       47       37  |                              (-|------k---------)                                                |
+       48       38  |                              (-|------k---------)                                                |
+       49       39  |                            (---|----k---------)                                                  |
+       50       40  |                         (------|-k---------)                                                     |
+       51       41  |                       (--------k---------)                                                       |
+                    |---------|----------|----------|----------|----------|----------|----------|----------|-----------|
+                    .96       .97        .98        .99       1.00       1.01       1.02       1.03       1.04        1.05  
+1individual and collision/absorption/track-length keffs for different numbers of inactive cycles skipped for fission source settling
+
+   skip  active     active    average keff estimators and deviations     normality average k(c/a/t)   k(c/a/t) confidence intervals
+  cycles cycles   neutrons  k(col) st dev  k(abs) st dev  k(trk) st dev  co/ab/tl  k(c/a/t) st dev   95% confidence   99% confidence
+
+     0     51         7830|  .9707  .0182   .9707  .0182   .9732  .0170 |no/no/no|  .97282  .01712   .93838-1.00725   .92688-1.01875
+     1     50         7680|  .9850  .0115   .9850  .0115   .9879  .0086 |no/no/95|  .98775  .00873   .97020-1.00531   .96433-1.01118
+     2     49         7639|  .9923  .0090   .9923  .0090   .9922  .0076 |95/95/95|  .99220  .00741   .97729-1.00711   .97229-1.01211
+     3     48         7273|  .9930  .0092   .9930  .0092   .9925  .0078 |95/95/95|  .99267  .00755   .97745-1.00788   .97236-1.01298
+     4     47         7018|  .9941  .0093   .9941  .0093   .9935  .0079 |95/95/95|  .99366  .00765   .97824-1.00907   .97306-1.01425
+     5     46         6871|  .9937  .0095   .9937  .0095   .9932  .0081 |95/95/95|  .99338  .00781   .97762-1.00913   .97231-1.01444
+     6     45         6701|  .9946  .0097   .9946  .0097   .9939  .0082 |95/95/95|  .99413  .00795   .97807-1.01019   .97267-1.01559
+     7     44         6553|  .9936  .0099   .9936  .0099   .9926  .0083 |95/95/95|  .99289  .00804   .97665-1.00912   .97117-1.01461
+     8     43         6403|  .9921  .0100   .9921  .0100   .9921  .0085 |95/95/95|  .99208  .00818   .97553-1.00862   .96994-1.01421
+     9     42         6258|  .9917  .0102   .9917  .0102   .9917  .0087 |95/95/95|  .99170  .00837   .97475-1.00864   .96902-1.01437
+    10     41*        6114|  .9911  .0104   .9911  .0104   .9913  .0089 |95/95/95|  .99123  .00857   .97388-1.00859   .96799-1.01448
+ -----------------------------------------------------------------------------------------------------------------------------------
+    11     40         5966|  .9879  .0102   .9879  .0102   .9902  .0090 |95/95/95|  .98940  .00860   .97196-1.00683   .96603-1.01276
+    12     39         5798|  .9872  .0104   .9872  .0104   .9901  .0093 |95/95/95|  .98905  .00883   .97114-1.00695   .96504-1.01305
+    13     38         5663|  .9886  .0106   .9886  .0106   .9893  .0095 |95/95/95|  .98904  .00905   .97066-1.00743   .96438-1.01371
+    14     37         5530|  .9901  .0108   .9901  .0108   .9876  .0096 |95/95/95|  .98843  .00929   .96953-1.00733   .96307-1.01380
+    15     36         5390|  .9892  .0111   .9892  .0111   .9854  .0096 |95/95/95|  .98655  .00939   .96744-1.00567   .96087-1.01224
+    16     35         5230|  .9883  .0113   .9883  .0113   .9855  .0099 |95/95/95|  .98634  .00966   .96667-1.00601   .95990-1.01279
+    17     34         5067|  .9849  .0111   .9849  .0111   .9834  .0099 |95/95/95|  .98390  .00958   .96436-1.00344   .95761-1.01019
+    18     33         4907|  .9830  .0113   .9830  .0113   .9832  .0102 |95/95/95|  .98314  .00984   .96304-1.00325   .95608-1.01020
+    19     32         4771|  .9826  .0117   .9826  .0117   .9836  .0106 |95/95/95|  .98323  .01016   .96244-1.00402   .95522-1.01124
+    20     31         4628|  .9815  .0120   .9815  .0120   .9840  .0109 |95/95/95|  .98310  .01051   .96157-1.00463   .95405-1.01214
+ -----------------------------------------------------------------------------------------------------------------------------------
+    21     30         4476|  .9789  .0121   .9789  .0121   .9846  .0113 |95/95/95|  .98243  .01091   .96004-1.00482   .95220-1.01267
+    22     29         4326|  .9833  .0117   .9833  .0117   .9877  .0112 |95/95/95|  .98573  .01061   .96391-1.00755   .95624-1.01522
+    23     28         4217|  .9866  .0116   .9866  .0116   .9890  .0115 |95/95/95|  .98781  .01072   .96573-1.00989   .95793-1.01770
+    24     27         4068|  .9892  .0117   .9892  .0117   .9909  .0118 |95/95/95|  .99003  .01086   .96761-1.01246   .95964-1.02042
+    25     26         3902|  .9896  .0122   .9896  .0122   .9952  .0114 |95/95/95|  .99290  .01106   .97003-1.01578   .96185-1.02396
+    26     25         3738|  .9922  .0124   .9922  .0124   .9978  .0116 |95/95/95|  .99557  .01116   .97243-1.01871   .96412-1.02702
+    27     24         3570|  .9912  .0129   .9912  .0129   .9958  .0119 |95/95/95|  .99403  .01149   .97014-1.01793   .96150-1.02657
+    28     23         3421|  .9885  .0131   .9885  .0131   .9954  .0124 |95/95/95|  .99253  .01199   .96752-1.01754   .95841-1.02665
+    29     22         3274|  .9879  .0137   .9879  .0137   .9899  .0116 |95/95/95|  .98947  .01173   .96491-1.01403   .95591-1.02303
+    30     21         3131|  .9846  .0140   .9846  .0140   .9873  .0119 |95/95/95|  .98664  .01196   .96152-1.01177   .95221-1.02107
+ -----------------------------------------------------------------------------------------------------------------------------------
+    31     20         2972|  .9813  .0143   .9813  .0143   .9855  .0124 |95/95/95|  .98434  .01240   .95818-1.01049   .94840-1.02027
+    32     19         2815|  .9831  .0149   .9831  .0149   .9835  .0129 |95/95/95|  .98343  .01299   .95589-1.01096   .94549-1.02136
+    33     18         2671|  .9800  .0154   .9800  .0154   .9826  .0136 |95/95/95|  .98186  .01368   .95270-1.01102   .94156-1.02216
+    34     17         2509|  .9780  .0162   .9780  .0162   .9815  .0144 |95/95/95|  .98053  .01448   .94947-1.01159   .93742-1.02364
+    35     16         2357|  .9777  .0173   .9777  .0173   .9834  .0152 |95/95/95|  .98190  .01546   .94850-1.01530   .93533-1.02847
+    36     15         2222|  .9812  .0181   .9812  .0181   .9800  .0158 |95/95/95|  .98018  .01631   .94464-1.01572   .93035-1.03001
+    37     14         2066|  .9869  .0184   .9869  .0184   .9816  .0169 |95/95/95|  .98289  .01753   .94429-1.02148   .92842-1.03735
+    38     13         1904|  .9816  .0191   .9816  .0191   .9791  .0180 |95/95/95|  .97995  .01849   .93873-1.02116   .92134-1.03856
+    39     12         1722|  .9800  .0207   .9800  .0207   .9766  .0194 |95/95/95|  .97767  .02006   .93228-1.02305   .91248-1.04285
+    40     11         1608|  .9721  .0209   .9721  .0209   .9643  .0164 |95/95/95|  .96354  .01766   .92279-1.00429   .90426-1.02282
+ -----------------------------------------------------------------------------------------------------------------------------------
+    41     10         1438|  .9601  .0189   .9601  .0189   .9550  .0150 |99/99/95|  .95547  .01599   .91765- .99328   .89950-1.01143
+    42      9         1280|  .9535  .0198   .9535  .0198   .9502  .0159 |99/99/95|  .95069  .01689   .90937- .99202   .88807-1.01332
+    43      8         1142|  .9522  .0224   .9522  .0224   .9474  .0177 |99/99/95|  .94799  .01914   .89878- .99720   .87079-1.02518
+    44      7         1006|  .9448  .0244   .9448  .0244   .9389  .0180 |95/95/95|  .93946  .01977   .88457- .99436   .84843-1.03049
+    45      6          858|  .9354  .0267   .9354  .0267   .9376  .0212 |95/95/95|  .93725  .02350   .86244-1.01206   .79997-1.07453
+    46      5          714|  .9224  .0285   .9224  .0285   .9251  .0210 |95/95/95|  .92463  .02382   .82213-1.02713   .68821-1.16105
+    47      4          566|  .9392  .0296   .9392  .0296   .9307  .0262 |95/95/95|  .93388  .03004   .55206-1.31569   .00000-2.84624
+    48      3          438|  .9210  .0331   .9210  .0331   .9073  .0165 |
+    49      2          272|  .8896  .0180   .8896  .0180   .9031  .0276 |
+
+
+ the minimum estimated standard deviation for the col/abs/tl keff estimator occurs with   2 inactive cycles and   49 active cycles.
+
+
+ the first active half of the problem skips 10 cycles and uses  20 active cycles; the second half skips  30 and uses  21 cycles.
+ the col/abs/trk-len keff, one standard deviation, and 68, 95, and 99 percent intervals for each active half of the problem are:
+
+              problem        keff     standard deviation       68% confidence         95% confidence         99% confidence
+
+            first half      .99632          .01285            .98315 to 1.00949      .96921 to 1.02343      .95907 to 1.03357
+           second half      .98664          .01196            .97441 to  .99888      .96152 to 1.01177      .95221 to 1.02107
+          final result      .99123          .00857            .98259 to  .99987      .97388 to 1.00859      .96799 to 1.01448
+
+ the first and second half values of k(collision/absorption/track length) appear to be the same at the 68 percent confidence level.
+1plot of the estimated col/abs/track-length keff one standard deviation interval by active cycle number (| = final keff =  .99123)
+
+ inactive   active  .93        .94          .95         .96          .97         .98          .99        1.00         1.01  
+   cycles   cycles  |----------|------------|-----------|------------|-----------|------------|-----------|------------|
+        0       51  |                              (--------------------k--------------------) |                       |
+        1       50  |                                                           (----------k---|------)                |
+        2       49  |                                                                  (-------|k---------)            |
+        3       48  |                                                                  (-------|-k--------)            |
+        4       47  |                                                                    (-----|--k---------)          |
+        5       46  |                                                                   (------|--k--------)           |
+        6       45  |                                                                    (-----|---k---------)         |
+        7       44  |                                                                  (-------|-k---------)           |
+        8       43  |                                                                 (--------|k---------)            |
+        9       42  +                                                                (---------|k---------)            +
+       10       41  *                                                               (----------k----------)            *
+       11       40  |                                                             (----------k-|-------)               |
+       12       39  |                                                            (----------k--|-------)               |
+       13       38  |                                                            (----------k--|--------)              |
+       14       37  |                                                           (-----------k--|-------)               |
+       15       36  |                                                        (-----------k-----|-----)                 |
+       16       35  |                                                        (-----------k-----|-----)                 |
+       17       34  |                                                     (-----------k--------|--)                    |
+       18       33  |                                                    (-----------k---------|-)                     |
+       19       32  +                                                   (------------k---------|--)                    +
+       20       31  |                                                   (------------k---------|--)                    |
+       21       30  |                                                 (-------------k----------|--)                    |
+       22       29  |                                                      (------------k------|-----)                 |
+       23       28  |                                                        (-------------k---|--------)              |
+       24       27  |                                                           (-------------k|-----------)           |
+       25       26  |                                                              (-----------|-k-------------)       |
+       26       25  |                                                                  (-------|----k-------------)    |
+       27       24  |                                                               (----------|---k-------------)     |
+       28       23  |                                                             (------------|-k--------------)      |
+       29       22  +                                                         (--------------k-|------------)          +
+       30       21  |                                                     (--------------k-----|--------)              |
+       31       20  |                                                  (--------------k--------|------)                |
+       32       19  |                                                (---------------k---------|------)                |
+       33       18  |                                             (----------------k-----------|----)                  |
+       34       17  |                                           (-----------------k------------|----)                  |
+       35       16  |                                           (------------------k-----------|-------)               |
+       36       15  |                                        (-------------------k-------------|------)                |
+       37       14  |                                          (---------------------k---------|-----------)           |
+       38       13  |                                     (----------------------k-------------|--------)              |
+       39       12  +                                (------------------------k----------------|-------)               +
+       40       11  |                 (---------------------k----------------------)           |                       |
+       41       10  |         (-------------------k-------------------)                        |                       |
+                    |----------|------------|-----------|------------|-----------|------------|-----------|------------|
+                    .93        .94          .95         .96          .97         .98          .99        1.00         1.01  
+1tally   4        nps =     7830
+           tally type 4    track length estimate of particle flux.      units   1/cm**2   
+           particle(s): neutron    
+ number of histories used for normalizing tallies =     6150.00
+
+           volumes 
+                   cell:       1            2            3                                                         
+                         1.00000E+00  2.22000E+02  1.00000E+00
+ 
+         cell:           1                    2                    3                                               
+      energy
+    1.6252E-01   4.40575E-01  .0555   4.63467E-05  .2125   2.61573E-01  .0678
+    2.6604E-01   4.56910E-01  .0532   3.72415E-05  .1987   2.75672E-01  .0622
+    3.5842E-01   4.02078E-01  .0538   3.27294E-05  .2512   2.88374E-01  .0632
+    4.4567E-01   4.29151E-01  .0540   2.52181E-05  .2395   3.00813E-01  .0615
+    5.3029E-01   4.30292E-01  .0555   4.55160E-05  .2263   2.70264E-01  .0658
+    6.1368E-01   3.33524E-01  .0607   4.06170E-05  .2124   2.40754E-01  .0735
+    6.9678E-01   3.50475E-01  .0618   3.24753E-05  .2533   2.36417E-01  .0722
+    7.8026E-01   3.15790E-01  .0635   1.92221E-05  .2998   1.99217E-01  .0785
+    8.6470E-01   2.97454E-01  .0643   1.95058E-05  .2699   2.10558E-01  .0766
+    9.5054E-01   2.89418E-01  .0673   3.21371E-05  .2492   1.87317E-01  .0840
+    1.0383E+00   2.66429E-01  .0666   2.49504E-05  .2883   1.95623E-01  .0824
+    1.1283E+00   2.60584E-01  .0715   2.07092E-05  .2748   1.71444E-01  .0876
+    1.2211E+00   2.13220E-01  .0720   1.10015E-05  .3093   1.60046E-01  .0914
+    1.3172E+00   2.31183E-01  .0715   1.26892E-05  .3811   1.82163E-01  .0862
+    1.4171E+00   2.39762E-01  .0716   1.90224E-05  .2783   1.61285E-01  .0914
+    1.5213E+00   2.28385E-01  .0745   2.29340E-05  .3869   1.64466E-01  .0917
+    1.6306E+00   2.18299E-01  .0754   1.08115E-05  .3705   1.46096E-01  .0984
+    1.7459E+00   2.34152E-01  .0684   2.47844E-05  .2662   1.90880E-01  .0870
+    1.8681E+00   2.23142E-01  .0744   1.38075E-05  .3002   1.47098E-01  .1010
+    1.9983E+00   1.84773E-01  .0799   2.04798E-05  .3600   1.50804E-01  .0980
+    2.1380E+00   2.09055E-01  .0757   2.01043E-05  .3181   1.81416E-01  .0908
+    2.2893E+00   2.13243E-01  .0771   1.76797E-05  .3274   1.55879E-01  .0957
+    2.4544E+00   1.99893E-01  .0795   1.38640E-05  .3503   1.41109E-01  .0978
+    2.6367E+00   2.04066E-01  .0788   9.08055E-06  .4164   1.36755E-01  .0973
+    2.8408E+00   2.12227E-01  .0760   1.98136E-05  .2943   1.40861E-01  .0995
+    3.0735E+00   2.13287E-01  .0807   2.08887E-05  .3067   1.35109E-01  .1016
+    3.3450E+00   1.84369E-01  .0800   1.13334E-05  .4373   1.44173E-01  .1004
+    3.6721E+00   1.84614E-01  .0831   1.10806E-05  .4016   1.35846E-01  .1083
+    4.0864E+00   1.94516E-01  .0829   5.49798E-06  .5072   1.39828E-01  .1044
+    4.6562E+00   1.94514E-01  .0849   1.00451E-05  .3793   1.56553E-01  .0976
+    5.5887E+00   2.01867E-01  .0827   1.24585E-05  .4587   1.55840E-01  .0975
+    9.0000E+00   1.89782E-01  .0825   1.26901E-05  .3363   1.40892E-01  .1034
+      total      8.44703E+00  .0079   6.76735E-04  .0575   5.90512E+00  .0084
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 1.608E+00)**2 = (0.000E+00)*(2.586E+00) = 0.000E+00
+1tally   7        nps =     7830
+           tally type 7    track length estimate of fission heating.    units   mev/gram  
+           particle(s): neutron    
+ number of histories used for normalizing tallies =     6150.00
+
+           masses  
+                   cell:       1            2            3                                                         
+                         1.41000E+01  1.68276E+03  1.00000E-02
+ 
+         cell:           1                    2                    3                                               
+      energy
+    1.6252E-01   3.32852E-01  .0561   0.00000E+00  .0000   0.00000E+00  .0000
+    2.6604E-01   2.86935E-01  .0533   0.00000E+00  .0000   0.00000E+00  .0000
+    3.5842E-01   2.33853E-01  .0538   0.00000E+00  .0000   0.00000E+00  .0000
+    4.4567E-01   2.40134E-01  .0540   0.00000E+00  .0000   0.00000E+00  .0000
+    5.3029E-01   2.33687E-01  .0555   0.00000E+00  .0000   0.00000E+00  .0000
+    6.1368E-01   1.77953E-01  .0607   0.00000E+00  .0000   0.00000E+00  .0000
+    6.9678E-01   1.85174E-01  .0618   0.00000E+00  .0000   0.00000E+00  .0000
+    7.8026E-01   1.66406E-01  .0635   0.00000E+00  .0000   0.00000E+00  .0000
+    8.6470E-01   1.57526E-01  .0643   0.00000E+00  .0000   0.00000E+00  .0000
+    9.5054E-01   1.57737E-01  .0673   0.00000E+00  .0000   0.00000E+00  .0000
+    1.0383E+00   1.49956E-01  .0666   0.00000E+00  .0000   0.00000E+00  .0000
+    1.1283E+00   1.46791E-01  .0715   0.00000E+00  .0000   0.00000E+00  .0000
+    1.2211E+00   1.20331E-01  .0720   0.00000E+00  .0000   0.00000E+00  .0000
+    1.3172E+00   1.31292E-01  .0715   0.00000E+00  .0000   0.00000E+00  .0000
+    1.4171E+00   1.37233E-01  .0716   0.00000E+00  .0000   0.00000E+00  .0000
+    1.5213E+00   1.32026E-01  .0745   0.00000E+00  .0000   0.00000E+00  .0000
+    1.6306E+00   1.27605E-01  .0754   0.00000E+00  .0000   0.00000E+00  .0000
+    1.7459E+00   1.38466E-01  .0685   0.00000E+00  .0000   0.00000E+00  .0000
+    1.8681E+00   1.33164E-01  .0744   0.00000E+00  .0000   0.00000E+00  .0000
+    1.9983E+00   1.10920E-01  .0799   0.00000E+00  .0000   0.00000E+00  .0000
+    2.1380E+00   1.25625E-01  .0757   0.00000E+00  .0000   0.00000E+00  .0000
+    2.2893E+00   1.27590E-01  .0771   0.00000E+00  .0000   0.00000E+00  .0000
+    2.4544E+00   1.18591E-01  .0795   0.00000E+00  .0000   0.00000E+00  .0000
+    2.6367E+00   1.19505E-01  .0788   0.00000E+00  .0000   0.00000E+00  .0000
+    2.8408E+00   1.22667E-01  .0760   0.00000E+00  .0000   0.00000E+00  .0000
+    3.0735E+00   1.21097E-01  .0807   0.00000E+00  .0000   0.00000E+00  .0000
+    3.3450E+00   1.02486E-01  .0800   0.00000E+00  .0000   0.00000E+00  .0000
+    3.6721E+00   1.00511E-01  .0831   0.00000E+00  .0000   0.00000E+00  .0000
+    4.0864E+00   1.03171E-01  .0829   0.00000E+00  .0000   0.00000E+00  .0000
+    4.6562E+00   1.00737E-01  .0849   0.00000E+00  .0000   0.00000E+00  .0000
+    5.5887E+00   9.97332E-02  .0827   0.00000E+00  .0000   0.00000E+00  .0000
+    9.0000E+00   1.19513E-01  .0848   0.00000E+00  .0000   0.00000E+00  .0000
+      total      4.86127E+00  .0080   0.00000E+00  .0000   0.00000E+00  .0000
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 1.587E+00)**2 = (0.000E+00)*(2.518E+00) = 0.000E+00
+1    some tally scores were not made for various reasons:
+
+                                  beyond last bin     not in
+                   tally      angle   energy   time    user         
+                      4          0      66       0       0
+                      7          0      66       0       0
+1status of the statistical checks used to form confidence intervals for the mean for each tally bin
+
+
+ tally   result of statistical checks for the tfc bin (the first check not passed is listed) and error magnitude check for all bins
+
+     4   passed the 10 statistical checks for the tally fluctuation chart bin result               
+         missed all bin error check:    99 tally bins had     0 bins with zeros and    38 bins with relative errors exceeding  .10
+
+     7   passed the 10 statistical checks for the tally fluctuation chart bin result               
+         passed all bin error check:    99 tally bins had    66 bins with zeros and     0 bins with relative errors exceeding  .10
+
+
+ the 10 statistical checks are only for the tally fluctuation chart bin and do not apply to other tally bins.
+
+ the tally bins with zeros may or may not be correct: compare the source, cutoffs, multipliers, et cetera with the tally bins.
+
+ warning.     1 of the   2 tallies had bins with relative errors greater than recommended.
+1tally fluctuation charts                         
+
+                       tally    4                                tally    7
+       nps      mean     error   vov  slope    fom      mean     error   vov  slope    fom
+      1000   0.0000E+00  .0000  .0000   .0           0.0000E+00  .0000  .0000   .0        
+      2000   8.9060E+00  .0313  .0148   .0           5.1334E+00  .0314  .0133   .0        
+      3000   8.6664E+00  .0169  .0023 10.0           4.9937E+00  .0171  .0024 10.0        
+      4000   8.3789E+00  .0132  .0013 10.0           4.8126E+00  .0133  .0013 10.0        
+      5000   8.5261E+00  .0106  .0009 10.0           4.8981E+00  .0107  .0009 10.0        
+      6000   8.5205E+00  .0093  .0007 10.0           4.8966E+00  .0094  .0007 10.0        
+      7000   8.5248E+00  .0084  .0006 10.0           4.9023E+00  .0085  .0006 10.0        
+      7830   8.4470E+00  .0079  .0005 10.0           4.8613E+00  .0080  .0005 10.0        
+ surface-source file inp09w   with nps =   6114 and    6114 tracks was written for
+     cell(s)      1
+ tally data written to file inp09m  
+
+        10 warning messages so far.
+
+
+ run terminated when    51 kcode cycles were done.

@@ -1,0 +1,37 @@
+Energy deposition test problem for mcnpx and the spherical mesh tally.
+c    Written by Ed Snow 01/19/2001
+1    1  -19.35  -1
+2    0    1  -2
+3    0    2
+
+1    so  0.05
+2    so  100.0
+
+mode e
+imp:e  1 1 0
+c
+c
+c      Material #1: Tungsten
+c      Mass density 19.35 g/cc
+m1     74000.  1.
+sdef   par=3 erg=20.
+nps    100
+c        phys:e  7j 0.0
+prdmp  j -60  -1
+print
+*f8:e   1
++f6     1
+f16:e     1
+c
+tmesh
+smesh1:e  pedep
+cora1     0.0 0.05
+corb1     180.
+corc1     360.
+smesh3
+cora3     0.0 0.05
+corb3     180.
+corc3     360.
+endmd
+
+

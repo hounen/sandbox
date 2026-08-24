@@ -1,0 +1,73 @@
+# Generated automatically from Makefile.in by configure.
+# $Id: Makefile.w32,v 1.1 2002/07/22 17:04:18 jxh Exp $
+
+include Makefile.h
+
+# SOURCEDIR is path relative to this 'make'
+SOURCEDIR = ${srcdir}
+# INCLUDE directory is one level up from this SOURCEDIR
+INCLUDE = -I${SOURCEDIR}/../include
+
+# construct a list of source files for makedepend to use
+FSRCS := $(wildcard ${SOURCEDIR}/*.F)
+HDRS := $(wildcard ${INCLUDE}/*.h) $(wildcard ${INCLUDE}/*/*.h)
+FOBJS := $(notdir $(patsubst %.F,%.o,${FSRCS}))
+
+# Add optimization settings to front of FFLAGS
+FFLAGS += ${FOPT}
+
+# available executable
+TARGET = makxs
+
+# Object files
+OBJS = makxs.o addsym.o nxtsym.o
+
+#----------------------------
+# final result is a program executable
+all : ${TARGET}	
+	@${ECHO} "$@ completed."
+
+# Help file is the shared one at the top level
+help :
+	@more ${SOURCEDIR}/../../Readme.make
+
+# You should not install until you 'make all' and 'make tests'
+# We only enforce 'make all'
+install : all
+	@${SOURCEDIR}/../../config/install-sh -c mksx ${bindir}/mkxs
+	@${ECHO} "Install of mksx into ${bindir} complete."
+
+# - - - - - - - - - - - - - - - - - - - 
+# how .o files emerge from .F files
+%.o : %.F
+	${FCOMP} /compile_only ${FPPFLAGS} ${FFLAGS} ${FDEFS} /object:$@ ${srcdir}\$(<F)
+
+# - - - - - - - - - - - - - - - - - - - 
+
+${TARGET} : ${OBJS}
+	${FCOMP} ${FFLAGS} ${LDFLAGS} /exe:$@ ${OBJS}
+
+# force make to execute every time for PHONY targets
+.PHONY : clean distclean 
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean :
+	@-${RM} ${CLEANFILES} makxs.exe
+
+# Target distclean should clean then remove executables and dependency files
+distclean : clean
+	@${RM} -f ${TARGET}
+	@-${RM} -f ${DISTCLEANFILES}
+	@-${RM} -f ${CONFFILES}
+
+depend.mk: ${FSRCS} ${HDRS}
+	@${ECHO} "making dependencies for ${SOURCEDIR}"
+	@makedepend -f- -- $(FFLAGS) ${INCLUDE} -- $(FSRCS) | \
+	sed 's%^${SOURCEDIR}/%%' >depend.mk
+	@${ECHO} "depend.mk for ${SOURCEDIR} has been generated"
+
+# include depend.mk
+
+
+# DO NOT DELETE THIS LINE -- makedepend depends on it.
+

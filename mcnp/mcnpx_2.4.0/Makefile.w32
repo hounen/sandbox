@@ -1,0 +1,59 @@
+# Generated automatically from Makefile.in by configure.
+# $Id: Makefile.w32,v 1.1 2002/07/22 17:04:17 jxh Exp $
+
+include Makefile.h
+# # # # This is the top level  MAKEFILE for building MCNPX # # # #
+
+# SOURCEDIR is path relative to this 'make' and relies on VPATH
+SOURCEDIR = ${srcdir}
+
+# Default target is first target - 'make' defaults to 'make all'.
+all : mcnpx gridconv htape3x makxs xsex3 bertin phtlib
+
+# Top level help file Readme.make is shared by all lower levels.
+help :
+	@more ${SOURCEDIR}/Readme.make
+
+# You should not 'make install' until you 'make all' and 'make tests'
+# We will only enforce 'make all'
+install : all
+	${MAKE} -C ./src install 
+
+# Force execution of 'make' every time for phony targets,
+# otherwise the matching directory names give the appearance
+# that everything is up to date.
+.PHONY : mcnpx gridconv htape3x makxs xsex3 bertin phtlib tests
+
+# Main target is mcnpx, but other targets exist.
+# Go down into the src directory to perform 'make <target>' 
+# for any of the following <targets>
+mcnpx gridconv htape3x makxs xsex3 bertin phtlib :
+	@${MAKE} -C ./src $@
+
+# Go down into the src directory to perform 'make <target>' 
+# for any of the following test <targets>
+tests single meshtal htape generate-test-data :
+	@${MAKE} -C ./src $@
+
+# The m, o, d, t, x, examine targets are for convenience utilities
+# when looking at test results - pass them down.
+.PHONY : m o d t x examine
+m o d t x examine :
+	@${MAKE} -C ./src $@
+
+# Force 'make' to execute every time for PHONY targets.
+.PHONY : clean distclean 
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean :
+	@-${RM} ${CLEANFILES} ${SOURCES}
+	@${MAKE} -C ./src clean 
+
+# Target distclean should clean then remove executables and dependency files
+distclean : clean
+	@-${RM} ${DISTCLEANFILES}
+	@-${RM} ${CONFFILES}	
+	@${MAKE} -C ./src distclean
+	@-${RM} -rf src
+
+# DO NOT DELETE THIS LINE - makedepend depends on it

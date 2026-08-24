@@ -1,0 +1,26 @@
+  MCNPX test problem 30
+  HTAPE3 tally of INC particle production
+3,41,,,,1,,0,8*,1/
+-0.2,10000.1/
+11/
+  MCNPX test problem 30
+  HTAPE3 tally of INC excitation energy spectrum
+5,,,,,1/
+11/
+  MCNPX test problem 30
+  HTAPE3 tally of INC residual production
+8,,,,,1,,,,1/
+11/
+  MCNPX test problem 30
+  HTAPE3 tally of INC gas production
+14,,,,,1/
+11/
+  MCNPX test problem 30
+  HTAPE3 tally of INC collision rate
+15,,,,,1,,,,1/
+11/
+  MCNPX test problem 30
+  HTAPE3 tally of INC recoil energy
+16,36,,,1,1/
+-0.2,1000./
+12/

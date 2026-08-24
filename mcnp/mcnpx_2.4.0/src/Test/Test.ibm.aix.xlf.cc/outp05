@@ -1,0 +1,334 @@
+ *****************************************************
+ *                                                   *
+ *            Copyright Notice for MCNPX             *
+ *                                                   *
+ * This program was prepared by the Regents of the   *
+ * University of California at Los Alamos National   *
+ * Laboratory (the University) under contract number *
+ * W-7405-ENG-36 with the U.S. Department of Energy  *
+ * (DOE).  The University has certain rights in the  *
+ * program pursuant to the contract and the program  *
+ * should not be copied or distributed outside your  *
+ * organization.   All rights in the program are     *
+ * reserved by the DOE and the University.  Neither  *
+ * the U.S. Government nor the University makes any  *
+ * warranty, express or implied, or assumes any      *
+ * liability or responsibility for the use of this   *
+ * software.                                         *
+ *                                                   *
+ *****************************************************
+    1-       testprob05 -- toroidal tokamak                                                  
+    2-       1     0         1 -16 -13 19      imp:n=1                                       
+    3-       2     0         1 16 -10 18       imp:n=1                                       
+    4-       3     1 .04688  1 5 -11 10        imp:n=1                                       
+    5-       4     2 .1125   1 9 -12 11 16     imp:n=1                                       
+    6-       5     3 .113    1 -7 -14 13       imp:n=1                                       
+    7-       6     4 .0933   1 -17 -15 14      imp:n=1                                       
+    8-       7     4 .0933   -3 15 -6 9        imp:n=4                                       
+    9-       8     0         7 8 -15 13 -3 -12 imp:n=1                                       
+   10-       9     1 .04688  -4 -8             imp:n=2                                       
+   11-       10    2 .1125   -3 4 -8           imp:n=4                                       
+   12-       11    0         -5 10 -13 8 -11   imp:n=1                                       
+   13-       12    0         3                 imp:n=0                                       
+   14-       13    0         -1                imp:n=0                                       
+   15-       14    0         1 -3 12 2 16      imp:n=0                                       
+   16-       15    2 .1125   -3 12 9 -2 16     imp:n=4                                       
+   17-       16    0         1 -3 15 6 -16     imp:n=0                                       
+   18-       17    3 .113    17 -7 -15 14 1    imp:n=1                                       
+   19-       18    0         -3 15 -9 8        imp:n=1                                       
+   20-       19    0         -3 11 -9 8 16     imp:n=1                                       
+   21-       20    0         1 -18 16          imp:n=1                                       
+   22-       21    0         1 -19 -16         imp:n=1                                       
+   23-                                                                                       
+   24-       *1    py  80      $ reflecting surface                                          
+   25-       2     ty  35  906.9126 105 643.48 244.7044 227.0383                             
+   26-       3     y  930 0                                                                  
++                                                                                              plane                   
+   27-       4     py  830                                                                   
+   28-       5     k/y 35  -1056.4 105 .183726                                               
+   29-       6     ty  35  906.9126 105 643.48 244.7044 227.0383                             
+   30-       7     k/y 35  1405. 105 .64                                                     
+   31-       8     ty  35  906.9126 105 643.48 170. 151.9694                                 
+   32-       9     ty  35  906.9126 105 643.48 205.8074 187.49784                            
+   33-       10    ty  35  80 105 605. 620. 505.                                             
+   34-       11    ty  35  80 105 605. 720. 605.                                             
+ warning.  singular torus.  it can fail in plotting or tracking.
+   35-       12    ty  35  80 105 605. 820. 705.                                             
+ warning.  degenerate torus.
+   36-       13    ty  35  80 105 2330. 1800. 1800.                                          
+   37-       14    ty  35  80 105 2330. 1820. 1820.                                          
+   38-       15    ty  35  80 105 2330. 1920. 1920.                                          
+   39-       16    c/y 35 105   639.6136                                                     
+   40-       17    k/y 35  1373. 105 .64                                                     
+   41-       18    ty  35  80 105 486.4769 593.5231 593.5231                                 
+ warning.  degenerate torus.
+   42-       19    ty  35  80 105 2330. 1785. 1785.                                          
+   43-                                                                                       
+   44-       c    volume source uniform in cells 20 and 21                                   
+   45-       sdef  erg d1   cel=d4   rad fcel d2   ext d3   axs=0 1 0   pos=35 80 105        
+   46-       si1   13.876 20.4123                                                            
+   47-       sp1   -6                                                                        
+   48-       ds2   s d5 d6                                                                   
+   49-       si3   0 580                                                                     
+   50-       si4   l 20 21                                                                   
+   51-       sp4   v                                                                         
+   52-       si5   639.6136 1080                                                             
+   53-       si6   545 639.6136                                                              
+   54-       c                                                                               
+   55-       m1    3007.40c .8878 5010 .1122                                                 
+   56-       m2    6012 .9944 26058.60c 1 nlib 40                                            
+   57-       m3    6012.40c 1                                                                
+   58-       m4    5010 .4707  6012 .1177                                                    
+   59-       drxs  5010   $ just to test the drxs feature.                                   
+   60-       phys:n  14.1                                                                    
+   61-       c                                                                               
+   62-       f4:n  3 9                                                                       
+   63-       fq4   f                                                                         
+   64-       f1:n  3                                                                         
+   65-       fs1   -8 -9 t                                                                   
+   66-       fq1   s                                                                         
+   67-       c                                                                               
+   68-       cut:n 2j  0 0                                                                   
+   69-       nps   1000                                                                      
+   70-       print 200                                                                       
+   71-       prdmp 2j -1 j 25      $ write mctal file.                                       
+   72-                                                                                       
+
+ surface      2   and surface      6   are the same.      6   will be deleted.
+ 
+ warning.     1 surfaces were deleted for being the same as others.
+ 
+ warning.    6012.  c and   6012.40c are both called for.
+ 
+ warning.    2 materials had unnormalized fractions. print table 40.
+
+1particles and energy limits                                                                            print table 41
+
+                         minimum       table         maximum
+   particle type         energy        energy        energy
+
+    1  n  neutron       0.0000E+00    2.0000E+01    1.4100E+01
+
+
+1LAHET physics options:                                                                                 print table 41
+
+ lca    ielas   ipreq  iexisa  ichoic   jcoul  nexite   npidk   noact    icem
+ lca        2       1       1      23       1       1       0       1       0
+
+ lcb    flenb(i),i=1,6                                                          ctofe       flim0
+ lcb    3.4900E+03  3.4900E+03  2.4900E+03  2.4900E+03  8.0000E+02  8.0000E+02 -1.0000E+00 -1.0000E+00
+
+ lea     ipht     icc  nobalc  nobale   ifbrk  ilvden   ievap   nofis
+ lea        1       4       1       0       1       0       0       1
+
+ leb    yzere       bzere       yzero       bzero
+ leb    1.5000E+00  8.0000E+00  1.5000E+00  1.0000E+01
+
+1cells                                                                                                  print table 60
+
+                      atom        gram                                     neutron                                       
+        cell  mat    density     density     volume       mass     pieces  importance                                    
+
+     1     1    0  0.00000E+00 0.00000E+00 3.27455E+07 0.00000E+00      1  1.0000E+00                                    
+     2     2    0  0.00000E+00 0.00000E+00 2.16204E+08 0.00000E+00      1  1.0000E+00                                    
+     3     3    1  4.68800E-02 5.72354E-01 5.17425E+08 2.96150E+08      1  1.0000E+00                                    
+     4     4    2  1.12500E-01 6.54429E+00 6.34876E+08 4.15482E+09      1  1.0000E+00                                    
+     5     5    3  1.13000E-01 2.25173E+00 3.95531E+07 8.90628E+07      1  1.0000E+00                                    
+     6     6    4  9.33000E-02 1.61289E+00 1.87304E+08 3.02102E+08      1  1.0000E+00                                    
+     7     7    4  9.33000E-02 1.61289E+00 2.64096E+07 4.25959E+07      1  4.0000E+00                                    
+     8     8    0  0.00000E+00 0.00000E+00 2.91713E+07 0.00000E+00      1  1.0000E+00                                    
+     9     9    1  4.68800E-02 5.72354E-01 7.28909E+07 4.17194E+07      1  2.0000E+00                                    
+    10    10    2  1.12500E-01 6.54429E+00 1.19467E+08 7.81825E+08      1  4.0000E+00                                    
+    11    11    0  0.00000E+00 0.00000E+00 3.57830E+07 0.00000E+00      1  1.0000E+00                                    
+    12    12    0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00      0  0.0000E+00                                    
+    13    13    0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00      0  0.0000E+00                                    
+    14    14    0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00      0  0.0000E+00                                    
+    15    15    2  1.12500E-01 6.54429E+00 1.67425E+07 1.09568E+08      1  4.0000E+00                                    
+    16    16    0  0.00000E+00 0.00000E+00 5.28970E+08 0.00000E+00      0  0.0000E+00                                    
+    17    17    3  1.13000E-01 2.25173E+00 8.35464E+06 1.88124E+07      1  1.0000E+00                                    
+    18    18    0  0.00000E+00 0.00000E+00 2.03097E+07 0.00000E+00      1  1.0000E+00                                    
+    19    19    0  0.00000E+00 0.00000E+00 2.99003E+07 0.00000E+00      1  1.0000E+00                                    
+    20    20    0  0.00000E+00 0.00000E+00 9.65885E+08 0.00000E+00      1  1.0000E+00                                    
+    21    21    0  0.00000E+00 0.00000E+00 1.37479E+08 0.00000E+00      1  1.0000E+00                                    
+
+ total                                     3.61947E+09 5.83665E+09
+
+    minimum source weight = 8.0310E-01    maximum source weight = 1.0000E+00
+
+         6 warning messages so far.
+1cross-section tables                                                                                   print table 100
+
+     table    length
+
+                        tables from file testlib1                                                        
+
+   3007.40c    4867   ENDL library name:  nd900719  MCNP translation:  900831 14:10:05                       900207    
+                     temperature = 2.5860E-08 adjusted to 2.5300E-08
+   6012.40c    4413   ENDL library name:  nd900719  MCNP translation:  900831 14:10:05                       900207    
+                     temperature = 2.5860E-08 adjusted to 2.5300E-08
+  26058.60c   49359  endf/b-vi.1 fe58a                                                            mat2637      11/25/93
+   5010.03d    3041   b-10 endf/b-iv   new gamma production format                              (  1273)     14 oct 75 
+                     temperature = 0.0000E+00 adjusted to 2.5300E-08
+
+  total       61680
+
+ any neutrons with energy greater than emax = 1.41000E+01 from the source or from a collision will be resampled.
+
+ neutron cross sections outside the range from 0.0000E+00 to 1.4100E+01 mev are expunged.
+ 
+ warning.  neutron energy cutoff is below some cross-section tables.
+ 
+ warning.     3 cross sections modified by free gas thermal treatment.
+
+
+
+
+
+ decimal words of dynamically allocated storage
+
+         8 warning messages so far.
+ warning.  source energy > emax.                                       
+ nps =         1     nrn =              16     erg = 1.4103E+01                     
+1problem summary                                                                                                       
+
+      run terminated when      1000 particle histories were done.
+
+ neutron creation       tracks   weight        energy            neutron loss           tracks   weight        energy
+                                 (per source particle)                                           (per source particle)
+
+ source                1000    8.0310E-01    1.3995E+01          escape                  22    6.8264E-03    3.6857E-02
+ nucl. interaction        0    0.            0.                  energy cutoff            0    0.            0.        
+ particle decay           0    0.            0.                  time cutoff              0    0.            0.        
+ weight window            0    0.            0.                  weight window            0    0.            0.        
+ cell importance        307    4.9792E-02    1.0999E-01          cell importance        146    4.4372E-02    9.9826E-02
+ weight cutoff            0    0.            0.                  weight cutoff            0    0.            0.        
+ energy importance        0    0.            0.                  energy importance        0    0.            0.        
+ dxtran                   0    0.            0.                  dxtran                   0    0.            0.        
+ forced collisions        0    0.            0.                  forced collisions        0    0.            0.        
+ exp. transform           0    0.            0.                  exp. transform           0    0.            0.        
+ upscattering             0    0.            5.2897E-09          downscattering           0    0.            1.1938E+01
+ photonuclear             0    0.            0.                  capture               1201    8.4627E-01    1.5068E+00
+ (n,xn)                 124    8.9145E-02    2.1317E-01          loss to (n,xn)          62    4.4572E-02    7.3707E-01
+ prompt fission           0    0.            0.                  loss to fission          0    0.            0.        
+ delayed fission          0    0.            0.                  nucl. interaction        0    0.            0.        
+                                                                 particle decay           0    0.            0.        
+ tabular boundary         0    0.            0.                  tabular boundary         0    0.            0.        
+ tabular sampling         0    0.            0.                                                                        
+     total             1431    9.4204E-01    1.4318E+01              total             1431    9.4204E-01    1.4318E+01
+
+   number of neutrons banked                     311        average time of (shakes)              cutoffs
+   neutron tracks per source particle     1.4310E+00          escape            3.2562E+02          tco   1.0000E+34
+   neutron collisions per source particle 3.0897E+01          capture           2.1055E+03          eco   0.0000E+00
+   total neutron collisions                    30897          capture or escape 2.0912E+03          wc1   0.0000E+00
+   net multiplication              1.0555E+00  .0067          any termination   1.9063E+03          wc2   0.0000E+00
+
+ computer time so far in this run      .00 minutes            maximum number ever in bank         4
+ computer time in mcrun                .00 minutes            bank overflows to backup file       0
+ source particles per minute            0.0000E+00            dynamic storage         0 words,          0 bytes.
+ random numbers generated                   297785            most random numbers used was     8088 in history      391
+
+ range of sampled source weights = 8.0310E-01 to 8.0310E-01
+
+ source efficiency =  .6910  in cell    20
+
+ source efficiency =  .7041  in cell    21
+
+    1362 source particles had energies > emax.
+1neutron     activity in each cell                                                                      print table 126
+
+                 tracks     population   collisions   collisions     number        flux        average      average
+        cell    entering                               * weight     weighted     weighted   track weight   track mfp
+                                                    (per history)    energy       energy     (relative)      (cm)
+
+     1     1         845          462            0    0.0000E+00   3.5456E-02   6.0631E+00   7.9455E-01   0.0000E+00
+     2     2        2102          943            0    0.0000E+00   1.2449E-01   6.0484E+00   7.9001E-01   0.0000E+00
+     3     3        1471          902        11284    9.0622E+00   7.6918E-01   3.5731E+00   8.0310E-01   1.2974E+01
+     4     4         116           98         3297    2.6478E+00   2.2271E-03   4.8176E-01   8.0310E-01   2.5609E+00
+     5     5         502          407         8244    6.6208E+00   4.7589E-03   2.8718E+00   8.0310E-01   3.5491E+00
+     6     6         142          115          460    3.6943E-01   1.6684E+00   5.1747E+00   8.0310E-01   5.6283E+00
+     7     7          69           62          254    5.0997E-02   2.3230E+00   6.3730E+00   8.0310E-01   5.5993E+00
+     8     8         158          109            0    0.0000E+00   1.2328E-01   4.8730E+00   6.5529E-01   0.0000E+00
+     9     9         373          333         2024    8.1274E-01   7.0120E-01   3.7254E+00   8.0310E-01   1.3055E+01
+    10    10         159          136         3589    7.2059E-01   1.2538E-03   2.3947E-01   8.0310E-01   2.4817E+00
+    11    11         257          195            0    0.0000E+00   2.5669E-02   5.0309E+00   6.7264E-01   0.0000E+00
+    15    15          43           36         1228    2.4655E-01   1.0460E-03   4.9088E-01   8.0310E-01   2.5106E+00
+    17    17          35           28          517    4.1521E-01   8.2364E-03   1.2523E+00   8.0310E-01   2.9044E+00
+    18    18          51           34            0    0.0000E+00   1.3499E+00   4.9590E+00   4.0139E-01   0.0000E+00
+    19    19         172           94            0    0.0000E+00   2.2392E-02   2.5779E+00   4.6536E-01   0.0000E+00
+    20    20        1905         1021            0    0.0000E+00   1.4404E-01   7.1218E+00   7.9084E-01   0.0000E+00
+    21    21         960          541            0    0.0000E+00   7.1509E-02   6.9824E+00   7.9584E-01   0.0000E+00
+
+     total          9360         5516        30897    2.0946E+01
+1tally   1        nps =     1000
+           tally type 1    number of particles crossing a surface.                        
+           particle(s): neutron    
+           segment  1:          -8                                                                                     
+           segment  2:           8       -9                                                                            
+           segment  3:           8        9                                                                            
+           segment  4:   whole surface                                                                                 
+ 
+ surface  3                                                                                                            
+      segment:            1                    2                    3                 whole                        
+                 4.01552E-04  .7064   5.82251E-03  .3126   0.00000E+00  .0000   6.22406E-03  .2992
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 1.057E-01)**2 = (0.000E+00)*(1.117E-02) = 0.000E+00
+1tally   4        nps =     1000
+           tally type 4    track length estimate of particle flux.      units   1/cm**2   
+           particle(s): neutron    
+
+           volumes 
+                   cell:       3            9                                                                      
+                         5.17425E+08  7.28909E+07
+ 
+         cell:           3                    9                                                                    
+                 2.18702E-07  .0264   1.36286E-07  .0968
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 1.198E+00)**2 = (0.000E+00)*(1.435E+00) = 0.000E+00
+1status of the statistical checks used to form confidence intervals for the mean for each tally bin
+
+
+ tally   result of statistical checks for the tfc bin (the first check not passed is listed) and error magnitude check for all bins
+
+     1   missed  3 of 10 tfc bin checks: the relative error exceeds the recommended value of 0.1 for nonpoint detector tallies     
+         missed all bin error check:     4 tally bins had     1 bins with zeros and     3 bins with relative errors exceeding  .10
+
+     4   passed the 10 statistical checks for the tally fluctuation chart bin result               
+         passed all bin error check:     2 tally bins all have relative errors less than  .10 with no zero bins
+
+
+ the 10 statistical checks are only for the tally fluctuation chart bin and do not apply to other tally bins.
+
+ the tally bins with zeros may or may not be correct: compare the source, cutoffs, multipliers, et cetera with the tally bins.
+
+ warning.     1 of the   2 tally fluctuation chart bins did not pass all 10 statistical checks.
+ warning.     1 of the   2 tallies had bins with relative errors greater than recommended.
+1tally fluctuation charts                         
+
+                       tally    1                                tally    4
+       nps      mean     error   vov  slope    fom      mean     error   vov  slope    fom
+        50   0.0000E+00  .0000  .0000   .0           2.0904E-07  .1036  .0182   .0        
+       100   6.0233E-03  .7386  .6515   .0           2.0694E-07  .0816  .0193   .0        
+       150   9.3696E-03  .6495  .6009   .0           2.1164E-07  .0661  .0107   .0        
+       200   8.0310E-03  .5820  .5532   .0           2.1862E-07  .0564  .0085   .0        
+       250   6.4248E-03  .5829  .5558   .0           2.2470E-07  .0495  .0074   .0        
+       300   5.3540E-03  .5835  .5575   .0           2.2668E-07  .0446  .0062   .0        
+       350   4.5892E-03  .5839  .5587   .0           2.3449E-07  .0410  .0052   .0        
+       400   5.0194E-03  .5074  .4226   .0           2.3161E-07  .0381  .0046   .0        
+       450   8.0310E-03  .3820  .2391   .0           2.2312E-07  .0375  .0043   .0        
+       500   7.2279E-03  .3823  .2397   .0           2.2582E-07  .0355  .0039   .0        
+       550   6.5709E-03  .3825  .2401   .0           2.2462E-07  .0341  .0034   .0        
+       600   6.0233E-03  .3827  .2405   .0           2.2602E-07  .0327  .0031 10.0        
+       650   5.5600E-03  .3829  .2409   .0           2.2364E-07  .0318  .0030 10.0        
+       700   6.8838E-03  .3415  .1770   .0           2.2383E-07  .0310  .0028 10.0        
+       750   6.4248E-03  .3416  .1773   .0           2.2313E-07  .0302  .0027 10.0        
+       800   6.5252E-03  .3198  .1678   .0           2.2341E-07  .0291  .0024 10.0        
+       850   6.1414E-03  .3200  .1680   .0           2.2271E-07  .0283  .0023 10.0        
+       900   6.6925E-03  .3073  .1450   .0           2.2141E-07  .0276  .0023 10.0        
+       950   6.5516E-03  .2991  .1419   .0           2.2166E-07  .0268  .0022 10.0        
+      1000   6.2241E-03  .2992  .1420   .0           2.1870E-07  .0264  .0021 10.0        
+ tally data written to file inp05m  
+
+        11 warning messages so far.
+
+
+ run terminated when      1000 particle histories were done.

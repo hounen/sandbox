@@ -1,0 +1,168 @@
+----------------------------------------------
+This file is required by the autoconf utility.
+Please do not remove this file.
+----------------------------------------------
+
+To run the test problems without building the source code,
+see the last section: "Testing Without Building"
+
+Both the code-generation and test-execution procedures require
+GNU Make and will probably fail with other make programs.
+Locate the name of the GNU make program on your system.
+On Linux, GNU make is the standard make. On other Unix
+workstations, GNU make is often gmake (so named to avoid
+conflict with the standard make program) or is in another
+directory such as /usr/local/bin/make. Ask your system
+manager if you have trouble locating GNU Make.
+
+The default target generates the system:
+
+  make all                      Make codes and data files.
+
+This target runs test problems, making codes and data as needed:
+
+  make tests                    Run the standard tests, mesh tally
+                                tests, and Htape tests.
+
+The standard tests, mesh tally tests, and Htape tests can be run
+separately by these targets:
+
+  make single
+  make meshtal
+  make htape
+
+respectively.
+
+After the standard test set is run, the difm* and difo* files can
+be listed and counted.  The difm* files compare to MCTAL files;
+the difo* files compare to OUTP files.  If the test runs track
+the standard code, then all of the difm* and difo* files will have
+zero length.  The difm* and difo* files are listed and counted by
+
+   make m     and     make o     respectively.
+
+Similarly, after the test problems for the mesh tally have been run,
+the difd* files comparing with MDAT files are listed and counted by
+
+   make d
+
+If the Htape test problems have been run, then the comparisons with
+MCTAL files will be displayed by the "make m" target described above.
+In addition, comparison with OUTT files is achieved by
+
+   make t
+
+Finally, the last part of the Htape test set includes cross-section
+generation.  The difx* files testing this feature can be listed and
+counted by
+
+   make x
+
+After any test set has been executed, it may be that not all of the
+dif* files will have zero length.  The following invocation can be
+used to examine the results in such a case:
+
+  make examine                  VIEW each dif* file that has non-zero
+                                length.  Make this target only after
+                                you have run the set of test problems.
+                                This also removes any dif* files that
+                                have zero length.
+
+-----------------------------------
+Testing Without Building
+-----------------------------------
+
+
+You can test an MCNPX executable without first building it from the
+source files by using the following procedure to run test cases
+with the distributed executables which were created by LANL developers.
+
+The mcnpx_2.4.0/README.w32 file includes additional information on 
+software requirements and setting the correct path.
+
+1. Copy files to the test directory. 
+   Instructions on where to find files:
+--------------------------------------------------
+-- for beta test users 	
+--------------------------------------------------
+ Get files from WWW: mcnpx_2.4.0.tar.gz, DATA.tar.gz, SYS.tar.gz
+   where SYS = AIX, DEC, HPUX, SGI, LINUX, SUN or Win32.ZIP.
+   gunzip file.tar.gz and then tar xf file.tar (WinZip for PC Windows)
+
+   get mcnpx, htape3x, xsex3      from SYS/bin
+       bertin, phtlib                  SYS/data
+       barpol.dat                      DATA
+       input files:                    mcnpx_2.4.0/src/Test/Test_sources/*
+       test libraries:                 mcnpx_2.4.0/src/Test/TestXS/*
+       test templates                  mcnpx_2.4.0/src/Test/Test/Test.SYS.../*
+       runprob script                  mcnpx_2.4.0/src/Test/Test/runprob
+
+
+   For PC Windows get mcnpx.exe, htape3x.exe, xsex3.exe, and runprob.bat
+
+--------------------------------------------------
+-- for RSICC distribution users on Windows:
+--------------------------------------------------
+
+c:\
+mkdir mcnpx_test
+cd mcnpx_test
+copy ..\MCNPX_2.4.0\Data\LCS\barpol.dat
+copy ..\MCNPX_2.4.0\exe\windows\data\bertin 
+copy ..\MCNPX_2.4.0\exe\windows\data\phtlib 
+copy ..\MCNPX_2.4.0\exe\windows\bin\mcnpx.exe 
+copy ..\MCNPX_2.4.0\exe\windows\bin\htape3x.exe 
+copy ..\MCNPX_2.4.0\exe\windows\bin\xsex3.exe 
+copy ..\MCNPX_2.4.0\src\Test\TestXS\testdir 
+copy ..\MCNPX_2.4.0\src\Test\TestXS\testlib1
+copy ..\MCNPX_2.4.0\src\Test\Test_sources\*
+copy ..\MCNPX_2.4.0\src\Test\Test.intel.Windows.dvf.cc
+copy ..\MCNPX_2.4.0\exe\runprob.bat
+copy ..\MCNPX_2.4.0\bin\x11.dll
+
+The x11.dll file is required for interactive graphics available 
+in MCNPX. It is included in the self-extracting Win32.exe file 
+distributed in mcnpx_2.4.0.  The make procedure expands the 
+file. Alternately, one can expand it by typing the file name.
+
+
+--------------------------------------------------
+-- for RSICC distribution users on Unix or Linux:
+--------------------------------------------------
+LANL test results are in the mcnpx_2.4.0/src/Test 
+subdirectory.  The following example copies the Linux
+results. Select the appropriate results for your system.
+X11 software is required and is generally available
+with Unix and Linux systems.
+
+mkdir mcnpx_test
+cd mcnpx_test
+cp ../mcnpx_2.4.0/Data/LCS/barpol.dat .
+cp ../mcnpx_2.4.0/src/Test/Test_sources/* .
+cp ../mcnpx_2.4.0/src/Test/Test.intel.linux.pgf90.pgcc/* .
+cp ../mcnpx_2.4.0/src/Test/TestXS/* .
+cp ../mcnpx_2.4.0/src/Test/runprob .
+cp ../mcnpx_2.4.0/exe/linux/data/bertin .
+cp ../mcnpx_2.4.0/exe/linux/data/phtlib .
+cp ../mcnpx_2.4.0/exe/linux/bin/mcnpx .
+cp ../mcnpx_2.4.0/exe/linux/bin/htape3x .
+cp ../mcnpx_2.4.0/exe/linux/bin/xsex3 .
+cp ../mcnpx_2.4.0/exe/runprob .
+
+
+--------------------------------------------------
+--------------------------------------------------
+
+2. Execute the test problems:
+
+   runprob
+
+3. You have successfully run the test problems if you have the following
+   *m files created:
+
+   htpNNm   where NN = 01 - 06
+   inpNNm   where NN = 01 - 47 
+   mesNNm   where NN = 01 - 16
+
+   and if all diff files are length 0 (unix) or length 69 (Windows).
+

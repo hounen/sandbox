@@ -1,0 +1,67 @@
+# Generated automatically from Makefile.in by configure.
+# $Id: Makefile.w32,v 1.1 2002/07/22 17:04:19 jxh Exp $
+
+include Makefile.h
+
+# SOURCEDIR is path relative to this 'make'
+ifeq (${SYSTEM},Windows)
+SOURCEDIR = $(subst /,\,${srcdir})
+else
+SOURCEDIR = ${srcdir}
+INCLUDE = -I${SOURCEDIR}/../../include
+endif
+
+# make a list of source files for makedepend to use
+CSRCS := $(wildcard ${SOURCEDIR}/*.c)
+HDRS := $(wildcard $INCLUDE{}/*.h) $(wildcard ${INCLUDE}/*/*.h)
+COBJS := $(notdir $(patsubst %.c,%.o,${CSRCS}))
+
+# Target mcnpc is only a statically built one
+TARGET = mcnpc
+
+# Object file
+OBJ = mcnpc.o
+
+#----------------------------
+# make rules for static and shared targets
+all : ${TARGET}.${STATSUF}
+	@${ECHO} "$@ completed."
+
+# Help file is the shared one at the top level
+help :
+	@more ${SOURCEDIR}/../../../Readme.make
+
+# - - - - - - - - - - - - - - - - - - - 
+# how .o files emerge from .c files
+
+# fmangle.h is in same dir as mcnpc.c
+%.o : %.c
+	${CCOMP} -c /DWIN32 ${CFLAGS} ${CDEFS} /Fo$@ ${SOURCEDIR}\$(<F)
+# - - - - - - - - - - - - - - - - - - - 
+
+# the target
+${TARGET}.${STATSUF} : ${OBJ}
+	${AR_CMD}${TARGET}.${STATSUF} ${OBJ}
+
+# force make to execute every time for PHONY targets
+.PHONY : clean distclean 
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean  :
+	@-${RM} ${CLEANFILES}
+
+# Target distclean should clean then remove executables and dependency files
+distclean : clean
+	@${RM} -f ${TARGET}.*
+	@-${RM} -f ${DISTCLEANFILES}
+	@-${RM} -f ${CONFFILES}
+
+depend.mk: ${CSRCS} ${HDRS}
+	@${ECHO} "making dependencies for ${SOURCEDIR}"
+	@makedepend -f- -- $(CFLAGS) ${INCLUDE} -- $(CSRCS) | \
+	sed 's%^${SOURCEDIR}/%%' >depend.mk
+	@${ECHO} "depend.mk for ${SOURCEDIR} has been generated"
+
+# include depend.mk
+
+# DO NOT DELETE THIS LINE -- makedepend depends on it.

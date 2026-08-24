@@ -1,0 +1,20 @@
+
+
+ /lcs\/banka\.h
+ A ${INCLUDES}/lcs/l05S.h
+
+
+
+ /mcnpf\/cm\.h
+ A ${INCLUDES}/mcnpf/vv.h ${INCLUDES}/mcnpf/zc.h
+
+
+
+ /mcnpf\/mb\.h
+ A ${INCLUDES}/mcnpf/zc.h
+
+
+
+ /htape3x\/label\.h
+ A ${INCLUDES}/htape3x/lpt.h
+

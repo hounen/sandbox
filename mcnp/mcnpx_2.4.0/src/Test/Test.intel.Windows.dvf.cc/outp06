@@ -1,0 +1,553 @@
+ *****************************************************
+ *                                                   *
+ *            Copyright Notice for MCNPX             *
+ *                                                   *
+ * This program was prepared by the Regents of the   *
+ * University of California at Los Alamos National   *
+ * Laboratory (the University) under contract number *
+ * W-7405-ENG-36 with the U.S. Department of Energy  *
+ * (DOE).  The University has certain rights in the  *
+ * program pursuant to the contract and the program  *
+ * should not be copied or distributed outside your  *
+ * organization.   All rights in the program are     *
+ * reserved by the DOE and the University.  Neither  *
+ * the U.S. Government nor the University makes any  *
+ * warranty, express or implied, or assumes any      *
+ * liability or responsibility for the use of this   *
+ * software.                                         *
+ *                                                   *
+ *****************************************************
+    1-       testprob06 -- cutoffs, flagging, and variance reduction features                
+    2-       c     energy importance, exponential transform, forced collisions               
+    3-       1     1 .11  -1       $ carbon ball                                             
+    4-       2     2 .08  -2 1 5   $ copper polar caps                                       
+    5-       4     1 .05  -3 -4    $ carbon lens                                             
+    6-       3     1 .05  -3 2 4   $ carbon shell, minus lens                                
+    7-       5     0      3        $ zero-importance outside world                           
+    8-       6     2 .08  1 -2 -5  $ copper belt                                             
+    9-                                                                                       
+   10-       4     gq  1  1  1  .01  .02  .03  .025  -80.2  .015  578.                       
+   11-       2     sy  .1  7.5                                                               
+   12-       3     sy  .1  10                                                                
+   13-       1     sy  .1  5                                                                 
+   14-       5     gq 0 0 1 0 5r -9   $ 2 parallel planes                                    
+ warning.  this surface has been replaced by a surface of type sq 
+   15-                                                                                       
+   16-       esplt:n 2 7 2 3   $ 2-for-1 splits at 7 and 3 mev                               
+   17-       imp:n 1 3r 0 .5                                                                 
+   18-       wwp:n 5 3 5 1 .4                                                                
+   19-       c    source on spherical surface with position and energy bias                  
+   20-       sdef  sur 1  ext d1  axs 0 1 0  erg=fdir=d2 dir=d4                              
+   21-       si1   -1 .2 1                                                                   
+   22-       sp1   0 .6 .4                                                                   
+   23-       sb1   0 .4 .6                                                                   
+   24-       si4  a -1 0 .5 .8 .9 1                                                          
+   25-       sp4   .5 4i 1                                                                   
+   26-       c    ds q and detector combo fail in mcnp4.2                                    
+   27-       ds2  q  .1 11  .4 12  .7 13  1. 14                                              
+   28-       si11 h 1 5                                                                      
+   29-       sp11 d 0 1                                                                      
+   30-       si12 h 5 10                                                                     
+   31-       sp12 d 0 1                                                                      
+   32-       si13 h 10 14                                                                    
+   33-       sp13 d 0 1                                                                      
+   34-       si14 h 14 16                                                                    
+   35-       sp14 d 0 1                                                                      
+   36-       c                                                                               
+   37-       m1    6012.40c  1 nlib 60                                                       
+   38-       m2    29000.02c 1 plib .01                                                      
+   39-       f1:n  1                                                                         
+   40-       e1    .183 .498 .821 1.353 3.679 12.0 13.5 14.2                                 
+   41-       c1    -.866 -.5 0 .5 .866 1 t                                                   
+   42-       c    f5/f15 with different time bins are erroneously                            
+   43-       c    master/slave in mcnp4.2                                                    
+   44-       f5:n 5 5 5 1                                                                    
+   45-       f15:n 5 5 5 1                                                                   
+   46-       fq5  t d                                                                        
+   47-       fq15 t d                                                                        
+   48-       t15   2 3i 10                                                                   
+   49-       t5    2                                                                         
+   50-       fq1   c e                                                                       
+   51-       f2:n  2                                                                         
+   52-       e2    1  14.2                                                                   
+   53-       t2    5 10                                                                      
+   54-       f4:n  2                                                                         
+   55-       e4    1 14.2                                                                    
+   56-       t4    5 10                                                                      
+   57-       sf4   4                                                                         
+   58-       f14:n 2                                                                         
+   59-       de14 LIN 1 10 100                                                               
+   60-       df14 LIN 0.8 0.9 1.0                                                            
+   61-       ext:n .2y  -SV2  0  0  0   $ exponential transform in the y direction           
+ warning.      5 entries not equal to number of cells =    6.
+   62-       VECT V2 0 0 0                                                                   
+   63-       fcl:n 0  0  0  .2  0   $ forced collisions in cell 3                            
+ warning.      5 entries not equal to number of cells =    6.
+   64-       cut:n 10 .02 .01                                                                
+   65-       nps   5000                                                                      
+   66-       print 170                                                                       
+   67-       prdmp 2j -1                                                                     
+   68-                                                                                       
+ 
+ warning.  energy of top neutron weight-window bin set to emax.
+ 
+ warning.  surface-only weight window requires analog capture.
+ 
+ warning.  last time bin of tally   5 is less than time cutoff.
+ 
+ warning.    1 of the materials appear at more than one density.
+
+1particles and energy limits                                                                            print table 41
+
+                         minimum       table         maximum
+   particle type         energy        energy        energy
+
+    1  n  neutron       2.0000E-02    2.0000E+01    1.0000E+37
+
+
+1LAHET physics options:                                                                                 print table 41
+
+ lca    ielas   ipreq  iexisa  ichoic   jcoul  nexite   npidk   noact    icem
+ lca        2       1       1      23       1       1       0       1       0
+
+ lcb    flenb(i),i=1,6                                                          ctofe       flim0
+ lcb    3.4900E+03  3.4900E+03  2.4900E+03  2.4900E+03  8.0000E+02  8.0000E+02 -1.0000E+00 -1.0000E+00
+
+ lea     ipht     icc  nobalc  nobale   ifbrk  ilvden   ievap   nofis
+ lea        1       4       1       0       1       0       0       1
+
+ leb    yzere       bzere       yzero       bzero
+ leb    1.5000E+00  8.0000E+00  1.5000E+00  1.0000E+01
+
+ 
+ warning.     1 cells appear to consist of more than one piece.
+1cells                                                                                                  print table 60
+
+                      atom        gram                                     neutron                                       
+        cell  mat    density     density     volume       mass     pieces  importance                                    
+
+     1     1    1  1.10000E-01 2.19195E+00 5.23599E+02 1.14770E+03      1  1.0000E+00                                    
+     2     2    2  8.00000E-02 8.44174E+00 6.54498E+02 5.52510E+03      2  1.0000E+00                                    
+     3     4    1  5.00000E-02 9.96340E-01 0.00000E+00 0.00000E+00      0  1.0000E+00                                    
+     4     3    1  5.00000E-02 9.96340E-01 0.00000E+00 0.00000E+00      0  1.0000E+00                                    
+     5     5    0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00      0  0.0000E+00                                    
+     6     6    2  8.00000E-02 8.44174E+00 5.89049E+02 4.97259E+03      1  1.0000E+00                                    
+
+ total                                     1.76715E+03 1.16454E+04
+1     exponential transform and forced collision parameters                                             print table 62
+
+                        neutron exp.           photon exp.       forced collisions
+        cell      dir    transform      dir    transform       neutron        photon
+
+     1     1       y      0.20000                                                    
+     2     2     -v2         s                                                       
+     4     3                                                   0.20000               
+
+ vector    2      0.0000E+00   0.0000E+00   0.0000E+00
+
+    minimum source weight = 6.6667E-01    maximum source weight = 1.5000E+00
+
+         8 warning messages so far.
+1cross-section tables                                                                                   print table 100
+
+     table    length
+
+                        tables from file testlib1                                                        
+
+   6012.40c    4642   ENDL library name:  nd900719  MCNP translation:  900831 14:10:05                       900207    
+                     temperature = 2.5860E-08 adjusted to 2.5300E-08
+  29000.02c    3155  cu        uk 1967                                                          (  2249)     17jan75   
+                     temperature = 0.0000E+00 adjusted to 2.5300E-08
+
+  total        7797
+
+ neutron cross sections outside the range from 2.0000E-02 to 1.0000E+37 mev are expunged.
+ 
+ warning.     2 cross sections modified by free gas thermal treatment.
+
+
+
+
+
+ decimal words of dynamically allocated storage
+
+         9 warning messages so far.
+ warning.  tally not scored beyond last energy bin.                    
+ nps =         9     nrn =             189     tal =    4     erg = 1.4539E+01      
+ warning.  tally not scored beyond last energy bin.                    
+ nps =         9     nrn =             195     tal =    2     erg = 1.4506E+01      
+ warning.  tally not scored beyond last time bin.                      
+ nps =        13     nrn =             350     tal =    5     tme = 8.4846E-02      
+ warning.  weight of source particle is below window.                  
+ nps =        15     nrn =             446     erg = 5.6481E+00     wgt = 6.6667E-01
+ warning.  tally not scored beyond last time bin.                      
+ nps =       206     nrn =            7026     tal =   15     tme = 6.5032E+00      
+ warning.  tally not scored beyond last energy bin.                    
+ nps =      1862     nrn =           75570     tal =    1     erg = 1.4304E+01      
+1problem summary                                                                                                       
+
+      run terminated when      5000 particle histories were done.
+
+ neutron creation       tracks   weight        energy            neutron loss           tracks   weight        energy
+                                 (per source particle)                                           (per source particle)
+
+ source                5000    1.0017E+00    7.6131E+00          escape                5711    1.0017E+00    5.0738E+00
+ nucl. interaction        0    0.            0.                  energy cutoff           14    3.1700E-03    5.4822E-05
+ particle decay           0    0.            0.                  time cutoff             23    4.8434E-03    1.6755E-04
+ weight window          630    3.3845E-01    1.6495E+00          weight window         3625    3.3600E-01    1.6445E+00
+ cell importance          0    0.            0.                  cell importance          0    0.            0.        
+ weight cutoff            0    0.            0.                  weight cutoff            0    0.            0.        
+ energy importance     2623    0.            0.                  energy importance        0    0.            0.        
+ dxtran                   0    0.            0.                  dxtran                   0    0.            0.        
+ forced collisions      986    2.3213E-01    8.4445E-01          forced collisions        0    2.3378E-01    8.4669E-01
+ exp. transform           0    5.4685E-02    1.3233E-01          exp. transform           0    5.4177E-02    1.3409E-01
+ upscattering             0    0.            0.                  downscattering           0    0.            1.9380E+00
+ photonuclear             0    0.            0.                  capture                  0    2.8366E-02    2.3621E-01
+ (n,xn)                 268    7.0270E-02    1.3483E-01          loss to (n,xn)         134    3.5135E-02    5.0064E-01
+ prompt fission           0    0.            0.                  loss to fission          0    0.            0.        
+ delayed fission          0    0.            0.                  nucl. interaction        0    0.            0.        
+                                                                 particle decay           0    0.            0.        
+ tabular boundary         0    0.            0.                  tabular boundary         0    0.            0.        
+ tabular sampling         0    0.            0.                                                                        
+     total             9507    1.6972E+00    1.0374E+01              total             9507    1.6972E+00    1.0374E+01
+
+   number of neutrons banked                    3405        average time of (shakes)              cutoffs
+   neutron tracks per source particle     1.9014E+00          escape            7.7964E-01          tco   1.0000E+01
+   neutron collisions per source particle 2.9022E+00          capture           3.7799E-01          eco   2.0000E-02
+   total neutron collisions                    14511          capture or escape 7.6858E-01          wc1   1.0000E-02
+   net multiplication              1.0351E+00 0.0031          any termination   5.5337E-01          wc2   5.0000E-03
+
+ computer time so far in this run     0.00 minutes            maximum number ever in bank         6
+ computer time in mcrun               0.00 minutes            bank overflows to backup file       0
+ source particles per minute            0.0000E+00            dynamic storage         0 words,          0 bytes.
+ random numbers generated                   211866            most random numbers used was      540 in history     2504
+
+ range of sampled source weights = 6.6667E-01 to 1.5000E+00
+
+    1093 source particles had weight below window.
+1source distribution frequency tables                                                                   print table 170
+
+ the expected values below do not include the effect of the rejection loop which samples position.
+
+
+ source distribution   1  for ext
+
+                                         number                                       weight
+             source
+   n          value         sampled      expected  sampled/expected      sampled      expected  sampled/expected
+
+   1      2.00000E-01      4.0200E-01   4.0000E-01   1.0050E+00         6.0300E-01   6.0000E-01   1.0050E+00
+   2      1.00000E+00      5.9800E-01   6.0000E-01   9.9667E-01         3.9867E-01   4.0000E-01   9.9667E-01
+ total                     1.0000E+00   1.0000E+00   1.0000E+00         1.0017E+00   1.0000E+00   1.0017E+00
+
+
+ source distribution   4  for dir
+
+                                         number                                       weight
+             source
+   n          value         sampled      expected  sampled/expected      sampled      expected  sampled/expected
+
+   1      0.00000E+00      4.3060E-01   4.2969E-01   1.0021E+00         4.3107E-01   4.2969E-01   1.0032E+00
+   2      5.00000E-01      2.5120E-01   2.5391E-01   9.8934E-01         2.5147E-01   2.5391E-01   9.9039E-01
+   3      8.00000E-01      1.7820E-01   1.7578E-01   1.0138E+00         1.8063E-01   1.7578E-01   1.0276E+00
+   4      9.00000E-01      6.7200E-02   6.6406E-02   1.0120E+00         6.7633E-02   6.6406E-02   1.0185E+00
+   5      1.00000E+00      7.2800E-02   7.4219E-02   9.8088E-01         7.0867E-02   7.4219E-02   9.5484E-01
+ total                     1.0000E+00   1.0000E+00   1.0000E+00         1.0017E+00   1.0000E+00   1.0017E+00
+
+
+ source distribution  11  for erg
+
+                                         number                                       weight
+             source
+   n          value         sampled      expected  sampled/expected      sampled      expected  sampled/expected
+
+   1      5.00000E+00      4.7860E-01   0.0000E+00   1.0000E+00         4.8007E-01   0.0000E+00   1.0000E+00
+ total                     4.7860E-01   0.0000E+00   1.0000E+00         4.8007E-01   0.0000E+00   1.0000E+00
+
+ prsdft does not yet do expected values for distributions with such complicated dependency as this one has.
+
+
+ source distribution  12  for erg
+
+                                         number                                       weight
+             source
+   n          value         sampled      expected  sampled/expected      sampled      expected  sampled/expected
+
+   1      1.00000E+01      1.5100E-01   0.0000E+00   1.0000E+00         1.4817E-01   0.0000E+00   1.0000E+00
+ total                     1.5100E-01   0.0000E+00   1.0000E+00         1.4817E-01   0.0000E+00   1.0000E+00
+
+ prsdft does not yet do expected values for distributions with such complicated dependency as this one has.
+
+
+ source distribution  13  for erg
+
+                                         number                                       weight
+             source
+   n          value         sampled      expected  sampled/expected      sampled      expected  sampled/expected
+
+   1      1.40000E+01      1.7160E-01   0.0000E+00   1.0000E+00         1.7523E-01   0.0000E+00   1.0000E+00
+ total                     1.7160E-01   0.0000E+00   1.0000E+00         1.7523E-01   0.0000E+00   1.0000E+00
+
+ prsdft does not yet do expected values for distributions with such complicated dependency as this one has.
+
+
+ source distribution  14  for erg
+
+                                         number                                       weight
+             source
+   n          value         sampled      expected  sampled/expected      sampled      expected  sampled/expected
+
+   1      1.60000E+01      1.9880E-01   0.0000E+00   1.0000E+00         1.9820E-01   0.0000E+00   1.0000E+00
+ total                     1.9880E-01   0.0000E+00   1.0000E+00         1.9820E-01   0.0000E+00   1.0000E+00
+
+ prsdft does not yet do expected values for distributions with such complicated dependency as this one has.
+1neutron     activity in each cell                                                                      print table 126
+
+                 tracks     population   collisions   collisions     number        flux        average      average
+        cell    entering                               * weight     weighted     weighted   track weight   track mfp
+                                                    (per history)    energy       energy     (relative)      (cm)
+
+     1     1        3148         3104         4777    9.3920E-01   1.4064E+00   2.1942E+00   9.5772E-01   4.2792E+00
+     2     2        3685         4664         4938    8.3052E-01   2.0118E+00   4.3436E+00   8.5059E-01   3.5144E+00
+     3     4         420          432           87    1.5815E-02   1.9559E+00   4.3400E+00   9.0945E-01   1.0558E+01
+     4     3        4615         5864         1454    4.2975E-01   1.9272E+00   4.3427E+00   9.2291E-01   1.0361E+01
+     6     6        3471         3826         3255    8.2303E-01   2.0844E+00   4.4635E+00   1.3047E+00   3.5272E+00
+
+     total         15339        17890        14511    3.0383E+00
+1tally   1        nps =     5000
+           tally type 1    number of particles crossing a surface.                        
+           particle(s): neutron    
+ 
+ surface  1                                                                                                            
+       energy:       1.8300E-01           4.9800E-01           8.2100E-01           1.3530E+00           3.6790E+00
+      cosine
+   -8.6600E-01   5.54185E-03 0.2838   1.07864E-02 0.1717   6.65618E-03 0.2089   7.96031E-03 0.1789   1.32305E-02 0.1480
+   -5.0000E-01   1.08413E-02 0.2183   1.85154E-02 0.1392   1.75130E-02 0.1343   1.50371E-02 0.1296   3.36798E-02 0.0943
+    0.0000E+00   6.86031E-03 0.1962   9.72171E-03 0.1809   5.50405E-03 0.2115   1.12791E-02 0.1564   2.46911E-02 0.1115
+    5.0000E-01   8.78192E-03 0.2084   1.12290E-02 0.1636   7.86008E-03 0.1745   2.77589E-02 0.0926   1.43539E-01 0.0401
+    8.6600E-01   1.98638E-02 0.1437   2.41796E-02 0.1166   1.78157E-02 0.1238   3.74255E-02 0.0838   1.34963E-01 0.0416
+    1.0000E+00   1.06221E-02 0.1888   1.32838E-02 0.1499   1.21094E-02 0.1475   1.96959E-02 0.1065   5.16637E-02 0.0664
+      total      6.25113E-02 0.1300   8.77160E-02 0.0881   6.74584E-02 0.0827   1.19157E-01 0.0578   4.01767E-01 0.0291
+ 
+       energy:       1.2000E+01           1.3500E+01           1.4200E+01             total                        
+      cosine
+   -8.6600E-01   3.59234E-03 0.2539   0.00000E+00 0.0000   0.00000E+00 0.0000   4.77676E-02 0.0844
+   -5.0000E-01   9.70149E-03 0.1684   4.60676E-04 0.9999   2.87961E-04 0.9999   1.06037E-01 0.0599
+    0.0000E+00   9.20534E-03 0.1815   0.00000E+00 0.0000   0.00000E+00 0.0000   6.72616E-02 0.0697
+    5.0000E-01   6.67004E-02 0.0589   0.00000E+00 0.0000   0.00000E+00 0.0000   2.65869E-01 0.0295
+    8.6600E-01   3.28666E-02 0.0833   1.01366E-03 0.5896   0.00000E+00 0.0000   2.68128E-01 0.0321
+    1.0000E+00   1.16707E-02 0.1424   0.00000E+00 0.0000   0.00000E+00 0.0000   1.19046E-01 0.0468
+      total      1.33737E-01 0.0477   1.47433E-03 0.6688   2.87961E-04 0.9999   8.74109E-01 0.0259
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 5.455E-01)**2 = (0.000E+00)*(2.976E-01) = 0.000E+00
+1tally   2        nps =     5000
+           tally type 2    particle flux averaged over a surface.       units   1/cm**2   
+           particle(s): neutron    
+
+           areas   
+                surface:       2                                                                                   
+                         7.06858E+02
+ 
+ surface  2                                                                                                            
+         time:       5.0000E+00           1.0000E+01             total                                             
+      energy
+    1.0000E+00   7.26995E-04 0.0832   7.40747E-05 0.5409   8.01070E-04 0.0920
+    1.4200E+01   1.56023E-03 0.0303   0.00000E+00 0.0000   1.56023E-03 0.0303
+      total      2.28723E-03 0.0337   7.40747E-05 0.5409   2.36130E-03 0.0371
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 3.809E-01)**2 = (0.000E+00)*(1.451E-01) = 0.000E+00
+1tally   4        nps =     5000
+           tally type 4    track length estimate of particle flux.      units   1/cm**2   
+           particle(s): neutron    
+           flagging surfaces:      4                                                                         
+
+           volumes 
+                   cell:       2                                                                                   
+                         6.54498E+02
+ 
+ cell  2                                                                                                               
+         time:       5.0000E+00           1.0000E+01             total                                             
+      energy
+    1.0000E+00   1.09986E-03 0.0539   7.57776E-05 0.2359   1.17564E-03 0.0569
+    1.4200E+01   2.89247E-03 0.0226   0.00000E+00 0.0000   2.89247E-03 0.0226
+      total      3.99232E-03 0.0230   7.57776E-05 0.2359   4.06810E-03 0.0239
+ 
+ cell  2                                                                                                               
+ flagged tallies
+         time:       5.0000E+00           1.0000E+01             total                                             
+      energy
+    1.0000E+00   1.87455E-06 0.7073   0.00000E+00 0.0000   1.87455E-06 0.7073
+    1.4200E+01   0.00000E+00 0.0000   0.00000E+00 0.0000   0.00000E+00 0.0000
+      total      1.87455E-06 0.7073   0.00000E+00 0.0000   1.87455E-06 0.7073
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 5.922E-01)**2 = (0.000E+00)*(3.507E-01) = 0.000E+00
+1tally   5        nps =     5000
+           tally type 5    particle flux at a point detector.           units   1/cm**2   
+           particle(s): neutron    
+ 
+ detector located at x,y,z = 5.00000E+00 5.00000E+00 5.00000E+00
+                       total                direct                                                                 
+        time
+    2.0000E+00   1.70077E-03 0.1160   3.18509E-04 0.0250
+ 
+ detector score diagnostics                  cumulative          tally         cumulative
+                                             fraction of         per           fraction of
+   times average score     transmissions     transmissions       history       total tally
+        1.00000E-01           3561             0.38485        9.07975E-05        0.05339
+        1.00000E+00           4183             0.83692        3.86738E-04        0.28078
+        2.00000E+00            524             0.89355        2.09525E-04        0.40397
+        5.00000E+00            215             0.91678        1.70976E-04        0.50450
+        1.00000E+01             72             0.92457        1.43632E-04        0.58895
+        1.00000E+02             52             0.93018        4.11162E-04        0.83070
+        1.00000E+03              3             0.93051        2.42696E-04        0.97340
+        1.00000E+38              0             0.93051        0.00000E+00        0.97340
+  1st 200 histories            643             1.00000        4.52401E-05        1.00000
+
+ average tally per history = 1.70077E-03            largest score = 5.67114E-01
+ (largest score)/(average tally) = 3.33446E+02      nps of largest score =     2756
+
+ score contributions by cell
+        cell    misses      hits    tally per history    weight per hit
+     1     1      3113      3817       2.96660E-04         3.88604E-04
+     2     2      3614      2432       6.31230E-04         1.29776E-03
+     3     4        29        58       4.85830E-06         4.18819E-04
+     4     3       910       544       4.20009E-04         3.86038E-03
+     6     6      2592      2402       3.48008E-04         7.24412E-04
+       total     10258      9253       1.70077E-03         9.19035E-04
+
+ score misses
+   russian roulette on pd                   0
+   psc=0.                                   0
+   russian roulette in transmission      6961
+   underflow in transmission                0
+   hit a zero-importance cell               0
+   energy cutoff                           12
+   other: outside tally bin bounds.      3285
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 1.219E-01)**2 = (0.000E+00)*(1.486E-02) = 0.000E+00
+1tally  14        nps =     5000
+           tally type 4    track length estimate of particle flux.                        
+           particle(s): neutron    
+
+           this tally is modified by a dose function.
+
+           volumes 
+                   cell:       2                                                                                   
+                         6.54498E+02
+ 
+ cell  2                                                                                                               
+                 3.66001E-03 0.0217
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 6.531E-01)**2 = (0.000E+00)*(4.265E-01) = 0.000E+00
+1tally  15        nps =     5000
+           tally type 5    particle flux at a point detector.           units   1/cm**2   
+           particle(s): neutron    
+ 
+ detector located at x,y,z = 5.00000E+00 5.00000E+00 5.00000E+00
+                       total                direct                                                                 
+        time
+    2.0000E+00   1.70317E-03 0.1158   3.19298E-04 0.0250
+    4.0000E+00   9.32799E-05 0.2845   0.00000E+00 0.0000
+    6.0000E+00   8.28526E-05 0.6692   0.00000E+00 0.0000
+    8.0000E+00   2.77649E-05 0.9115   0.00000E+00 0.0000
+    1.0000E+01   1.58155E-05 0.8757   0.00000E+00 0.0000
+      total      1.92288E-03 0.1099   3.19298E-04 0.0250
+ 
+ detector score diagnostics                  cumulative          tally         cumulative
+                                             fraction of         per           fraction of
+   times average score     transmissions     transmissions       history       total tally
+        1.00000E-01           4076             0.40809        1.11985E-04        0.05824
+        1.00000E+00           4318             0.84041        4.28114E-04        0.28088
+        2.00000E+00            506             0.89107        2.15184E-04        0.39279
+        5.00000E+00            219             0.91300        1.94794E-04        0.49409
+        1.00000E+01             68             0.91980        1.48388E-04        0.57126
+        1.00000E+02             63             0.92611        5.36105E-04        0.85006
+        1.00000E+03              3             0.92641        2.42696E-04        0.97628
+        1.00000E+38              0             0.92641        0.00000E+00        0.97628
+  1st 200 histories            735             1.00000        4.56157E-05        1.00000
+
+ average tally per history = 1.92288E-03            largest score = 5.67114E-01
+ (largest score)/(average tally) = 2.94930E+02      nps of largest score =     2756
+
+ score contributions by cell
+        cell    misses      hits    tally per history    weight per hit
+     1     1      2899      4031       3.10877E-04         3.85607E-04
+     2     2      3402      2644       6.86839E-04         1.29886E-03
+     3     4        11        76       6.02866E-06         3.96622E-04
+     4     3       761       693       5.57975E-04         4.02579E-03
+     6     6      2450      2544       3.61161E-04         7.09829E-04
+       total      9523      9988       1.92288E-03         9.62595E-04
+
+ score misses
+   russian roulette on pd                   0
+   psc=0.                                   0
+   russian roulette in transmission      9359
+   underflow in transmission                0
+   hit a zero-importance cell               0
+   energy cutoff                           12
+   other: outside tally bin bounds.       152
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 1.287E-01)**2 = (0.000E+00)*(1.657E-02) = 0.000E+00
+1    some tally scores were not made for various reasons:
+
+                                  beyond last bin     not in
+                   tally      angle   energy   time    user         
+                      1          0       2       0       0
+                      2          0     495       0       0
+                      4          0     572       0       0
+                      5          0       0    3285       0
+                     15          0       0     152       0
+1status of the statistical checks used to form confidence intervals for the mean for each tally bin
+
+
+ tally   result of statistical checks for the tfc bin (the first check not passed is listed) and error magnitude check for all bins
+
+     1   missed  2 of 10 tfc bin checks: the estimated mean has a trend during the last half of the problem                        
+         missed all bin error check:    63 tally bins had     9 bins with zeros and    34 bins with relative errors exceeding 0.10
+
+     2   missed  2 of 10 tfc bin checks: the variance of the variance appears not to decrease as 1/nps for the last half of problem
+         missed all bin error check:     9 tally bins had     1 bins with zeros and     2 bins with relative errors exceeding 0.10
+
+     4   missed  2 of 10 tfc bin checks: the variance of the variance does not monotonically decrease over the last half of problem
+         missed all bin error check:    18 tally bins had     6 bins with zeros and     6 bins with relative errors exceeding 0.10
+
+     5   missed  4 of 10 tfc bin checks: the relative error exceeds the recommended value of 0.05 for point detector tallies       
+         missed all bin error check:     2 tally bins had     0 bins with zeros and     1 bins with relative errors exceeding 0.05
+
+    14   missed  2 of 10 tfc bin checks: the variance of the variance does not monotonically decrease over the last half of problem
+         passed all bin error check:     1 tally bins all have relative errors less than 0.10 with no zero bins
+
+    15   missed  4 of 10 tfc bin checks: the relative error exceeds the recommended value of 0.05 for point detector tallies       
+         missed all bin error check:    12 tally bins had     4 bins with zeros and     6 bins with relative errors exceeding 0.05
+
+
+ the 10 statistical checks are only for the tally fluctuation chart bin and do not apply to other tally bins.
+
+ the tally bins with zeros may or may not be correct: compare the source, cutoffs, multipliers, et cetera with the tally bins.
+
+ warning.     6 of the   6 tally fluctuation chart bins did not pass all 10 statistical checks.
+ warning.     5 of the   6 tallies had bins with relative errors greater than recommended.
+1tally fluctuation charts                         
+
+                       tally    1                                tally    2                                tally    4
+       nps      mean     error   vov  slope    fom      mean     error   vov  slope    fom      mean     error   vov  slope    fom
+      1000   8.2418E-01 0.0559 0.0170 10.0           2.1528E-03 0.0769 0.1921  2.5           3.6483E-03 0.0537 0.0149  0.0        
+      2000   8.5171E-01 0.0412 0.0097 10.0           2.3082E-03 0.0519 0.0916  3.0           3.9319E-03 0.0368 0.0059 10.0        
+      3000   8.5280E-01 0.0332 0.0070 10.0           2.2610E-03 0.0394 0.0623  3.2           3.9213E-03 0.0297 0.0041 10.0        
+      4000   8.6646E-01 0.0290 0.0080 10.0           2.3318E-03 0.0436 0.1122  2.7           3.9694E-03 0.0268 0.0119  8.9        
+      5000   8.7411E-01 0.0259 0.0059 10.0           2.3613E-03 0.0371 0.0851  2.9           4.0681E-03 0.0239 0.0083  9.0        
+ 
+
+                       tally    5                                tally   14                                tally   15
+       nps      mean     error   vov  slope    fom      mean     error   vov  slope    fom      mean     error   vov  slope    fom
+      1000   1.2593E-03 0.1516 0.4832  2.3           3.3409E-03 0.0481 0.0138  2.9           1.2965E-03 0.1530 0.5009  2.3        
+      2000   1.4963E-03 0.1584 0.5385  2.1           3.5708E-03 0.0331 0.0055 10.0           1.6665E-03 0.1551 0.4021  2.1        
+      3000   1.6979E-03 0.1608 0.3808  2.1           3.5480E-03 0.0269 0.0038 10.0           1.8629E-03 0.1529 0.3321  2.2        
+      4000   1.6745E-03 0.1322 0.2888  2.1           3.5850E-03 0.0242 0.0109  7.9           1.9360E-03 0.1243 0.2181  2.1        
+      5000   1.7008E-03 0.1160 0.2030  2.0           3.6600E-03 0.0217 0.0076  8.3           1.9229E-03 0.1099 0.1622  2.0        
+ tally data written to file inp06m  
+
+        17 warning messages so far.
+
+
+ run terminated when      5000 particle histories were done.

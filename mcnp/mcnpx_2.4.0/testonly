@@ -1,0 +1,32 @@
+#!/bin/sh
+if test ! -f configure.org; then cp configure configure.org; fi
+sed '2s/^/alias exit=pwd/' configure.org > configure
+chmod a+x configure
+# do the first-level subdirectories.
+for subdir in src; do
+cd $subdir
+if test ! -f configure.org; then cp configure configure.org; fi
+sed '2s/^/alias exit=pwd/' configure.org > configure
+chmod a+x configure
+cd ..
+done
+# do the src subdirectories.
+cd src
+for subdir in bertin gridconv htape3x makxs mcnpx phtlib Test xsex3; do
+cd $subdir
+if test ! -f configure.org; then cp configure configure.org; fi
+sed '2s/^/alias exit=pwd/' configure.org > configure
+chmod a+x configure
+cd ..
+done
+# do the mcnpx subdirectories.
+cd mcnpx
+for subdir in cem dedx dl-mod f77main fluka89 gvaviv hexs histp lcs mcnpc mcnpf mcnpx-main meshtal mod-fortran spabi utils; do
+cd $subdir
+if test ! -f configure.org; then cp configure configure.org; fi
+sed '2s/^/alias exit=pwd/' configure.org > configure
+chmod a+x configure
+cd ..
+done
+cd ../../../
+

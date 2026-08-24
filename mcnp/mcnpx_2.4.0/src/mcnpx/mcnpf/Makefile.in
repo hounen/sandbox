@@ -1,0 +1,157 @@
+# $Id: Makefile.in,v 1.20 2002/06/25 16:02:43 troberts Exp $
+
+include Makefile.h
+
+# SOURCEDIR is path relative to this 'make'
+SOURCEDIR = ${srcdir}
+# INCLUDE directory  is two  levels up from this SOURCEDIR
+INCLUDE = -I${SOURCEDIR}/../../include
+
+# construct a list of source files for makedepend to use
+FSRCS := $(wildcard ${SOURCEDIR}/*.F)
+HDRS := $(wildcard ${INCLUDE}/*.h) $(wildcard ${INCLUDE}/*/*.h)
+FOBJS := $(notdir $(patsubst %.F,%.o,${FSRCS}))
+
+# Sources in this directory depend upon BLOCK DATA references, 
+# so there are two targets to make
+TARGET1 = 
+TARGET2 = mcnpf
+
+# Block Data Object files
+BDOBJS = 
+
+# Object files
+
+OBJS  = GLOBAL1_zc.o GLOBAL2_vv.o GLOBAL3_st.o GLOBAL4_cg.o    \
+        GLOBAL4_mb.o GLOBAL4_lk.o GLOBAL5_cm.o GLOBAL6_ht.o    \
+        IMCN_jc.o    GKSSIM_gs.o  LAMBDA_lm.o  LAMBDA_lt.o     \
+        MCPLOT_mp.o PLOT_pc.o  \
+        abvals.o   acalc.o    acecas.o   acecol.o   acecos.o   \
+        acecp.o    acecs6.o   acedel.o   acefcn.o   acefpt.o   \
+        acegam.o   acenu.o    acepxs.o   acetbl.o   acetot.o   \
+        action.o   addtfc.o   advijk.o   alphah.o   amatrx.o   \
+        angiso.o   angl.o     aprint.o   arbobv.o   avrclc.o   \
+        avrnrm.o   avrout.o   avrwgi.o   avrwwg.o   avrxyz.o   \
+        axis.o     axlabl.o   backup.o   bankit.o   barplt.o   \
+        begone.o   binlin.o   binval.o   bnsrch.o   \
+        brang.o    brem.o     brems.o    broadn.o   calcps.o   \
+        calcva.o   celnbr.o   celpar.o   celsrf.o   cgsdci.o   \
+        check_tr.o chekcs.o   chekit.o   chg_pl.o   chkcel.o   \
+        chkprb.o   chksrc.o   chkxss.o   chqcel.o   chrhol.o   \
+        ckchar.o   colidk.o   colidn.o   colidp.o   colinp.o   \
+        collpn.o   confid.o   contr.o    contrib_pwb.o covar.o    \
+        cp_coll.o  cp_gam.o   cp_rng.o   cprinp.o   crspro.o   \
+        crtcze.o   dbmin.o    dddet.o    dddiag.o   dddlev.o   \
+        den1.o     den2.o     disbug.o   dosef.o    dotpro.o   \
+        dotrcl.o   dplinf.o   dunlev.o   dxdiag.o   dxtran.o   \
+        echkcl.o   electr.o   emaker.o   eqpbbn.o   erf2.o     \
+        ergimp.o   erprnt.o   errbar.o   errprn.o   escat.o    \
+        esloss.o   eventp.o   exemes.o   exmg.o     exord.o    \
+        exordp.o   expgpn.o   expire.o   expirx.o   expung.o   \
+        extran.o   extrct.o   f_ionp.o   ffetch.o   \
+        findel.o   findlv.o   finpht.o   flaug.o    forcol.o   \
+        fshort.o   gain_pax.o getexm.o   getidt.o   getjdt.o   \
+        fissnu.o   fissum.o   get_csda_energy.o     hst3he.o   \
+        getpar.o   getxs.o    getxst.o   ginst.o    gmgww.o    \
+        gopks.o    grqst.o    gxon.o     heatf.o    hgram.o    \
+        hpsort.o   hstory.o   igeom.o    imcn.o     \
+        inpert.o   inqire.o   inter.o    intsec.o   ipbc.o     \
+        isheet.o   ishort.o   isos.o     isourc.o   issrc.o    \
+        itally.o   italpr.o   items.o    iwtwnd.o   ixsdir.o   \
+        jbin.o     jdecod.o   jsourc.o   kbatch.o   kcalc.o    \
+        kdarg.o    kdata.o    keypro.o   klein.o    knock.o    \
+        knorm.o    kprint.o   kskcyc.o   ksrctp.o   ktable.o   \
+        kxray.o    latcon.o   lblocs.o   low_recoil.o          \
+        leng.o     levcel.o   levchk.o   lex.o      lgeval.o   \
+        likebt.o   ljusti.o   lose_pax.o low_prot.o ltran.o    \
+        main.o     mapmaz.o   matmpy.o   mbody.o    mbodyo.o   \
+        mbodyp.o   mbodyr.o   mbodys.o   mcplot.o   mcrun.o    \
+        mctalr.o   mctalw.o   mdecod.o              mgacol.o   \
+        mgcoln.o   mgcolp.o   mgimps.o   mgxspt.o   midpnt.o   \
+        movlat.o   mreset.o   msgcon.o   msgtsk.o   namchg.o   \
+        namrsd.o   neu_pl.o   newcd1.o   newcel.o   newcrd.o   \
+        nextit.o   norma.o    normh.o    nsf.o      nxtit1.o   \
+        nsourc.o   nxtsym.o   oldcd1.o   oldcrd.o   output.o   \
+        pareto.o   pass1.o    pathmz.o   pconst.o   pertc.o    \
+        pertub.o   photot.o   photp.o    pieces.o   plin.o     \
+        plot2d.o   plot3d.o   plotcn.o   plotg.o    pltadd.o   \
+        pltdat.o   pltdxt.o   pltitl.o   pltloc.o   pltmsh.o   \
+        pltscr.o   pltsrf.o   pltsup.o   pnctot.o   polhed.o   \
+        prhpdf.o   prinv.o    prlost.o   prplot.o   prsdft.o   \
+        prsdst.o   prssrj.o   prstat.o   prtfcc.o   psurf.o    \
+        ptfc.o     ptost.o    ptrak.o    pttyin.o   putlbl.o   \
+        putnq.o    qnc7.o     qpol.o     qttyin.o   quad.o     \
+        quart.o    random.o   rang.o     ratspl.o   rdprob.o   \
+        reflec.o   refpbc.o   regula.o   rgdtal.o   rhoden.o   \
+        ronge.o    rotas.o    rslmaz.o   \
+        runtpq.o   runtpr.o   runtpw.o   sabcol.o   savpar.o   \
+        scat.o     scatt.o    screen.o   secnd.o    setcel.o   \
+        setdas.o   sfiles.o   shade.o    sig_max.o  sig_tot.o  \
+        simint.o   simplx.o   sing.o     skcode.o   smpsrc.o   \
+        sourcb.o   source.o   sourck.o   spec.o     splins.o   \
+        spol.o     sprob.o    sqqint.o   srcdx.o    srcsrf.o   \
+        sread.o    ssmsrc.o   startp.o   status.o   sttop.o    \
+        stuff.o    sufwrt.o   sumary.o   surfac.o   sursrc.o   \
+        sumfis.o   sum3he.o   spon_fis.o                       \
+        talloc.o   tally.o    tallyd.o   tallyh.o   tallyp.o   \
+        tallyq.o   tallyx.o   talph.o    talshf.o   tarea.o    \
+        tbl130.o   tbl140.o   tekdvr.o   tgtvel.o   timint.o   \
+        torus.o    tpefil.o   track.o    transm.o   trfmat.o   \
+        trfsrf.o   trnspt.o   ttbr.o     ttyint.o   ufiles.o   \
+        unimaz.o   unique.o   uplev.o    uplpos.o   ures.o     \
+        utask.o    viewz.o    voidcd.o   volume.o   vtask.o    \
+        wgtul.o    wrwssa.o   wtcalc.o   wtmult.o   wtwndo.o   \
+        wwfile.o   wwval.o    x3dmat.o   xact.o     xsec.o     \
+        xsgen.o    xsprmr.o   ypbssp.o   zaid.o
+
+#----------------------------
+# make rules for static and shared targets
+all : 	${TARGET1}.${STATSUF} ${TARGET2}.${STATSUF}
+	${CP} *.mod ../histp
+	${CP} *.mod ../lcs
+	${CP} *.mod ../meshtal
+	${CP} *.mod ../spabi
+	${CP} *.mod ../../htape3x
+	${CP} *.mod ../../xsex3
+@MCNPFAIXGLOBALS1@
+@MCNPFAIXGLOBALS2@
+	@${ECHO} "$@ completed."
+
+# Help file is the shared one at the top level
+help :
+	@more ${SOURCEDIR}/../../../Readme.make
+
+# - - - - - - - - - - - - - - - - - - - 
+# how .o files emerge from .F files with exceptions above
+%.o : %.F
+	${FCOMP} ${FFLAGS} ${FDEFS} $< -c -o $@
+# - - - - - - - - - - - - - - - - - - - 
+
+# the two targets
+${TARGET1}.${STATSUF} : ${BDOBJS}
+	${AR_CMD} ${TARGET1}.${STATSUF} ${BDOBJS}
+${TARGET2}.${STATSUF} : ${OBJS}
+	${AR_CMD} ${TARGET2}.${STATSUF} ${OBJS} 
+
+# force make to execute every time for PHONY targets
+.PHONY : clean distclean 
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean :
+	@${RM} ${CLEANFILES}
+
+# Target distclean should clean then remove executables and dependency files
+distclean : clean
+	@${RM} -f ${TARGET1}.${STATSUF} ${TARGET2}.${STATSUF}
+	@-${RM} -f ${DISTCLEANFILES}
+	@-${RM} -f ${CONFFILES}
+
+depend.mk: ${FSRCS} ${HDRS}
+	@${ECHO} "making dependencies for ${SOURCEDIR}"
+	@makedepend -f- -- $(FFLAGS) ${INCLUDE} -- $(FSRCS) | \
+	sed 's%^${SOURCEDIR}/%%' >depend.mk
+	@${ECHO} "depend.mk for ${SOURCEDIR} has been generated"
+
+include depend.mk
+
+# DO NOT DELETE THIS LINE -- makedepend depends on it.

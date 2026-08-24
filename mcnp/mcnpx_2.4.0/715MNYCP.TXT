@@ -1,0 +1,75 @@
+                                     ID#:                C00715MNYCP00
+                                     RSIC#:              CCC-715
+                                     CODE PKG NAME:      MCNPX 2.4.0
+                                     COMPUTER:           Unix & Linux &
+							 Windows Computers
+                                     PACKAGED:            09/25/2002
+****************************************************************************
+ MCNPX is distributed on CD-Rom as a GNU compressed Unix tar file.
+ DLC-205/MCNPXDATA is included in a separate file on the distribution media.
+****************************************************************************
+
+  See C715.PDF, and D205.PDF in the DOC subdirectory for documentation.
+  The MCNPX reports are in file c715.pdf.
+  Various reports on the MCNPXDATA files are included in D205.PDF.
+
+Files on distribution CD
+        5,998  ReadmeX.1st    info on package contents
+   49,116,248  C715TAR0.TGZ   MCNPX 2.4.0 code system
+  354,556,454  D205TAR3.TGZ   MCNPXDATA files
+****************************************************************************
+
+WinZIP 8.0 or later is required to expand the GZIP Unix tar files on Windows.
+
+****************************************************************************
+
+Under Unix, mount the CD-ROM (called "cdrom" in this example) and issue the 
+following command to extract files into subdirectories which will be created 
+under your present working directory.  The code system will be written to a 
+subdirectory called "mcnpx_2.4.0".
+
+gunzip -c /cdrom/C715TAR0.TGZ | tar xf -
+
+Listing of files extracted from C715TAR0.TGZ to the mcnpx_2.4.0 subdirectory.
+drwxr-s---         512 Data
+drwxr-s---         512 Docs                     **see Install.html**
+lrwxrwxrwx          22 Makefile.h.in -> ./config/Makefile.h.in
+-rw-r-----        1753 Makefile.in
+-rw-r-----        2004 Makefile.w32
+-rw-r-----        9230 README.w32               **Windows info**
+-rw-r-----        1761 Readme
+-rw-r-----        5998 ReadmeX.1st               **readme first **
+-rw-r-----       14349 TAG_LIST
+-rw-r-----      634880 Win32.exe
+drwxr-s---         512 config
+lrwxrwxrwx          21 config.guess -> ./config/config.guess
+lrwxrwxrwx          19 config.sub -> ./config/config.sub
+-rwxr-x---      109416 configure
+-rw-r-----        2447 configure.bat
+-rwxr-x---        5886 configure.in
+drwxr-s---         512 exe  **developer executables**
+lrwxrwxrwx          19 install-sh -> ./config/install-sh
+-rwxr-x---        3419 make-link-script
+-rwxr-x---        8592 make-links
+drwxr-s---         512 miscellany
+drwxr-s---         512 src
+-rwxr-x--x         972 testonly
+
+Expanding the code system requires ~250 MB, and about another 120MB 
+is required to build executables and run test cases. The cross section 
+libraries in D205TAR3.TGZ require ~1.2 GB of hard disk space to expand.  
+
+*************************************************************************
+The official release date of MCNPX 2.4.0 is August 1, 2002.
+
+The LANL developers ran MCNPX 2.4.0 on the following systems. Their 
+executables are included in the distribution.  Installation may fail 
+with different compilers.
+	Sun-Solaris/WorkShop Fortran Compilers 6, update 2 (Fortran 95 6.2)
+	SGI-IRIX/MIPSpro Compilers: Version 7.30 under 64 bit IRIX and 32 bit IRIX
+	HP-HPUX/HP F90 v2.4.10
+	IBM-AIX/xlf90 Version 7 Release 1
+	DEC Alpha-Tru64 running OSF1 V5.0 with Compaq Fortran V5.3-915
+	Intel-Linux 7 with The Portland Group Fortran Group, Inc. f90 3.2-3
+	Windows2000 on Pentium IV - Compaq Visual Studio 6.6 and Microsoft C++ 6.0
+	  (Note that CVF 6.5 fails to compile the code, but 6.1 works.)

@@ -1,0 +1,50 @@
+Energy deposition test problem for mcnpx and the mesh tally
+c    Written by Ed Snow 01/19/2001
+c
+c    Energy depositied in a 1.0 cm disk of iron 5.05587 cm
+c    in radius by an 800 MeV proton beam, 2 cm in diameter,
+c    directed at the center of a flat side.
+c
+1    1  -7.86  1 -2 -3
+2    0          -4 #1
+3    0   4
+
+1    pz  0.0
+2    pz  1.0
+3    cz  5.05587
+4    so  100.0
+
+mode   n p | * u v w h l + - x y o c ! ? < / z
+           k % ^ g @ f > b q d t s a
+imp:h  1 1 0
+c
+c      Material #1: Iron
+c      Mass density 7.86 g/cc
+m1     26000.  1.
+sdef   cel 1 pos 0. 0. 0. sur 1 dir 1 rad d1 erg 800. par 9
+si1   0. 1.
+nps   10000
+prdmp  j -60 -1
+phys:h  800.  j  j  j  -1
+phys:n  800.
+phys:|,*,u,v,w,l,+,-,x,y,o,c,!,?,<,/,z,k,%,^,g,@,f,>,b,q,d,t,s,a  4j -1
+print
+c
+c       << TALLY CARDS >>
+c
+f16:h     1
++f6       1
+c
+c       << MESH TALLIES >>
+c
+tmesh
+cmesh1:h  pedep
+cora1   0. 5.055870
+corb1   0. 1.0
+corc1   360
+cmesh3  de/dx recol tlest edlct total
+cora3   0. 5.055870
+corb3   0. 1.0
+corc3   360.
+endmd
+

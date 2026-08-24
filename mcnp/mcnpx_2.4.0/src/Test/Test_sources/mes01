@@ -1,0 +1,37 @@
+Test1 for mcnpx and mesh tallies.  (11/30/99)
+c     This inp is set up to test standard mesh tallies
+c     and the trans option with a point source.
+c      >>CELL CARDS<<
+1     0  1 -2
+2     0 -1 -2
+3     0  2
+
+c      >>SURFACE CARDS<<
+1     px -10.0
+2     so  20.0
+
+c      >>DATA CARDS<<
+tr1   0. 0. 0. 0. 0. -1.  0.  1. 0. 1. 0. 0.
+mode  n
+imp:n  1 1 0
+sdef  cel 1 pos -5.0 0. 0.
+nps  20000
+print
+prdmp  2j -1
+c
+f4:n   1
+fc4  Cell tally in cell 1.
+c
+tmesh
+rmesh1:n  flux traks popul dose
+cora1  0.0 1.0 2.0
+corb1 -1.0 0.0 1.0
+corc1 -1.0 0.0 1.0
+c
+cmesh11:n  flux trans 1
+cora11  0. 1.414214
+corb11  -1. 0. 1.
+corc11  90. 180. 270. 360.
+c
+endmd
+

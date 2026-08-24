@@ -1,0 +1,38 @@
+Test3 for mcnpx and mesh tallies.  (5/29/98)
+c    This inp set up to test the point source mesh tallies
+c    with a uniform volume source.
+c      >>CELL CARDS<<
+1     0 -1
+2     0  1
+
+c      >>SURFACE CARDS<<
+1     so  5.0
+
+c      >>DATA CARDS<<
+mode  n
+imp:n  1 0
+sdef  cel 1 pos d1
+si1   l .5 .5 .5     .5 .5 -.5   .5 -.5 .5   -.5 .5 .5
+        .5 -.5 -.5  -.5 .5 -.5  -.5 -.5 .5   -.5 -.5 -.5
+sp1   .125 7r
+nps   20000
+print
+prdmp  2j -1
+c
+f4:n   1
+fc4  Cell tally in cell 1.
+c
+tmesh
+c
+rmesh2  n
+cora2 -1.0 0.0 1.0
+corb2 -1.0 0.0 1.0
+corc2 -1.0 0.0 1.0
+c
+cmesh12  n
+cora12  0.001 1.414214
+corb12  -1. 0. 1.
+corc12  90. 180. 270. 360.
+c
+endmd
+

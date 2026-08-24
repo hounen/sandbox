@@ -1,0 +1,122 @@
+# Process this file with configure to produce a Makefile.
+# @configure_input@
+#-----------------------------------------------
+# Substitutions of output vars into shell vars
+# See aclocal.m4 for AC_SUBST commands
+#-----------------------------------------------
+#^^^support Windows and Unix
+d = /
+ifeq (@SYSTEM@,Windows)
+/ = ${d:/=\}
+else
+/ = ${d}
+endif
+#^^^support vpath with the following two lines
+srcdir = @srcdir@
+VPATH = @srcdir@
+#^^^path for mcnpx to find needed data when run
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+libprefix = @libdir@
+#^^^places to use for installing executables and library data
+bindir = ${prefix}${/}bin
+datadir = @libdir@
+# pass the following quoted symbols to compiles so code can find its data when executing
+PATH_DEFINES = -DPREFIX=\"${prefix}\" -DLIBPREFIX=\"${libprefix}\" 
+#^^^machine hardware/software
+SYSTEM = @SYSTEM@
+ARCH = @ARCH@
+DEFS = @DEFS@
+#^^^shared or static linking file suffixes
+LINKMETH = @LINKMETH@
+SHARSUF = @SHARSUF@
+STATSUF = @STATSUF@
+#^^^compiler optimizations
+COPT = @COPT@
+FOPT = @FOPT@
+#^^^debug settings
+CDEBUG = @CDEBUG@
+FDEBUG = @FDEBUG@
+LDDEBUG = @LDDEBUG@
+#^^^dynamic loading flags
+SOLIBS = @SOLIBS@
+SOLDFLAGS = @SOLDFLAGS@
+SOFLAGS  = @SOFLAGS@
+#^^^dynamic compiling flags
+SOFFLAGS = @SOFFLAGS@
+SOCFLAGS = @SOCFLAGS@
+#^^^static linking flags
+LIBS = @LIBS@
+FLAGS = @FLAGS@
+LDFLAGS = @LDFLAGS@
+#^^^static compiling flags
+# -----------------------------------------------
+# helpful mappings to allow transmogrification of AIX Fortran -D things.
+#
+EMPTY:=
+COMMA:=,
+SPACE:=${EMPTY} ${EMPTY}
+FDEFS = @FDEFS@
+CDEFS = @CDEFS@
+FFLAGS = @FFLAGS@
+CFLAGS = @CFLAGS@
+FPPFLAGS = @FPPFLAGS@
+#^^^link libs used in static
+FLIBS = @FLIBS@
+XLIBS = @XLIBS@
+PARALIB = @PARALIB@
+TASKS = @TASKS@
+#^^^fortran compiler to use for our Makefile
+FCOMP = @FCOMP@  
+#^^^c compiler to use for our Makefile
+CCOMP = @CCOMP@
+#^^^fortran & c env vars that may be externally set
+FC = @FC@
+CC = @CC@
+#^^^modules requested
+FMODS = @FMODS@
+#^^^make flags
+MFLAGS = @MFLAGS@
+#^^^test case file identification variables
+TARCH = @TARCH@
+TSYS = @TSYS@
+TFC = @TFC@
+TCC = @TCC@
+
+#^^^editor to use for the test case examinations
+EDITOR = @EDITOR@
+# -----------------------------------------------
+# helpful command mappings - these should be in /bin or /usr/bin
+ifeq (${SYSTEM},Windows)
+MV = move
+CP = copy /Y
+RM = del
+LS = dir
+ECHO = echo
+AR_CMD = lib /out:
+CD = cd
+COMP = fc /w
+CLEANFILES = nohup.out core a.out *.hh *.l *.i *.f *.C *.cc *.cpp *~ *.o *.mod
+else
+export SHELL = @SHELL@
+export MV = @MV@
+export CP = @CP@
+export RM = @RM@ -f
+export LS = @LS@
+export ECHO = @ECHO@
+export AR_CMD = @AR_CMD@ -r
+export CHMOD = @CHMOD@
+export COMP = /usr/bin/diff -b
+export SED = @SED@
+export LD = @LD@
+export LN = @LN@
+# the cd command is internal to the shell
+export CD = cd
+# helpful variable settings
+export CONFFILES = config.log config.status config.cache conf*.f Makefile Makefile.h conftest
+export CLEANFILES = nohup.out core a.out *.hh *.l *.i *.f *.C *.cc *.cpp *~ *.o *.mod
+export DISTCLEANFILES = depend.mk *.a *.so *.sa
+export SOURCES = *.F *.c
+endif
+# use autoconf SET_MAKE
+@SET_MAKE@

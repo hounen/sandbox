@@ -1,0 +1,42 @@
+# $Id: Makefile.in,v 1.7 2001/12/13 17:26:57 mcnpx Exp $
+
+include Makefile.h
+
+# SOURCEDIR is path relative to this 'make'
+SOURCEDIR = ${srcdir}
+# INCLUDE directory  is two  levels up from this SOURCEDIR
+INCLUDE = -I${SOURCEDIR}/../../include
+
+# Target mcnpx is an executable shell script
+TARGET = mcnpx
+
+# Target  involves editing of the PATH variable within contents of a shell script
+
+#----------------------------
+all : ${TARGET}	
+	@${CHMOD} a+x ${TARGET}
+	@${CP} ${TARGET} ..
+	@${ECHO} "$@ completed."
+
+# - - - - - - - - - - - - - - - - - - - 
+
+# how the .sh file becomes the target
+${TARGET} : ${SOURCEDIR}/${TARGET}.sh
+	${SED} "/%PATH%/s::`(cd ..;pwd)`:" ${SOURCEDIR}/${TARGET}.sh | sed "/%SO%/s//${SHARSUF}/" >${TARGET}
+
+# - - - - - - - - - - - - - - - - - - - 
+
+# force make to execute every time for PHONY targets
+.PHONY : clean distclean ${SOURCEDIR}/${TARGET}.sh
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean :
+	@${RM} ${CLEANFILES}
+
+# Target distclean should clean then remove executables and dependency files
+distclean : clean
+	@${RM} -f ${TARGET}
+	@-${RM} -f ${DISTCLEANFILES}
+	@-${RM} -f ${CONFFILES}
+
+# DO NOT DELETE THIS LINE -- makedepend depends on it.

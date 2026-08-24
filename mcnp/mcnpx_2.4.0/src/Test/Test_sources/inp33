@@ -1,0 +1,105 @@
+nisol-two-step model:
+c                   tungsten target
+c                   lithium coolant
+c                   uranium carbide blanket
+c
+c  cells
+100  0                -101 +200 -201   $ Beam line
+200  1 -19.25         -100 +202 -203   $ Tungsten target
+300  3  -0.542        -101 +201 -204   $ Lithium cooling
+                      #200
+400  2  -2.50    +101 -102 +200 -204   $ Uranium blanket
+500  0                -300             $ vacuum around
+                      (+102 :-200 :+204)
+999  0           +300                  $ universum
+
+c
+c  surfaces
+ 100  cz   0.5
+ 101  cz   1.0
+ 102  cz   3.0
+ 200  pz   0.0
+ 201  pz   2.0
+ 202  pz   3.0
+ 203  pz  38.0
+ 204  pz  41.0
+ 300  so 100.0
+
+c
+c  materials
+c
+c    niobium  density 19.25 g/cc
+m1   41093.40c  1.0
+c
+c    uranium carbide density UC_2 density 2.50 g/cc
+m2   92238.40c   0.33
+      6012.40c   0.66
+c
+c    lithium coolant density 0.542 g/cc
+m3    3007.40c  1.00
+c
+c    uranuim 238 for tally
+m99  92238.40c  1.00
+c
+c  source: protons 1GeV MeV
+sdef  pos 0 0 -1 vec 0 0 1 dir 1 rad d1 erg 1000 par 9
+si1    0 0.25
+sp1    -21
+c
+c  tallies
+c
+fc4  fission rate in UC_2-blanket
+f4:n  400
+fm4   (5.795e-3 99 -6) (1.0)
+e4    1e-1 1 2 3 4 5 6 7 8 9 10 12 15 20 T
+c
+fc1  proton leackage off the target back surface
+f1:h  203
+c1    0 1 T
+e1    10 50 100 150 200 300 400 500 600 700 800 900 1000 T
+c
+fc21  proton leackage off the target cylinder surface
+f21:h  100
+c21    0 1 T
+e21    10 50 100 150 200 300 400 500 600 700 800 900 1000 T
+c
+fc31  neutron leackage off the target: cylinder surface
+f31:n  100
+c31    0 1 T
+e31    10 50 100 150 200 300 400 500 600 700 800 900 1000 T
+c
+fc41  neutron leackage off the target: front surface
+f41:n  202
+c41    0 1 T
+e41    10 50 100 150 200 300 400 500 600 700 800 900 1000 T
+c
+fc51  neutron leackage off the target: back surface
+f51:n  203
+c51    0 1 T
+e51    10 50 100 150 200 300 400 500 600 700 800 900 1000 T
+c
+c  lcs parameters
+lca    2 1 1 23 1 1 0 1 1
+lea    1 4 1 0 1 0 1 1
+c
+c  parameters
+imp:n   1 4r 0
+imp:h   1 4r 0
+imp:d   1 4r 0
+imp:t   1 4r 0
+imp:s   1 4r 0
+imp:a   1 4r 0
+imp:/   1 4r 0
+imp:z   1 4r 0
+phys:n 1000.
+phys:h 1000.  3j   -1
+phys:d 1000.  3j   -1
+phys:t 1000.  3j   -1
+phys:s 1000.  3j   -1
+phys:a 1000.  3j   -1
+phys:/ 1000.  3j   -1
+phys:z 1000.
+mode   n h d t s a / z
+prdmp  0 50 -1 4
+nps    100
+

@@ -1,0 +1,32 @@
+
+Welcome to MCNPX, Version 2.3.0
+-------------------------------
+
+Construction of this version of MCNPX is totally 
+controlled by the 'autoconf' utility. This means that
+you must run the 'configure' script prior to running
+the 'make' program (described below). The configure
+script determines the hardware type in use and
+searches for FORTRAN and C compilers and 
+their associated libraries. The 'configure' script also
+accepts a variety of arguments and options that
+allow you to control the outcome of the configure.
+
+Running configure generates the various Makefile files 
+with appropriate contents for the hardware and software
+platform in use. Once the Makefile files exist, you may 
+then execute the 'make'program.
+
+The MCNPX system relies on the GNU implementation
+of the 'make' program. On many platforms, this is
+invoked by 'gmake'. Occasionally, as under LINUX,
+'make' invokes the GNU version. To examine the 
+version of make on your system, execute the following
+command:
+
+make --version
+
+----------------------------------
+This file is required by the autoconf utility.
+Please do not remove this file.
+----------------------------------

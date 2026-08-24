@@ -1,0 +1,50 @@
+
+Welcome to MCNPX, Version 2.4.0
+-------------------------------
+
+Construction of this version of MCNPX is totally 
+controlled by the 'autoconf' utility. This means that
+you must run the 'configure' script prior to running
+the 'make' program (described below). The configure
+script determines the hardware type in use and
+searches for FORTRAN and C compilers and 
+their associated libraries. The 'configure' script also
+accepts a variety of arguments and options that
+allow you to control the outcome of the configure.
+
+Running configure generates the various Makefile files 
+with appropriate contents for the hardware and software
+platform in use. Once the Makefile files exist, you may 
+then execute the 'make'program.
+
+The MCNPX system relies on the GNU implementation
+of the 'make' program. On many platforms, this is
+invoked by 'gmake'. Occasionally, as under LINUX,
+'make' invokes the GNU version. To examine the 
+version of make on your system, execute the following
+commands:
+
+make --version
+gmake --version
+
+Use the command that allows and understands the --version option.
+
+To see instructions for configuring and building the 
+MCNPX code and the standard Tests see the page "INSTALL.html"
+in the Docs/ subdirectory.
+
+----------------------------------
+This file is required by the autoconf utility.
+Please do not remove this file.
+----------------------------------
+
+The recommended configure commands for some systems are shown below:
+Sun-Solaris: ../configure --with-FC=f90 --with-CC=cc
+Intel-Linux: ../configure --with-FC=pgf90 --with-CC=pgcc
+Alpha-Tru64: ../configure --with-FC=f90 --with-CC=cc
+SGI-IRIX: ../configure --with-FC=f90 --with-CC=cc
+HP-HPUX: ../configure --with-FC=f90 --with-CC=cc
+IBM-AIX: ../configure --with-FC=xlf --with-CC=cc
+
+
+

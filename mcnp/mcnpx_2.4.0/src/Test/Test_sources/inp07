@@ -1,0 +1,72 @@
+testprob07 -- generate surface source for testprob08
+1     0   12                  $ zero-importance outside world
+3     5 -5.2   -7 #4 #5 #6 $ rusty sphere 
+4     6 -8.1   -5 -4 3        $ source cell:  uranium oxide
+5     7 -2.7   -7 -6 5        $ aluminum stuffer
+6     7 -2.7   -7 -6 -3
+8     5 -5.2 -1 -12 18 
+9     5 -5.2 -2 -12 -19 
+10    5 -5.2 -25 -12 22 
+11    5 -5.2 -24 -12 20
+12    5 -5.2 -26 -12 -23
+13    5 -5.2 -27 -12 -21 
+17    5 -5.2  7 -18 19 -20 21 -22 23 
+18    5 -5.2  #3 #4 #5 #6 #8 #9 #10 #11 #12 #13 #17 -12 
+ 
+3     px -5
+4     cx 5
+5     px 6.25 
+6     c/x 0.5 0 2.5
+7     so 8
+12    so 30
+1     k/x 18 0 0 0.22
+2     k/x -18 1 0 0.22
+25    ky 18 0.22
+24    kz 18 0.22
+26    k/y  1 -18 0 0.22
+27    k/z  1 0 -18 0.22 
+18    px 17.9
+19    px -17.9
+20    pz 17.9
+21    pz -17.9
+22    py 17.9
+23    py -17.9
+
+m5    26058     1  8016.40c 1 nlib=.60 elib=.01 plib=02
+m6    92235.50d 1  8016.00c 2
+m7    13027.40c 1
+drxs
+mode n 
+imp:n  0 1 1 1 1 1 1 1 1 1 1 1 1
+ssw   7  sym=1  $ write the surface source at surface 7
+c
+ sdef  erg fdir d1   cel 4 axs 1 0 0 rad d3 ext d2 vec 1 0 0 dir d5 
+ds1 q .1 21 .3 22 .6 23 .8 25 1. 24
+si21   0.001 2 4 7
+sp21   0 2 1 0
+sp22 -5
+sp23 -6
+sp24 -4
+si25  a 0.001 2 4 7
+sp25  0 2 1 0
+sc2   the symmetry makes it a fair game.
+si2   -5 -3 -1 1 3 5
+sp2   0 1 4r
+sb2   0 1 2 3 4 5
+si3   0 5
+sp3   -21 1
+si5   -1 -.5 0 .5 1
+sp5   0 1 3r
+c
+f2:n  7
+sf2 7
+e0    .1 .5 1 2 10
+f7:n   4
+cf7 4
+sd2   804.22    $ area of surface 7
+cut:n  j .1
+nps   4000
+lost 20 20
+prdmp 2j -1
+print 10
+dbcn 7j 77

@@ -1,0 +1,1274 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.78 [en] (Windows NT 5.0; U) [Netscape]">
+</head>
+<body>
+
+<h1>
+MCNPX, Version 2.4.0</h1>
+
+<ul>
+<li>
+<a href="#In the  beginning...">In the beginning...</a> it is useful to
+know what utilities exist on your computing platform</li>
+
+<li>
+<a href="#Automated Building">Automated configuration</a> of the build
+process of mcnpx with the GNU autoconf utility</li>
+
+<li>
+<a href="#Directory Organization">Organization</a> of source and regression
+test directories</li>
+
+<li>
+<a href="#User's Notes">User's Notes</a></li>
+
+<li>
+<a href="#Programmer's Notes">Programmer's Notes</a></li>
+
+<li>
+<a href="#Additional Software Requirements">Additional Software Requirements</a></li>
+
+<li>
+<a href="#Fortran 90 Compilers">Fortran 90 Compilers</a></li>
+
+<li>
+<a href="#Fortran 90 Platform Default Optimization">Fortran 90 Platform
+Default Optimization</a></li>
+
+<li>
+<a href="#In the end...">In the end...</a> you should know something about
+install</li>
+</ul>
+
+<h2>
+<a NAME="In the beginning..."></a>In the beginning...</h2>
+Remember that your PATH environment variable governs the search order for
+finding utilities. You should be aware of the value of your PATH environment
+variable by issuing the following command:
+<pre>&nbsp;&nbsp; <b>echo $PATH</b></pre>
+You may find it useful to set your PATH environment variable to a strategic
+search order so that the utilities that are found first are the ones you
+intend to use. Setting of environment variables is done differently depending
+upon what shell you use. Please consult the appropriate manuals for your
+shell. Most systems have more than one shell. Any system can have more
+than one version of any utility. You must know your utilities.
+<p><b><i>UNIX and Linux Platforms</i></b>
+<br>If you work on a UNIX or Linux operating system you can use the following
+inquiry commands to learn if you have more than one make utility:
+<pre>&nbsp;&nbsp; <b>which make
+</b>&nbsp;&nbsp; <b>which gmake</b></pre>
+Many systems come with a make utility that is provided by the vendor. On
+UNIX and Linux, you must use the GNU make utility and it must be version
+3.76 or later. Sometimes the GNU make utility is installed in an executable
+file called "gmake". Sometimes system administrators make symbolic links
+called "make" that when resolved, invoke the "gmake" utility. You can make
+your own symbolic links in directories that you own and control so that
+when you execute the "make" command you will be executing the "make" you
+intend to use. You can also establish an alias in the shell runtime control
+file whereby any "make" command you issue actually executes "gmake." You
+can also substitute the "gmake" command everwhere you see the "make" command
+in the examples that follow.
+<p>The important point of this discussion is to know your "make" and use
+the right one, otherwise, this automated build system can fail.
+<p>If no "make" or "gmake" is found, you either have a PATH value problem,
+or you need some help from your system administrator to install GNU make.
+<p>If both "make" and "gmake" exist, query each of them to see what version
+you have.
+<pre>&nbsp;&nbsp; <b>make --version
+</b>&nbsp;&nbsp; <b>gmake --version</b></pre>
+Some vendor supplied "make" utilities do not understand the "--version"
+option that requests that the version number be printed. If you see an
+error or usage message, then your "make" is one of the vendor-supplied
+variety. Make sure you have GNU make version 3.76 or later installed and
+that it is found in your search path first. You may use an alias command
+to map the make command to gmake or remember to type "gmake" instead of
+"make" when you build mcnpx.
+<p><b><i>Windows Platform</i></b>
+<br>See the mcnpx_2.4.0/Readme.w32 text file for software requirements
+and instructions on building under Windows using a GNU Windows based make
+utility.&nbsp; The build procedure will expand the Win32.exe binary file
+to the mcnpx_2.4.0 source tree. The Compaq Visual Fortran compiler Version
+6.1 or 6.6 and Microsoft C++ 6.0 compilerse are required to compile under
+Windows.&nbsp; If you do not have these compilers, you may use the distributed
+executables as described later in this file under User's Notes.
+<h2>
+<a NAME="Automated Building"></a>Automated Building</h2>
+The process used when building mcnpx varies greatly depending upon the
+following:
+<ul>
+<li>
+hardware platform e.g. SPARC, ALPHA, I386</li>
+
+<li>
+operating system e.g. Solaris, Linux, HP-UX</li>
+
+<li>
+available compilers e.g f90/cc, pgf90/pgcc, xlf/xlc</li>
+
+<li>
+the various locations of X libraries on different systems</li>
+
+<li>
+mcnpx program options e.g. the default path of cross sections and other
+data files.</li>
+</ul>
+Automated configuration with a generated configure script and building
+with a make script and targets handles the complex set of build options
+that are now available for mcnpx. With this release of the first FORTRAN
+90 based mcnpx, the majority of the autoconf behavior provided by prior
+FORTRAN 77 based mcnpx is still valid and available. The introduction of
+FORTRAN 90 modules has broken the dependency tracking mechanism of the
+subdirectories in a few places. Several module files must be built first
+and are copied into new locations. Should you experience build difficulties,
+try rebuilding from a clean start to correctly establish the module dependencies.
+We are working on handling FORTRAN 90 module dependencies in a more correct
+manner in future releases.
+<p>A hierarchy of special autoconf-generated <b>configure</b> scripts distributed
+with mcnpx version 2.4 will examine your computing environment, adjust
+the necessary parameters, then generate a set of Makefiles in your chosen
+build directory that matches your particular computing environment. Currently
+we are using the autoconf structure to support the use of individual feature
+tests to generate a correct <b>configure</b> script for a variety of hardware,
+operating system, and compiler combinations.
+<p><b><i>Each autoconf generated configure script will search for GNU compilers
+first before attempting to locate any other compiler present on your computing
+environment. Please be aware of exactly how many Fortran and C compilers
+exist in your computing environment. With this FORTRAN 90 release it will
+be necessary to specify which Fortran and C compiler should be used. You
+have that power via options given to the configure script. See the --with-FC
+and --with-CC options later in this document.</i></b>
+<p>The recommended configure commands for the systems that we tested are
+shown below:
+<table BORDER COLS=2 WIDTH="75%" NOSAVE >
+<tr>
+<td><b><font color="#FF0000">Platform</font></b></td>
+
+<td><b><font color="#FF0000">Recommended Configure Command</font></b></td>
+</tr>
+
+<tr>
+<td>Sun-Solaris</td>
+
+<td>./configure --with-FC=f90 --with-CC=cc</td>
+</tr>
+
+<tr>
+<td>Intel-Linux</td>
+
+<td>./configure --with-FC=pgf90 --with-CC=pgcc</td>
+</tr>
+
+<tr>
+<td>Alpha-Tru64</td>
+
+<td>./configure --with-FC=f90 --with-CC=cc</td>
+</tr>
+
+<tr>
+<td>SGI-IRIX</td>
+
+<td>./configure --with-FC=f90 --with-CC=cc</td>
+</tr>
+
+<tr>
+<td>HP-HPUX</td>
+
+<td>./configure --with-FC=f90 --with-CC=cc</td>
+</tr>
+
+<tr>
+<td>IBM-AIX</td>
+
+<td>./configure --with-FC=xlf --with-CC=cc</td>
+</tr>
+</table>
+
+<p>Rather than having only one Build directory of past distributions, it
+is now possible to create as many Build directories as desired, anywhere
+one wants, named anything one wants. Through the use of options supplied
+to the configure script, one can vary the resulting generated Makefiles
+to match a desired configuration.
+<p>Most software packages that use autoconf have a basic unpack, build,
+and install procedure that looks like this:
+<pre>&nbsp;&nbsp; <b>gzip -dc PACKAGE.tar.gz | tar xf -&nbsp;
+</b>&nbsp;&nbsp; <b>cd PACKAGE
+</b>&nbsp;&nbsp; <b>./configure
+</b>&nbsp;&nbsp; <b>make install</b></pre>
+This method of installation works with mcnpx. However, the development
+team recommends a slightly different method so as not to clutter the original
+source tree with all the products of compiling and building.
+<p>More complex packages (The GNU C compiler suite, gcc comes to mind)
+warn that the simple build procedure given above is a dangerous practice,
+as it clutters the original source tree with generated Makefiles and compiled
+objects, and makes it difficult to support multiple builds with different
+options. They suggest using a different, initially empty directory to be
+the target of the <b>configure</b> process.
+<pre>&nbsp;&nbsp; <b>gzip -dc PACKAGE.tar.gz | tar xf -&nbsp;
+</b>&nbsp;&nbsp; <b>mkdir Build
+</b>&nbsp;&nbsp; <b>cd Build
+</b>&nbsp;&nbsp; <b>PATH_OF_PACKAGE-SOURCE/configure
+</b>&nbsp;&nbsp; <b>make install</b></pre>
+The mcnpx team also makes this suggestion. Please use an empty directory
+somewhere other than the source distribution's location as the target of
+the build. It keeps the source tree clean and allows multiple builds with
+different options. Even if you think that you will never need additional
+builds, it costs nothing to have the flexibility in the future.
+<h2>
+MCNPX Build Examples</h2>
+We will illustrate the autoconf configure and make procedure with two primary
+examples; A system manager installing the mcnpx release for a system with
+several users, and an individual user installing the mcnpx release for
+their own use. A few variations on these themes are given.
+<h3>
+System-Wide Installation</h3>
+For purposes of the first illustration, we will assume that the mcnpx 2.4
+distribution has been unloaded from cdrom or fetched from the net and is
+in the file
+<b>/usr/local/src/mcnpx_2.4.0.tar.gz</b>. We will assume that
+the FORTRAN 90 compiler in use is called f90 and the C compiler in use
+is called cc and both of these compilers can be located via the PATH environment
+variable. The system manager, logged in as <b>root</b>, will unload the
+distribution into <b>/usr/local/src/mcnpx_2.4.0</b>, will configure and
+build the system in <b>/tmp/mcnpx</b>, will install the mcnpx executable
+in <b>/usr/local/bin</b>, and will install the libraries (end eventually
+the mcnp cross sections) into <b>/usr/local/lib</b>. Naturally, the specific
+name of the mcnpx distribution archive will vary depending on the version
+you have acquired.
+<p>The following example uses <b>bourne</b> shell commands that follow
+accomplish this task. If you are more familier with <b>csh</b>, you will
+need to adjust things approprietly.
+<b>NOTE:</b> Comments about the shell
+commands start with the '#' character. Also, don't be alarmed by the generous
+amount of output from the configure and make scripts. They work hard so
+you don't have to.
+<pre>&nbsp;&nbsp; # go to the installation directory
+&nbsp;&nbsp; <b>cd /usr/local/src
+</b>&nbsp;&nbsp; # Unpack the distribution. This creates the directory mcnpx_2.4.0
+&nbsp;&nbsp; <b>gzip -dc mcnpx_2.4.0.tar.gz | tar xf -&nbsp;
+</b>&nbsp;&nbsp; # go to /tmp and make the build directory
+&nbsp;&nbsp; <b>cd /tmp
+</b>&nbsp;&nbsp; <b>mkdir mcnpx
+</b>&nbsp;&nbsp; # go into that working space
+&nbsp;&nbsp; <b>cd mcnpx
+</b>&nbsp;&nbsp; # execute the configure script to generate the set of Makefiles&nbsp;
+&nbsp;&nbsp; # <i>remember to specify the use of the f90 and cc compilers
+</i>&nbsp;&nbsp; # the default directory prefix is /usr/local
+&nbsp;&nbsp; <b>/usr/local/src/mcnpx_2.4.0/configure --with-FC=f90 --with-CC=cc
+</b>&nbsp;&nbsp; # now make the executable mcnpx program and supporting LCS libraries
+&nbsp;&nbsp; <b>make all
+</b>&nbsp;&nbsp; # run the regression tests for your architecture
+&nbsp;&nbsp; <b>make tests
+</b>&nbsp;&nbsp; # install the executables and libraries in /usr/local
+&nbsp;&nbsp; <b>make install
+</b>&nbsp;&nbsp; # clean up. The build products are no longer needed.
+&nbsp;&nbsp; <b>cd /tmp
+</b>&nbsp;&nbsp; <b>rm -rf mcnpx</b></pre>
+
+<h3>
+System-Wide Installation With Existing Directories</h3>
+The previous example might typically be used when a new installation of
+mcnpx is performed on a system that has no pre-existing mcnpx with which
+to be compatible. If a user already has mcnpx, then it may be desired to
+use the existing locations for the data files and cross sections. Two options
+to the configure process can be used to customize the locations where mcnpx
+and its data will be installed, and the default locations where mcnpx will
+find those files.
+<p>When the user wants to use the normal mcnpx directory layout of
+<pre>&nbsp;&nbsp; <b>.../bin</b> for executables
+&nbsp;&nbsp; and
+&nbsp;&nbsp; <b>.../lib</b> for data files</pre>
+but does not wish to use the default directory <b>/usr/local</b>, then
+the previous example can be adjusted with additional options. In the previous
+example, the configure script could be given the option
+<pre>&nbsp;&nbsp; <b>/usr/local/src/mcnpx_2.4.0/configure --with-FC=f90 --with-CC=cc --prefix=/usr/mcnpx</b></pre>
+and the <b>make install</b> process would install the mcnpx binary in
+<b>/usr/mcnpx/bin</b>
+and the data files in <b>/usr/mcnpx/lib</b>. The code will use <b>/usr/mcnpx/lib</b>
+as its default location for finding the data files.
+<p>When the user has an existing directory layout that does not follow
+the mcnpx default, then the data path itself can be customized like this:
+<pre>&nbsp;&nbsp; <b>/usr/local/src/mcnpx_2.4.0/configure --with-FC=f90 --with-CC=cc --libdir=/usr/mcnpx</b></pre>
+which will leave the default executable location as <b>/usr/local/bin</b>
+and set the location for the data files to <b>/usr/mcnpx</b>.
+<p>Finally, both the <b>--prefix</b> and the <b>--libdir</b> options can
+be used together with the <b>--libdir</b> options taking precedence over
+the library directory implied by the <b>--prefix</b>.
+<p>These options should remove the need to edit paths in the source code.
+In fact, with support for these options, there are no longer any paths
+in the code to edit.
+<h3>
+Individual Private Installation</h3>
+For the purpose of the second illustration, we will look at a single non-privilaged
+user ("Me") on a computer loading and building a private copy of the code.
+The local user building the private copy is username <b>me</b> whose home
+directory is the directory <b>/home/me</b>. The user has fetched the distribution
+from CDROM or from the net and has it in the file <b>/home/me/mcnpx_2.4.0.tar.gz</b>.
+The user will unload the distributation package into <b>/home/me/mcnpx_2.4.0</b>.
+The user will build the system in the same directory as the source, install
+the binary executable in <b>/home/me/bin</b>, and install the binary data
+files (and eventually the mcnp cross sections) in <b>/home/me/lib</b>.
+This method makes it hard to make multiple versions with different options.
+A better example will follow this one.
+<p>The following example uses <b>bourne</b> shell commands that follow
+accomplish this task. If you are more familier with <b>csh</b>, you will
+need to adjust things appropriately.
+<b>NOTE:</b> Comments about the shell
+commands start with the '#' character. Also, don't be alarmed by the generous
+amount of output from the configure and make scripts. They work hard so
+you don't have to.
+<pre>&nbsp;&nbsp; # go to your user home directory
+&nbsp;&nbsp; <b>cd /home/me/
+</b>&nbsp;&nbsp; # unpack the distribution that was copied from the net or a CDROM.
+&nbsp;&nbsp; # This creates /home/me/mcnpx_2.4.0
+&nbsp;&nbsp; <b>gzip -dc mcnpx_2.4.0.tar.gz | tar xf -&nbsp;
+</b>&nbsp;&nbsp; # go into the unpacked distribution.
+&nbsp;&nbsp; <b>cd mcnpx_2.4.0
+</b>&nbsp;&nbsp; # execute the configure script
+&nbsp;&nbsp; # <i>remember to specify the use of the f90 and cc compilers
+</i>&nbsp;&nbsp; # the --prefix tells where to put the executables and libraries.
+&nbsp;&nbsp; <b>./configure --with-FC=f90 --with-CC=cc --prefix=/home/me
+</b>&nbsp;&nbsp; # Make the executable mcnpx program, the bertin and pht libraries,
+&nbsp;&nbsp; # and run the regresison tests
+&nbsp;&nbsp; <b>make all; make tests
+</b>&nbsp;&nbsp; # now install the executable mcnpx program and the bertin
+&nbsp;&nbsp; # and pht libraries in /home/me/bin and /home/me/lib/mcnpx
+&nbsp;&nbsp; <b>make install</b></pre>
+
+<h3>
+Individual Private Installation Done Better</h3>
+For a more flexible version of our second example, we will look at the
+same single non-privilaged user ("Me") on a computer loading and building
+a private copy of the code. This time however, the user will use a second
+directory away from the mcnpx source code in which to do the build. This
+can be done several times in different build directories with different
+options such as debugging/non-debugging versions or different compiler
+types.
+<p>The local user building the private copy is again username <b>me</b>
+whose home directory is the directory <b>/home/me</b>. The user has fetched
+the distribution from CDROM or from the net and has it in the file <b>/home/me/mcnpx_2.4.0.tar.gz</b>.
+The user will unload the distributation package into <b>/home/me/mcnpx_2.4.0</b>.
+(With this method, the source can be anywhere as long as the user has the
+pathname to it.) The user will build the system in the local directory
+<b>/home/me/mcnpx</b>,
+install the binary executable in <b>/home/me/bin</b>, and install the binary
+data files (and eventually the mcnp cross sections) in <b>/home/me/lib</b>.
+<p>The following example uses <b>bourne</b> shell commands that follow
+accomplish this task. If you are more familier with <b>csh</b>, you will
+need to adjust things approprietly.
+<b>NOTE:</b> Comments about the shell
+commands start with the '#' character. Also, don't be alarmed by the generous
+amount of output from the configure and make scripts. They work hard so
+you don't have to.
+<pre>&nbsp;&nbsp; # go to your user home directory
+&nbsp;&nbsp; <b>cd /home/me/
+</b>&nbsp;&nbsp; # unpack the distribution that was copied from the net or a CDROM.
+&nbsp;&nbsp; # This creates /home/me/mcnpx_2.4.0
+&nbsp;&nbsp; <b>gzip -dc mcnpx_2.4.0.tar.gz | tar xf -&nbsp;
+</b>&nbsp;&nbsp; # make a local directory for a build directory. Call it "mcnpx".
+&nbsp;&nbsp; <b>mkdir mcnpx
+</b>&nbsp;&nbsp; # go into that new empty working space
+&nbsp;&nbsp; <b>cd mcnpx
+</b>&nbsp;&nbsp; # execute the configure script
+&nbsp;&nbsp; # <i>remember to specify the use of the f90 and cc compilers
+</i>&nbsp;&nbsp; # the --prefix tells where to put the executables and libraries.
+&nbsp;&nbsp; <b>../mcnpx_2.4.0/configure --with-FC=f90 --with-CC=cc --prefix=/home/me
+</b>&nbsp;&nbsp; # now make the executable mcnpx program and the bertin and pht libraries,
+&nbsp;&nbsp; # run the tests,
+&nbsp;&nbsp; # and install in /home/me/bin and /home/me/lib
+&nbsp;&nbsp; <b>make all tests install</b></pre>
+
+<h3>
+Individual Private Installation - special compilers and debugging</h3>
+As a final example, suppose you want basically the same thing as the previous
+example, but you would like to have the debug option turned on during compilation.
+The compiled code will go into a private local library,
+<b>/home/me/bin</b>
+but you wish to use the cross section files and LCS data files already
+on your system. We will assume that these data files already exist in the
+directory <b>/usr/mcnpx/data</b>. We will assume that the source distribution
+has already been unpacked by a system administrator into <b>/usr/local/src/mcnpx_2.4.0</b>.
+<p>To add a bit more complexity, assume for this example that we are building
+and running on a Sun Solaris system that has both the GNU g77 Fortran compiler
+and the vendor's commercial Fortran and C compilers installed. Systems
+such as Sun's Solaris and HP's HP-UX normally do not include development
+compilers. These compilers are usually purchased as additional items. Versions
+of the GNU compilers are available on the net for such systems. Thus, such
+systems may have the GNU compilers, the Vendor's commercial compilers,
+or both installed. In the previous example, the GNU g77 compiler would
+have been used because if it exists, g77 will be found first when searching
+for Fortran compilers on your system. If your system has only f77, it will
+be found and used. We decide to specify the Sun f77 and cc compilers over
+the GNU g77 and gcc compilers for this build. The --with-LD flag may be
+needed in such a case because a full installation of the GNU compiler tools
+can also include a GNU version of the "ld" link editor. Unfortunatly, the
+different "ld" commands take command-line arguments whose syntax differs
+between the two systems. As far as is known, this ONLY affects certain
+experimantal uses of MCNPX and should not be needed by normal users. It
+is shown in this example as a sample of how it is used in the few cases
+where it is needed.
+<pre>&nbsp;&nbsp; # go to your user home directory
+&nbsp;&nbsp; <b>cd
+</b>&nbsp;&nbsp; # set an environment variable that identifies where the distribution lives.
+&nbsp;&nbsp; # This isn't really necessary, but cuts down on typing later.
+&nbsp;&nbsp; <b>MCNPX_DIST=/usr/local/src/mcnpx_2.4.0
+</b>&nbsp;&nbsp; <b>export MCNPX_DIST
+</b>&nbsp;&nbsp; # make a working space that reminds you it's a debug version
+&nbsp;&nbsp; <b>mkdir mcnpx-debug
+</b>&nbsp;&nbsp; <b>cd mcnpx-debug
+</b>&nbsp;&nbsp; # execute the configure script - request debug for the Makefiles,
+&nbsp;&nbsp; # <i>remember to specify the use of the f90 and cc compilers
+</i>&nbsp;&nbsp; # also specify where to put the installed code and which compilers to use.
+&nbsp;&nbsp; <b>$MCNPX_DIST/configure --with-FC=f90 --with-CC=cc --with-LD=/usr/ccs/bin/ld --with-DEBUG --prefix=/home/me --libdir=/usr/mcnpx/data
+</b>&nbsp;&nbsp; # now make the executable mcnpx program.
+&nbsp;&nbsp; # We will omit the regression tests this time, although it would be a good
+&nbsp;&nbsp; # idea to run them again if different compiler optimization values are used.
+&nbsp;&nbsp; <b>make install</b></pre>
+That's all there is to it! There are many other options available with
+this new version of mcnpx. Please read the User's Notes or the Programmer's
+Notes for more details.
+<h2>
+<a NAME="Directory Organization"></a>Directory Organization</h2>
+In order to accomodate the use of the autoconf utility to generate the
+Makefiles, it became necessary to arrange the source code and regression
+test directories a bit. We also added a config directory to hold autoconf
+related code. The current directory structure is depicted below.
+<p><img SRC="mcnpxdir.gif" height=100% width=100%>
+<p>Each of the levels contains a collection of autoconf files and links.
+Removal of any of these files or links will break the automated configure
+and make capabilities.
+<p>First Level:
+<br>Data - contains data used with the bertin, phtlib, makxs targets
+<br>Docs - contains files describing this mcnpx distribution
+<br>Test - contains the regression test files for the various known platforms
+in use
+<br>src - contains the source code files for mcnpx and several related
+utilities
+<br>miscellany - contains things that don't fit into any other category,
+of interest to developers
+<br>config - contains autoconf-related macros, scripts, initialization
+files
+<p>Second Level:
+<br>bertin - builds and executes a program (hcnv) to translate LAHET text
+input to binary input
+<br>phtlib - builds and executes a program (trx) to translate LAHET text
+input to binary input
+<br>gridconv - converts output files generated by mesh tally and mctal
+files into a variety of different graphics formats
+<br>htape3x - reads the history tapes (optionally generated by mcnpx) and
+performs post-processing on them
+<br>makxs - a cross-section library management tool that converts type
+1 cross-sections to type 2 cross-sections and vice versa
+<br>xsex3 - a utility associated with the new cross-section generation
+mode for mcnpx which allows tabulation of cross-section sets based on physics
+models
+<br>include - contains include files shared across directories and include
+files localized in subdirectories
+<br>mcnpx - the organizing root directory for the mcnpx program
+<p>Third Level:
+<br>cem, dedx, etc. - directories that organize the Fortran and C source
+code files that are related to different aspects of the mcnpx program
+<p>Fourth Level:
+<br>individual Fortran and C source code files for a particular aspect
+of mcnpx
+<h2>
+<a NAME="User's Notes"></a>User's Notes</h2>
+Do not edit the Makefiles generated by the configure script. In order to
+change the contents of the generated Makefiles, you must alter the contents
+of several input files that the configure script uses. Please read the
+<a href="#Programmer's Notes">Programmer's
+Notes</a> for instructions.
+<p>The following options are available for use as parameters to the configure
+script for mcnpx 2.4.0
+<table BORDER COLS=3 WIDTH="75%" NOSAVE >
+<tr>
+<td><b>Option Syntax</b></td>
+
+<td><b>Effect on the generated Makefile if requested</b></td>
+
+<td><b>Effect on the generated Makefile if NOT requested</b></td>
+</tr>
+
+<tr>
+<td>--with-STATIC</td>
+
+<td>linking of the compiled files results in a static archive (mcnpx.a)</td>
+
+<td>STATIC is the default - cannot be used at the same time as --with-SHARED
+(future development)</td>
+</tr>
+
+<tr>
+<td>--with-DEBUG</td>
+
+<td>a debug switch appears in the compile step for the generated Makefiles</td>
+
+<td>no debug switch appears in the compile step for the generated Makefiles
+- this option can be used in combination with other options such as --with-FC
+and --with-CC</td>
+</tr>
+
+<tr NOSAVE>
+<td>--with-FC=value (substitute the desired Fortran compiler name for the
+value placeholder, e.g., --with-FC=pgf90 to use the pgf90 compiler)</td>
+
+<td NOSAVE>value will be used to compile Fortran source code - location
+of binary directory containing value must be in your $PATH environment
+variable</td>
+
+<td>configure will search for a Fortran compiler and use the first one
+it finds - this option can be used in combination with other options such
+as --with-DEBUG and --with-CC</td>
+</tr>
+
+<tr>
+<td>--with-CC=value (substitute the desired C compiler name for the value
+placeholder, e.g., --with-CC=pgcc to use the pgcc compiler)</td>
+
+<td>value will be used to compile C source code - location of binary directory
+containing value must be in your $PATH environment variable</td>
+
+<td>configure will search for a C compiler and use the first one it finds
+- this option can be used in combination with other options such as --with-DEBUG
+and --with-FC</td>
+</tr>
+
+<tr>
+<td>--with-LD=value (substitute the desired link editor for the value placeholder,
+e.g., --with-LD=/usr/ccs/bin/ld to use the Standard Sun linker)</td>
+
+<td>value will be used to link object code - Unlike the --with-FC and --with-CC
+options, whose names are used for more than just finding the executable,
+The value can be a full path to the location of the desired ld program
+as well as being a single name like "ld".</td>
+
+<td>configure will search for a linker and use the first one it finds.
+This is typically needed on systems with both a vendor-supplied compiler
+set and the GNU tool set. In such cases there may be two versions of "ld"
+that must be differentiated. - this option can be used in combination with
+other options such as --with-DEBUG and --with-FC</td>
+</tr>
+
+<tr>
+<td>--prefix=value (substitute a full path name for the value placeholder,
+e.g., /home/team/mcnpx) (the path given should be different from the working
+directory where the build is taking place)</td>
+
+<td>value will be used in the install step to create bin and lib data directories
+for mcnpx's use</td>
+
+<td>a default value of /usr/local is used as the full path name for the
+install step. Executables then go to /usr/local/bin and data files go to
+/usr/local/lib. (permissions of the destination may prohibit success of
+installation)</td>
+</tr>
+
+<tr>
+<td>--libdir=value (substitute a full path name for the value placeholder,
+e.g., /home/team/mcnpx) (the path given should be different from the working
+directory where the build is taking place)</td>
+
+<td>value will be used in the install step to create a library data directory
+for mcnpx's use</td>
+
+<td>a default value of /usr/local/lib is used as the full path name for
+the install step (permissions of the destination may prohibit success of
+installation). This value overides the library portion of the --prefix
+if both are given.</td>
+</tr>
+
+<tr>
+<td>--with-no_paw or --with-no_paw=yes</td>
+
+<td>this means that the symbol NO_PAW will be defined for compilation and
+actions are taken in the source to omit PAW capabilities when compiling</td>
+
+<td>if omitted, the default behavior is system dependent - if the detected
+hardware/software platform can handle PAW it's included&nbsp;</td>
+</tr>
+
+<tr>
+<td>--with-no_paw=no</td>
+
+<td>this means that the symbol NO_PAW will not be defined and actions are
+taken in the source to include PAW capabilities when compiling</td>
+
+<td>if omitted, the default behavior is system dependent - if the detected
+hardware/software platform can handle PAW it's included</td>
+</tr>
+
+<tr>
+<td>--with-paw or --with-paw=yes</td>
+
+<td>this means that the symbol NO_PAW will not be defined and actions are
+taken in the source to include PAW capabilities when compiling</td>
+
+<td>if omitted, the default behavior is system dependent - if the detected
+hardware/software platform can handle PAW it's included</td>
+</tr>
+
+<tr>
+<td>--with-paw=no</td>
+
+<td>this means that the symbol NO_PAW will be defined for compilation and
+actions are taken in the source to omit PAW capabilities when compiling</td>
+
+<td>if omitted, the default behavior is system dependent - if the detected
+hardware/software platform can handle PAW it's included</td>
+</tr>
+
+<tr>
+<td>--with-FFLAGS=value&nbsp;
+<p><i>There is a separate variable that is used for optimization switches.
+See --with-FOPT in this table. If in doubt, run the configure script and
+examine the system default or system computed values that appear in the
+generated Makefile.h. You may want to include the defaults in the string
+you specify for FFLAGS with this mechanism when configure is run again.</i></td>
+
+<td>substitute a quoted or double quoted string for value that represents
+allowable compiler switch settings - these settings will override the system
+default or system computed values</td>
+
+<td>if omitted, the default behavior is system dependent - the detected
+hardware/software platform and compilers determine what the default FFLAGS
+should be</td>
+</tr>
+
+<tr>
+<td>--with-CFLAGS=value&nbsp;
+<p><i>There is a separate variable that is used for optimization switches.
+See --with-COPT in this table. If in doubt, run the configure script and
+examine the system default or system computed values that appear in the
+generated Makefile.h. You may want to include the defaults in the string
+you specify for CFLAGS with this mechanism when configure is run again.</i></td>
+
+<td>substitute a quoted or double quoted string for value that represents
+allowable compiler switch settings - these settings will override the system
+default or system computed values</td>
+
+<td>if omitted, the default behavior is system dependent - the detected
+hardware/software platform and compilers determine what the default CFLAGS
+should be</td>
+</tr>
+
+<tr>
+<td>--with-FOPT=value&nbsp;
+<p><i>There is a separate variable that is used for non-optimization switches.
+See --with-FFLAGS in this table. If in doubt, run the configure script
+and examine the system default or system computed values that appear in
+the generated Makefile.h. You may want to include the defaults in the string
+you specify for FOPT with this mechanism. FOPT settings are always appended
+to FFLAGS settings when configure is run again.</i></td>
+
+<td>substitute a quoted or double quoted string for value that represents
+allowable compiler optimization switch settings - these settings will override
+the system default or system computed values&nbsp;</td>
+
+<td>if omitted, the default behavior is system dependent - the detected
+hardware/software platform and compilers and the configure script determine
+what the default FOPT should be</td>
+</tr>
+
+<tr>
+<td>--with-COPT=value&nbsp;
+<p><i>There is a separate variable that is used for non-optimization switches.
+See --with-CFLAGS in this table. If in doubt, run the configure script
+and examine the system default or system computed values that appear in
+the generated Makefile.h. You may want to include the defaults in the string
+you specify for COPT with this mechanism. COPT settings are always appended
+to CFLAGS settings when configure is run again.&nbsp;</i></td>
+
+<td>substitute a quoted or double quoted string for value that represents
+allowable compiler optimization switch settings - these settings will override
+the system default or system computed values&nbsp;</td>
+
+<td>if omitted, the default behavior is system dependent - the detected
+hardware/software platform and compilers and the configure script determine
+what the default COPT should be</td>
+</tr>
+</table>
+
+<h2>
+<b>Using the distributed executables to run test cases</b></h2>
+The recommended way to run test cases using the distributed executables
+is listed here.
+<br>An alternate way using the runprob script file is explained in the
+<br>mcnpx_2.4.0/src/Test/Readme file.
+<p>If Fortran and C compilers exist on your system and if they appear in
+your path, the Test Makefile will attempt to compile and generate a new
+MCNPX executable which will overwrite the one you copy&nbsp; in step #3
+below.&nbsp; There are two options to overcome this: (a) remove the F90
+and C compilers from your PATH and follow the instructions as given below;
+or (b) void the "required" and "ht-req" targets from the src/Test Makefile
+so these other components won't be built. This involves removing all the
+kewords after "required:" (~line 179) and after "ht-req:" (~line 434) in
+src/Test/Makefile.
+<p>Assume the MCNPX 2.4.0 source is located in a directory called mcnpx_2.4.0.
+<br>Step 1. Run the "testonly" script
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(Skip this step on PC Windows as the configure script on that platform
+always creates the proper build tree):
+<p>cd mcnpx_2.4.0
+<br>./testonly
+<p>This will insert a command into each "configure" script to allow execution
+even without compilers. It will copy all the original "configure" scripts
+into "configure.org" scripts. If anyone decides to install a compiler and
+actually build MCNPX after doing this, it is suggested that they start
+with a clean copy of the source tree.
+<p>Step 2. Make a build directory and execute "configure".
+<p>cd ..
+<br>mkdir mcnpx_bld
+<br>cd mcnpx_bld
+<br>../mcnpx_2.4.0/configure --prefix=/home/UID/mcnpx_bld --with-FC=f90
+--with-CC=cc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Unix)
+<br>&nbsp;&nbsp;&nbsp; or
+<br>..\mcnpx_2.4.0\configure&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(Windows)
+<p>Note that the "--with-FC" and "--with-CC" options are still required
+on Unix platforms as they will point to the correct test suite templates.
+See the names of the folders in mcnpx_2.4.0/src/Test for the various options
+(e.g., folder Test.sgi.irix.f90.cc corresponds to --with-FC=f90 and --with-CC=cc).
+On Unix platforms, these configure scripts will generate numerous errors,
+but they should complete and produce the build directory tree.
+<p>Step 3. Copy the binary data files (bertin, phtlib) and executables
+(mcnpx, htape3x, xsex3) into the build tree:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Check the mcnpx_2.4.0/exe directory for the string to substitute for "SGI"
+if you are running on another system.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Execute the following copy commands from the directory in which you configured
+in Step 2.
+<p>cp ../mcnpx_2.4.0/exe/SGI/data/bertin src/bertin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(Unix)
+<br>cp ../mcnpx_2.4.0/exe/SGI/data/phtlib src/phtlib
+<br>cp ../mcnpx_2.4.0/exe/SGI/bin/mcnpx&nbsp; src/mcnpx
+<br>cp ../mcnpx_2.4.0/exe/SGI/bin/htape3x src/htape3x
+<br>cp ../mcnpx_2.4.0/exe/SGI/bin/xsex3 src/xsex3
+<br>&nbsp;
+<p>copy ..\mcnpx_2.4.0\exe\Windows\data\bertin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(Windows)
+<br>copy ..\mcnpx_2.4.0\exe\Windows\data\phtlib
+<br>copy ..\mcnpx_2.4.0\exe\Windows\bin\mcnpx.exe
+<br>copy ..\mcnpx_2.4.0\exe\Windows\bin\htape3x.exe
+<br>copy ..\mcnpx_2.4.0\exe\Windows\bin\xsex3.exe
+<p>This Unix example assumes an SGI platform and that the RSICC distribution
+includes these files in mcnpx_2.4.0/exe/SGI. Similarly for the Windows
+example with the files in mcnpx_2.4.0\exe\Windows. Check the distribution
+source tree to ensure these paths are correct.
+<p>Step 4. Run the test problems in the build tree:
+<p>cd src
+<br>cd Test
+<br>make -i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(must use GNU make)
+<p>Note make is run with the "-i" option to ignore errors. This is necessary
+as it will try to build some of the MCNPX components before executing the
+test problems. At some point, it will copy the needed templates and files
+from the source tree and begin executing the test problems. Upon completion,
+one should check that the "diff" output files are 0 length (especially
+the difm??, difsm??, and difmt?? files).
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+<a NAME="Programmer's Notes"></a>Programmer's Notes</h2>
+Autoconf is not new; it has been available as a configuration management
+tool for several years. It was originally released at a time when FORTRAN
+77 was the standard compiler. Although it works (for the most part) with
+FORTRAN 90, not all code dependencies work for module construction on the
+variety of platforms that we support. We are working on developing a newer
+set of autoconf macros that correctly handle the special complexities of
+FORTRAN 90.
+<h3>
+Where it all starts - the relevant files - what's in them</h3>
+Refer to the diagram and related description given in the
+<a href="#Directory Organization">Directory
+Organization</a> section of this document.
+<p><b>config</b> directory
+<table BORDER COLS=2 WIDTH="60%" NOSAVE >
+<tr>
+<td>aclocal.m4</td>
+
+<td>a file containing all of the macro definitions found in the configure.in
+files</td>
+</tr>
+
+<tr>
+<td>checks.m4</td>
+
+<td>a file that is included in aclocal.m4, it checks for the required version
+of gnu make and exits with instructions if not found</td>
+</tr>
+
+<tr>
+<td>configure.generic.in</td>
+
+<td>a shared file used to generate configure scripts for the last level
+of the file tree</td>
+</tr>
+
+<tr>
+<td>install-sh</td>
+
+<td>a script that aids the installation of generated results</td>
+</tr>
+
+<tr>
+<td>Makefile.h.in</td>
+
+<td>a shared header file template for the Makefile that all of the levels
+will use</td>
+</tr>
+
+<tr>
+<td>config.guess</td>
+
+<td>a script that aids recognition of computing environments when configure
+is run</td>
+</tr>
+
+<tr>
+<td>config.sub</td>
+
+<td>a script that aids validation and canonicalization of a computing environments
+when configure is run</td>
+</tr>
+</table>
+
+<p>First, Second, and Third Level directories all contain special
+<b>configure.in</b>
+files that propagate the automated configuration down to the next levels.
+Most of the Fourth Level directories share the <b>configure.generic.in</b>
+file in the config directory because there is no further propagation. A
+few Fourth Level directories require their own customized configure.in.
+<p>Each of the levels (1-4) also contain a special Makefile.in and Makefile.h.in
+files. When the configure script runs, Makefile.h is generated, then the
+Makefile is generated. The first line of each Makefile includes Makefile.h.
+<p>If you make changes to any of the input files or macros, it will be
+necessary to regenerate the configure script so it can pick up all of the
+changes you have made to the component files. To regenerate the configure
+scripts, use the following command from the Top Level directory:
+<p><b>autoreconf --localdir=./config -f</b>
+<p>This forces regeneration of the configure scripts that live at each
+directory level of the distribution.
+<p>The --localdir=./config parameter lets autoconf know where to find the
+macros that are called in the various <b>configure.in</b> files it encounters.
+<h3>
+How to add a new hardware/os/compiler combination</h3>
+<b>Example 1</b>: Add the Portland Group compiler to the Linux OS on all
+Intel platforms (yes, it's already there, but we will step through it to
+illustrate the relevant files).
+<p>For hardware and operating system, study the case statements in the
+<b>mcnpx_2.4.0/config/config.guess</b>
+and <b>mcnpx_2.4.0/config/config.sub</b> files. You may need to insert
+a new case to handle your variation of hardware and operating system versions.
+Luckily, most of the current platforms are already specified, therefore
+it is unlikely that you would have to edit either of these files.
+<p>For the most recent version of autoconf, check with the
+<a href="http://www.gnu.org/software/software.html#HowToGetSoftware">GNU
+autoconf</a> distributions. There may be a more recent version of autoconf's
+config.guess/config.sub scripts that cover your configuration if it is
+not present in the MCNPX distribution.
+<p>Check the <b>config.guess</b> file to see if all Intel hardware platforms
+running Linux are specified. Several 'uname' commands at the beginning
+of the script set up four recognition factors that are concatenated with
+':' between them (much like the setting of the PATH environment variable
+in some shell scripts). This concatenation of the machine, release, system,
+and version variables is then used in a long case statement when detecting
+computing platforms.
+<p>Around line 336 (in the current copy as this is being written) the <b>*:Linux:*:*)</b>
+case recognizes any hardware platform (not already recognized by previous
+cases) that run the Linux OS. Thus, no modifications are needed to config.guess.
+<p>Check the <b>config.sub</b> file to see if all Intel hardware platforms
+running Linux are handled in the various case statement that handle the
+pieces of interest. This script tries to construct and return a string
+that is the concatenation of cpu type, manufacturer, and operating system
+with the '-' character between them. Again, it is unlikely that you would
+have to modify this file, as most current combinations are handled. Check
+each of the case statements that use i[3,4,5,6] and *linux* to see if you
+have something different than what is specified.
+<p>For specifying a compiler in use, the
+<b>mcnpx_2.4.0/config/aclocal.m4</b>
+macro definition file and the various configure.in files will be needed.
+<p>The configure.in files determine the order in which the macros in the
+aclocal.m4 file are activated. The order of the macro calls is very important,
+as some macros assume that prior work has been done. There are configure.in
+files in the following directories :
+<ul>
+<li>
+configure.in in the <b>mcnpx_2.4.0</b> directory</li>
+
+<li>
+configure.in in the <b>mcnpx_2.4.0/src</b> directory</li>
+
+<li>
+configure.in in the <b>mcnpx_2.4.0/src/mcnpx</b> directory</li>
+
+<li>
+configure.generic.in in the <b>mcnpx_2.4.0/config</b> directory</li>
+</ul>
+All of the <b>configure.in</b> files (and the <b>configure.generic.in</b>
+) contain the <b>same order ofmacro invocation</b>. The arch and system
+variables are set by a call to AC_SET_ARCH from <b>configure.in</b> or
+<b>configure.generic.in</b>.
+<p>The macro definition of AC_SET_ARCH in <b>aclocal.m4</b> uses the AC_CANONICAL_SYSTEM
+macro (which in turn uses config.guess and/or config.sub to do its work)
+to set our ARCH and SYSTEM variables. These variables are then used in
+combination with the FCOMP and CCOMP variables that specify which Fortran
+and C compilers to use.
+<p>These variables are set from either the user's environment variables
+FC and CC, with default values, or the --with-FC --with-CC parameters given
+to configure. See the AC_SET_FC and AC_DFLT_FC macros for FCOMP setting
+and the AC_SET_CC and AC_DFLT_CC macros for CCOMP setting.
+<p><b>WARNING:</b> You are responsible for assuring that the Fortran and
+C combination of compilers you specify are compatible. Unrecognized options
+will be accepted and configuration will continue for as long as is possible.
+<p>Another relevant macro called by <b>configure.in</b> and <b>configure.generic.in</b>
+is the AC_ENV_FLAGS_VARS macro, which uses a variety of feature test macros
+to achieve the proper settings. Let's step through each one in turn and
+see what each one does. Then we will decide if we need to make any modifications
+to any of them.
+<p>The AC_SET_TARCH, AC_SET_TSYS, AC_SET_TFC_TCC macros are concerned with
+setting variables that are used in the generation of file names when the
+tests are run. They shorten the long canonical names to easily recognized
+short names. When we examine these we see that "intel" already appears
+in AC_SET_TARCH, "linux" already appears in AC_SET_TSYS and AC_SET_TFC_TCC
+simply accepts the FCOMP and CCOMP variable settings (see earlier paragraphs).
+<p>The AC_ECHO_CONFIG merely echos to the output stream the detected configuration
+based on hardware architecture, operating system, and compilers in use.
+No need to modify this macro for the task at hand.
+<p>The AC_PREPROC_SYMBOLS macro defines symbols for preprocessing based
+on the operating system that was detected. We see that "linux" already
+appears. If you must have symbols that define a specific hardware vendor
+architecture or operating system, you can use this macro as a model. We
+currently do not define any preprocessor symbols that are used in the code
+to detect and act upon hardware vendor and operating system. This could
+change in the future.
+<p>The AC_FORT_CPP_PARM_WIERDNESS macro exists solely to handle the different
+ways that parameters can be passed on different systems. At present, only
+the AIX Fortran compilers need comma seperated values to get parameters
+passed through the C pre-processor properly. If you are adding a compiler
+with funky needs, put that parameter passing weirdness here.
+<p>The AC_F77_CRAY_PTRS macro currently uses the name of the compiler (quick
+and dirty) to answer the question "Are CRAY Pointers defined?" A really
+good implementation of this macro that answers this question more correctly
+would insert a short Fortran program that uses a CRAY Pointer would invoke
+the compiler, then check the result. This macro is the site of future work.
+No modification necessary for our task at hand. <i>This is likely to be
+removed/replaced in future releases.</i>
+<p>The AC_BIT_MODE macro is where we deal with 32 bit versus 64 bit mode.
+For now the cheap and dirty default of defining the CHEAP symbol is used.
+This macro is the site of future work. No modification necessary for our
+task at hand.
+<p>The AC_COMP_SPECIFIC macro defines symbols or sets flags based ONLY
+on the compiler in use. In other words, it doesn't matter what the hardware,
+operating system, or other compiler happens to be. If there are any symbols
+or special compiler flags you want as the defaults all the time, this is
+the place to add them. If your desired flag is not going to be a default
+value to use every time, use the --with-FFLAGs and --with-CFLAGS parameters
+to the configure script to experiment with occasional compiler flag settings.
+We see that the pg* case will match pgf90 and it defines the symbol PGF90.
+<p>The AC_OPTIM_DEBUG macro is the place to specify default optimization
+settings and debug settings for the specific hardware architecture, operating
+system and compilers in use. We see that the combination of "intel", "linux",
+and "pgf90" already appears.
+<p>The AC_FCOMP_FLAGS and AC_CCOMP_FLAGS macros are the places where compile
+flags for Fortran and C respectively are specified. Currently there is
+a reasonable set of default flags in use. Changes made here affect all
+invocations of the compiler. Comments in AC_FCOMP_FLAGS indicate that there
+are no special default FFLAG settings required to use the pgf90 compiler.
+Comments in AC_CCOMP_FLAGS indicate that there are no special default CCFLAG
+settings required to use the gcc compiler, but check AC_COMP_SPECIFIC to
+be sure.
+<p>The AC_SHARED_LIBRARY_FLAGS is for experimental use with future development
+and should be used only with extreme caution and intimate knowledge.
+<p><b>WARNING: </b>If you add a new case label, new statements to an existing
+case label, or change the value of any setting for ANY of these <b>aclocal.m4</b>
+macros you must regenerate the configure scripts at all the different levels
+of the file tree heirarchy by executing the following command from within
+the <b>mcnpx_2.4.0</b> directory:
+<pre>&nbsp;&nbsp; # force regeneration of configure scripts at all levels
+&nbsp;&nbsp; <b>autoreconf --localdir=./config -f</b></pre>
+Once the configure scripts at the various levels have been regenerated,
+you can execute configure with the desired options that were added. For
+our example, we would execute the following to use our new pgf90 compiler
+when we make mcnpx:
+<pre>&nbsp;&nbsp; # from the top level of your build directory
+&nbsp;&nbsp; # configure and request that pgf90 be used to compile Fortran
+&nbsp;&nbsp; <b>/usr/local/src/mcnpx_2.4.0/configure --with-FC=pgf90</b></pre>
+The configure will recursively descend the necessary tree hierarchy and
+generate Makefiles at all levels. After successful configuration you can
+now make mcnpx using your new compiler with the following command:
+<pre>&nbsp;&nbsp; # from the top level of your build directory
+&nbsp;&nbsp; <b>make mcnpx</b></pre>
+
+<h3>
+How to add a new feature via --with</h3>
+<b>Example 2</b>: Add a new option to the configure script that will activate
+the use of the debug option (yes, it's already there, but we will step
+through it to illustrate the needed files).
+<p>This one requires the use of <b>mcnpx_2.4.0/config/aclocal.m4</b> and
+<b>all</b>
+of the <b>configure.in</b> files (or <b>configure.generic.in</b>) at the
+various levels:
+<ul>
+<li>
+configure.in in the <b>mcnpx_2.4.0</b> directory</li>
+
+<li>
+configure.in in the <b>mcnpx_2.4.0/src</b> directory</li>
+
+<li>
+configure.in in the <b>mcnpx_2.4.0/src/mcnpx</b> directory</li>
+
+<li>
+configure.generic.in in the <b>mcnpx_2.4.0/config</b> directory</li>
+</ul>
+Examine one of the <b>configure.in</b> files. There are several examples
+of checking for options, such as compiler, link method, and debug via the
+AC_ARG_WITH macro.
+<p>Decide where the new call to --with-DEBUG should be placed. Since this
+option is only going to append a string (usually "-g") to the FFLAGS and
+CFLAGS used in the compile step and the LDFLAGS used in the link step,
+it could probably be placed anywhere after the initial/default environment
+settings have been done (AC_CLL_DEFAULTS) and before the enviroment variable
+adjustments will be made (AC_ENV_FLAGS_VARS) for the detected and requested
+configuration. We placed it after the call that checks for the specific
+compilers in use (ignoring the static/shared options for the moment) and
+before any of the other --with options that define symbols for use in the
+code compilation.
+<p>The first parameter to AC_ARG_WITH is the feature you are looking for,
+in this case, DEBUG. Next, a descriptive string can be placed inside the
+quote symbols [ ]. The third parameter is the name of the macro to be executed
+if --with-DEBUG is given when the configure script is called. There could
+be fourth parameter (as in the check for the Fortran and C compilers) which
+is the name of the macro to be executed if the option is not given. We
+don't want to do anything if the --with-DEBUG option is not specified,
+so we don't need to supply the fourth parameter.
+<p>Go to each of the remaining <b>configure.in</b> files and place the
+AC_ARG_WITH call for handling --with-DEBUG in the same relative location
+as you did in the first <b>configure.in</b> file.
+<p>Now we need to define the macro that gets executed when the check for
+--with-DEBUG is made. We called our macro AC_SET_DEBUG. It is important
+to know that where we check for the presence of the parameter, and where
+we eventually act on the notice of its presence could be anywhere in the
+macros found throughout the <b>aclocal.m4</b> file. In this case, we would
+like to have a local variable set indicating that the option is present,
+then later, act on that knowledge.
+<p>In <b>aclocal.m4</b> our macro definition of AC_SET_DEBUG uses the special
+variable ${withval} that was set by the AC_ARG_WITH check for the presence
+of the option. If the option is present ( = yes ), then we set a local
+script variable, ac_debug, to yes. For completeness, we define that local
+variable with a default value of 'no' in the AC_CLL_DEFAULTS macro. This
+gives the variable a value even if the option was not used. Later, in a
+more strategic place in the code, we will test $ac_debug and do something
+appropriate.
+<p>In our case we put the code that acts upon the knowledge that debug
+is requested inside the AC_OPTIM_DEBUG macro that handles the setting of
+variables for debug and optimization requests. Three special debug variables
+are set (FDEBUG, CDEBUG, LDDEBUG) and checks are made for optimization
+settings. Then later in the AC_APPEND_DEBUGS macro, these special debug
+variable values are appended to the flag variables (FFLAGS, CFLAGS, LDFLAGS)
+<p>After saving all of the changed files, you must regenerate the configure
+scripts by executing the following command from within the <b>mcnpx_2.4.0</b>
+directory:
+<pre>&nbsp;&nbsp; # force regeneration of configure scripts at all levels
+&nbsp;&nbsp; <b>autoreconf --localdir=./config -f</b></pre>
+Once the configure scripts at the various levels have been generated, you
+can execute <b>configure</b> with the desired feature that were added.
+For our example, we would execute the following to use our new --with-DEBUG
+option in order to get a debuggable version of the code built.
+<pre>&nbsp;&nbsp; # from the top level of your working directory
+&nbsp;&nbsp; # configure and request that the new option be used
+&nbsp;&nbsp; # <i>remember to specify which compilers to use
+</i>&nbsp;&nbsp; <b>configure --with-FC=f90 --with-CC=cc --with-DEBUG</b></pre>
+The configure will recursively descend the necessary tree hierarchy and
+generate Makefiles at all levels. After successful configuration you can
+now make mcnpx using your new compiler with the following command
+<pre>&nbsp;&nbsp; # from the top level of your working directory
+&nbsp;&nbsp; <b>make mcnpx</b></pre>
+
+<h2>
+<a NAME="Additional Software Requirements"></a>Additional Software Requirements</h2>
+The only graphics support for this release is X11.
+<br>http://www.x.org/Downloads_terms.htm.
+<p>If graphics are desired, an X-Server is required.&nbsp;&nbsp; Several
+flavors can be found on the internet (e.g., X-Deep/32, WRQ Reflection X,
+Exceed, etc.). The mcnpx_2.4.0/README.w32 text file contains information
+on downloading and customizing for Windows. The&nbsp; x11.dll binary file
+is included for Windows users and will be expanded by the build procedure
+from mcnpx_2.4.0/Win32.exe.&nbsp; X11&nbsp; is generally included on Unix
+and Linux systems.
+<br>&nbsp;
+<p>If you are a casual user and do not perform any software development
+for MCNPX capabilities, you must have the GNU make utility, version 3.76
+or greater. See your system administrator if GNU make does not exist on
+your computing platform.
+<p>If you are a software developer for MCNPX capabilities or you wish to
+alter the way the autoconf generation of the configure script works, you
+will need the following software:
+<ul>
+<li>
+GNU make, version 3.76 or higher</li>
+
+<li>
+GNU m4, preferably version 1.4</li>
+
+<li>
+GNU autoconf, preferably version 2.13</li>
+
+<li>
+GNU find, preferably version 4.1</li>
+
+<li>
+makedepend - an X Windows routine, preferably X Version 11 Release 6</li>
+</ul>
+
+<h2>
+<a NAME="Fortran 90 Compilers"></a>Fortran 90 Compilers</h2>
+We have tried several Fortran 90 compilers with the default (static) construction
+method on several systems. The following table shows what platforms we
+currently support.
+<br>&nbsp;
+<br>&nbsp;
+<table BORDER COLS=2 WIDTH="100%" NOSAVE >
+<tr>
+<td><b><font color="#FF0000">Platform/Compiler</font></b></td>
+
+<td><b><font color="#FF0000">Result</font></b></td>
+</tr>
+
+<tr>
+<td>Sun-Solaris/WorkShop Fortran Compilers 6, update 2 (Fortran 95 6.2)</td>
+
+<td>builds, no tracking differences</td>
+</tr>
+
+<tr>
+<td>SGI-IRIX/MIPSpro Compilers: Version 7.30</td>
+
+<td>64 bit IRIX builds, no tracking differences&nbsp;
+<br>32 bit IRIX builds, core dumps executing problem 43</td>
+</tr>
+
+<tr>
+<td>HP-HPUX/HP F90 v2.4.10</td>
+
+<td>builds, no tracking differences</td>
+</tr>
+
+<tr>
+<td>IBM-AIX/xlf90 Version 7 Release 1</td>
+
+<td>builds, no tracking differences</td>
+</tr>
+
+<tr>
+<td>Alpha-Tru64(OSF1 V5.0)/Compaq Fortran V5.3-915</td>
+
+<td>builds, no tracking differences</td>
+</tr>
+
+<tr>
+<td>Intel-Linux/pgf90 3.2-3</td>
+
+<td>builds, no tracking differences</td>
+</tr>
+</table>
+
+<h2>
+<a NAME="Fortran 90 Platform Default Optimization"></a>Fortran 90 Platform
+Default Optimization</h2>
+The autoconfiguration macros used to generate the configure scripts and
+the Makefile files that appear in the mcnpx source distribution directory
+tree or your build directory tree exhibit the optimization characteristics
+shown in the table below.
+<p>Users may provide the --with-FOPT=VALUE option when running the configure
+script to experiment with different levels of optimization on any platform.
+The defaults we have chosen allow the mcnpx executable program to be built
+successfully on each platform. We make no guarantees beyond the platforms
+that are documented here. .
+<br>&nbsp;
+<br>&nbsp;
+<table BORDER COLS=2 WIDTH="100%" NOSAVE >
+<tr>
+<td><b><font color="#FF0000">Platform/Compiler</font></b></td>
+
+<td><b><font color="#FF0000">Default Fortran 90 Optimization used by configure</font></b></td>
+</tr>
+
+<tr>
+<td>Sun-Solaris/WorkShop Fortran Compilers 6, update 2 (Fortran 95 6.2)</td>
+
+<td>-O3</td>
+</tr>
+
+<tr>
+<td>SGI-IRIX/MIPSpro Compilers: Version 7.30</td>
+
+<td>(64 bit IRIX) -O -OPT:Olimit=0
+<br>(32 bit IRIX) no explicit optimization specified</td>
+</tr>
+
+<tr>
+<td>HP-HPUX/HP F90 v2.4.10</td>
+
+<td>+O0</td>
+</tr>
+
+<tr>
+<td>IBM-AIX/xlf90 Version 7 Release 1</td>
+
+<td>-O2</td>
+</tr>
+
+<tr>
+<td>Alpha-Tru64(OSF1 V5.0)/Compaq Fortran V5.3-915</td>
+
+<td>-O0</td>
+</tr>
+
+<tr>
+<td>Intel-Linux/pgf90 3.2-3</td>
+
+<td>-O0</td>
+</tr>
+</table>
+
+<h2>
+<a NAME="In the end..."></a>In the end...</h2>
+Each subdirectory of the mcnpx distribution contains a different Makefile
+with its own install target. The top level directory also has an install
+target that moves into the src subdirectory and executes the install target,
+which covers all of the subdirectory install targets. The ultimate destination
+for the binary executables and associated library files depends upon what
+parameters were given when running the configure script. If --prefix=VALUE
+was given to the configure script, then the path represented by VALUE is
+the directory where two subdirectories shown in the table below will be
+created and populated. If no prefix parameter was specified for the configure,
+then a default directory of /usr/local is used. In both cases the bin and
+lib subdirectories are created and populated.
+<br>&nbsp;
+<br>&nbsp;
+<table BORDER COLS=2 WIDTH="75%" NOSAVE >
+<tr>
+<td><b><font color="#FF0000">Subdirectory</font></b></td>
+
+<td><b><font color="#FF0000">Contents</font></b></td>
+</tr>
+
+<tr>
+<td>bin</td>
+
+<td>mcnpx, gridconv, makxs, htape3x, xsex3</td>
+</tr>
+
+<tr>
+<td>lib</td>
+
+<td>barpol.dat, phtlib, bertin</td>
+</tr>
+</table>
+
+</body>
+</html>

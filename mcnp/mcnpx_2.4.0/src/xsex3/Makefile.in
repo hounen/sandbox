@@ -1,0 +1,69 @@
+# $Id: Makefile.in,v 1.25 2002/04/16 12:57:53 troberts Exp $
+
+include Makefile.h
+
+# SOURCEDIR is path relative to this 'make'
+SOURCEDIR = ${srcdir}
+# INCLUDE directory is one level up from this SOURCEDIR
+INCLUDE = -I${SOURCEDIR}/../include
+
+# construct a list of source files for makedepend to use
+FSRCS := $(wildcard ${SOURCEDIR}/*.F)
+HDRS := $(wildcard ${INCLUDE}/*.h) $(wildcard ${INCLUDE}/*/*.h)
+FOBJS := $(notdir $(patsubst %.F,%.o,${FSRCS}))
+
+# Sources in this directory depend upon BLOCK DATA references,
+# BUT there is only one target to make, which is an executable
+TARGET = xsex3
+
+BDOBJS = bdsr.o bdxs.o blkd.o
+# Object Files
+OBJS = bx.o bx1.o chgmem.o ckchar.o conv.o edx.o edx1.o eotap.o errorf.o      \
+exemes.o expire.o filden.o fix.o fixe.o forec.o getexm.o getjdt.o inqire.o    \
+inx.o krack.o leng.o ltran.o newfil.o nxtsym.o plx.o recels.o scanx.o secnd.o \
+getidt.o skipper.o sorun.o srchn.o stepup.o timeit.o tp10.o unique.o uopen.o  \
+weight.o wght4.o xsex3.o xstalw.o xtp11.o
+
+#----------------------------
+# final result is an  executable program
+all :  ${TARGET}
+	@${ECHO} "$@ completed."
+
+# You should not install until you 'make all' and 'make tests'
+# We only enforce 'make all'
+install : all
+	@${SOURCEDIR}/../../config/install-sh -c xsex3 ${bindir}/xsex3
+	@${ECHO} "Install of xsex3 into ${bindir} complete."
+
+# - - - - - - - - - - - - - - - - - - -
+# how .o files emerge from .F files
+%.o : %.F
+	${FCOMP} ${FFLAGS} ${FDEFS}  $< -c -o $@
+# - - - - - - - - - - - - - - - - - - -
+
+# the target
+${TARGET} : ${BDOBJS} ${OBJS}
+	@XSEX3AIXFCOMP@
+
+# force make to execute every time for PHONY targets
+.PHONY : clean distclean
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean :
+	@${RM} ${CLEANFILES}
+
+# Target distclean should clean then remove executables and dependency files
+distclean : clean
+	@${RM} -f ${TARGET}
+	@-${RM} -f ${DISTCLEANFILES}
+	@-${RM} -f ${CONFFILES}
+
+depend.mk: ${FSRCS} ${HDRS}
+	@${ECHO} "making dependencies for ${SOURCEDIR}"
+	@makedepend -f- -- $(FFLAGS) ${INCLUDE} -- $(FSRCS) | \
+	sed 's%^${SOURCEDIR}/%%' >depend.mk
+	@${ECHO} "depend.mk for ${SOURCEDIR} has been generated"
+
+include depend.mk
+
+# DO NOT DELETE THIS LINE -- makedepend depends on it.

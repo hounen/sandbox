@@ -1,0 +1,38 @@
+test of photonuclear physics using weight-windows
+1   1  -2.7       -1
+2   1  -2.7    1  -2  4  5
+3   1  -2.7    2  -3
+4   1  -2.7       -4
+5   1  -2.7       -5
+9   0          3
+
+1  so   5
+2  so  10
+3  so  15
+4  sx  7.5  0.5
+5  sx -7.5  0.5
+
+m1  13027  1
+mode n p
+sdef par=2
+phys:p 3j 1
+cut:n j .1
+cut:p j .5
+print
+nps 10000
+prdmp 2j -1
+c
+imp:n,p 1.0 4r 0
+c
+wwp:n,p 5 3 5 0 0
+c
+wwe:p        1000
+wwn1:p 0.20  0.20  0.20  0.20  0.20  -1
+c
+wwe:n        1000
+wwn1:n 0.01  0.01  0.01  0.01  0.01  -1
+c
+f11:n  1 2 3
+f21:p  1 2 3
+f14:n  1 2 3 4 5
+f24:p  1 2 3 4 5

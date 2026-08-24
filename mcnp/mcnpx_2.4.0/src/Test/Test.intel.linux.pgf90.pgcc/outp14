@@ -1,0 +1,556 @@
+ *****************************************************
+ *                                                   *
+ *            Copyright Notice for MCNPX             *
+ *                                                   *
+ * This program was prepared by the Regents of the   *
+ * University of California at Los Alamos National   *
+ * Laboratory (the University) under contract number *
+ * W-7405-ENG-36 with the U.S. Department of Energy  *
+ * (DOE).  The University has certain rights in the  *
+ * program pursuant to the contract and the program  *
+ * should not be copied or distributed outside your  *
+ * organization.   All rights in the program are     *
+ * reserved by the DOE and the University.  Neither  *
+ * the U.S. Government nor the University makes any  *
+ * warranty, express or implied, or assumes any      *
+ * liability or responsibility for the use of this   *
+ * software.                                         *
+ *                                                   *
+ *****************************************************
+    1-       testprob14 -- test general source in repeated structures.                       
+    2-       1     1 -.5   -7 #2 #3 #4 #5 #6  imp:n=1                                        
+    3-       2     0  -1 imp:n=2  trcl=2 fill=1                                              
+    4-       3     like 2 but trcl=3                                                         
+    5-       4     like 2 but trcl=4                                                         
+    6-       5     like 2 but trcl=5  imp:n=1                                                
+    7-       6     like 2 but trcl=6                                                         
+    8-       7     0   7 imp:n=0                                                             
+    9-       8     0   8 -9 -10 11  imp:n=1 trcl=(-.9 .9 0) fill=2 u=1                       
+   10-       9     like 8 but trcl=(.9 .9 0)                                                 
+   11-       10    like 8 but trcl=(.1 -.9 0)                                                
+   12-       11    2 -18 #8 #9 #10  imp:n=1 u=1                                              
+   13-       12    2 -18   -12 imp:n=1 trcl=(-.3 .3 0) u=2                                   
+   14-       13    like 12 but trcl=(.3 .3 0) rho=-17.6 mat=1                                
+   15-       14    like 12 but trcl=(.3 -.3 0)                                               
+   16-       15    like 12 but trcl=(-.3 -.3 0)                                              
+   17-       16    1 -.5  #12 #13 #14 #15  u=2 imp:n=1                                       
+   18-                                                                                       
+   19-       1     rpp  -2  2 -2  2 -2  2                                                    
+   20-       7     so 15                                                                     
+   21-       8     px -.7                                                                    
+   22-       9     py  .7                                                                    
+   23-       10    px  .7                                                                    
+   24-       11    py -.7                                                                    
+   25-       12    cz  .1                                                                    
+   26-                                                                                       
+   27-       sdef  erg=d1  cel=d2:d3:0  rad=d5  ext=d6  axs=0 0 1  pos=d7                    
+   28-       #     si1   sp1   sb1                                                           
+   29-              1    0     0                                                             
+   30-              3    .22   .05                                                           
+   31-              4    .08   .05                                                           
+   32-              5    .25   .1                                                            
+   33-              6    .18   .1                                                            
+   34-              7    .07   .2                                                            
+   35-              8    .1    .2                                                            
+   36-              9    .05   .1                                                            
+   37-             11    .05   .2                                                            
+   38-       si2   l 2 3 4 5 6                                                               
+   39-       sp2     1 1 1 1 1                                                               
+   40-       si3   l 8 9 10                                                                  
+   41-       sp3     1 1 1                                                                   
+   42-       si5   0 .1                                                                      
+   43-       sp5   -21 1                                                                     
+   44-       si6   -2 2                                                                      
+   45-       sp6    0 1                                                                      
+   46-       si7   l .3 .3 0   .3 -.3 0   -.3 .3 0   -.3 -.3 0                               
+   47-       sp7   1 1 1 1                                                                   
+   48-       fcl:n 13j -.5  $ forced collision in lev.ne.0 geom crashes mcnp4.2              
+ warning.     14 entries not equal to number of cells =   16.
+   49-       m1     6012.40c 1                                                               
+   50-       m2    92235.50d 1                                                               
+   51-       drxs                                                                            
+   52-       tr2   -6  7 1.2                                                                 
+   53-       tr3    7  6 1.1                                                                 
+   54-       tr4    8 -5 1.4                                                                 
+   55-       tr5*  -1 -4 1   40 130 90 50 40 90 90 90 0                                      
+   56-       tr6   -9 -2 1.3                                                                 
+   57-       f4:n  12 13 14 15               $ union of all 15 cell 12s, 13s, etc.           
+   58-             (12 13 14 15<(u=1))       $ same as previous line, i hope                 
+   59-             (12 13 14 15<u=2<u=1)     $ each cylinder tallied separately              
+   60-       sd4   1.8849555 3r  $ 1st tally line - 15 x volume of cell 12, 13, etc.         
+   61-             1.8849555 3r  $ 2nd tally line - 15 x volume of cell 12, 13, etc.         
+   62-             0.1256637 3r  $ 3rd tally line - volume of cell 12, 13, etc.              
+   63-       fq    f e                                                                       
+   64-       cut:n  1e20 .1                                                                  
+   65-       nps   5000                                                                      
+   66-       f7:n  (12<u=2<2) (12<2)   $ each cell 12 in cell 2, plus union                  
+   67-             (13<u=2<3) (13<3)   $ each cell 13 in cell 3, plus union                  
+   68-             (14<u=2<5) (14<5)   $ each cell 14 in cell 5, plus union                  
+   69-             (15<u=2<6) (15<6)   $ each cell 15 in cell 6, plus union                  
+   70-       sd7   2.2619466 6.7858398   $ mass of cell 12, 3 x mass of cell 12              
+   71-             2.2619466 6.7858398   $ mass of cell 13, 3 x mass of cell 13              
+   72-             2.2619466 6.7858398   $ mass of cell 14, 3 x mass of cell 14              
+   73-             2.2619466 6.7858398   $ mass of cell 15, 3 x mass of cell 15              
+   74-       fq7   f e                                                                       
+   75-       totnu                                                                           
+   76-       print 128                                                                       
+   77-       prdmp 2j -1                                                                     
+   78-       wwg 4                                                                           
+   79-       mesh geom=rec origin=-15 -15 -15 ref=0 0 0                                      
+   80-            imesh 15 iints 4 jmesh 15 jints 5 kmesh 16 kints 6                         
+   81-       wwp:n 5 3 5 0 -1                                                                
+
+ surface   8009   and surface   9009   are the same.   9009   will be deleted.
+
+ surface   8011   and surface   9011   are the same.   9011   will be deleted.
+ 
+ warning.     2 surfaces were deleted for being the same as others.
+
+ reading mesh-based weight windows from file wwinp14  with probid =                    
+
+
+ 
+ warning.  5th entry wwp:n < 0, cell importances in mesh should be 1.
+ 
+ warning.  energy of top neutron weight-window bin set to emax.
+ 
+ warning.  nonzero neutron     weight cutoff with zero windows.
+ 
+ warning.  continuous-energy cross-section table used for   6012.40d
+ 
+ warning.    1 of the materials appear at more than one density.
+
+1particles and energy limits                                                                            print table 41
+
+                         minimum       table         maximum
+   particle type         energy        energy        energy
+
+    1  n  neutron       1.0000E-01    2.0000E+01    1.0000E+37
+
+
+1LAHET physics options:                                                                                 print table 41
+
+ lca    ielas   ipreq  iexisa  ichoic   jcoul  nexite   npidk   noact    icem
+ lca        2       1       1      23       1       1       0       1       0
+
+ lcb    flenb(i),i=1,6                                                          ctofe       flim0
+ lcb    3.4900E+03  3.4900E+03  2.4900E+03  2.4900E+03  8.0000E+02  8.0000E+02 -1.0000E+00 -1.0000E+00
+
+ lea     ipht     icc  nobalc  nobale   ifbrk  ilvden   ievap   nofis
+ lea        1       4       1       0       1       0       0       1
+
+ leb    yzere       bzere       yzero       bzero
+ leb    1.5000E+00  8.0000E+00  1.5000E+00  1.0000E+01
+
+1cells                                                                                                  print table 60
+
+                      atom        gram                                     neutron                                       
+        cell  mat    density     density     volume       mass     pieces  importance                                    
+
+     1     1    1  2.50918E-02 5.00000E-01 0.00000E+00 0.00000E+00      0  1.0000E+00                                    
+     2     2    0  0.00000E+00 0.00000E+00 6.40000E+01 0.00000E+00      0  2.0000E+00                                    
+     3     3    0  0.00000E+00 0.00000E+00 6.40000E+01 0.00000E+00      0  2.0000E+00                                    
+     4     4    0  0.00000E+00 0.00000E+00 6.40000E+01 0.00000E+00      0  2.0000E+00                                    
+     5     5    0  0.00000E+00 0.00000E+00 6.40000E+01 0.00000E+00      0  1.0000E+00                                    
+     6     6    0  0.00000E+00 0.00000E+00 6.40000E+01 0.00000E+00      0  2.0000E+00                                    
+     7     7    0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00      0  0.0000E+00                                    
+     8     8    0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00      0  1.0000E+00                                    
+     9     9    0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00      0  1.0000E+00                                    
+    10    10    0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00      0  1.0000E+00                                    
+    11    11    2  4.61177E-02 1.80000E+01 0.00000E+00 0.00000E+00      0  1.0000E+00                                    
+    12    12    2  4.61177E-02 1.80000E+01 0.00000E+00 0.00000E+00      0  1.0000E+00                                    
+    13    13    1  8.83233E-01 1.76000E+01 0.00000E+00 0.00000E+00      0  1.0000E+00                                    
+    14    14    2  4.61177E-02 1.80000E+01 0.00000E+00 0.00000E+00      0  1.0000E+00                                    
+    15    15    2  4.61177E-02 1.80000E+01 0.00000E+00 0.00000E+00      0  1.0000E+00                                    
+    16    16    1  2.50918E-02 5.00000E-01 0.00000E+00 0.00000E+00      0  1.0000E+00                                    
+
+ total                                     3.20000E+02 0.00000E+00
+1     exponential transform and forced collision parameters                                             print table 62
+
+                        neutron exp.           photon exp.       forced collisions
+        cell      dir    transform      dir    transform       neutron        photon
+
+    14    14                                                  -0.50000               
+
+    minimum source weight = 2.5000E-01    maximum source weight = 4.4000E+00
+
+
+ mesh-based weight window generator reference mesh index:       51
+     fine mesh indices,  i,j,k:    3    3    3
+
+         7 warning messages so far.
+1cross-section tables                                                                                   print table 100
+
+     table    length
+
+                        tables from file testlib1                                                        
+
+   6012.40c    4598   ENDL library name:  nd900719  MCNP translation:  900831 14:10:05                       900207    
+                     temperature = 2.5860E-08 adjusted to 2.5300E-08
+  92235.50d    6138  njoy                                               total nu                (  1395)      79/09/12.
+ 
+ warning.   92235.50d lacks delayed neutron cross sections.
+
+  total       10736
+
+ neutron cross sections outside the range from 1.0000E-01 to 1.0000E+37 mev are expunged.
+ 
+ warning.     1 cross sections modified by free gas thermal treatment.
+
+
+
+
+
+ decimal words of dynamically allocated storage
+
+         9 warning messages so far.
+ warning.  weight of source particle is above window.                  
+ nps =         2     nrn =              23     erg = 6.1151E+00     wgt = 3.5000E-01
+ warning.  weight of source particle is below window.                  
+ nps =       172     nrn =           17932     erg = 7.7312E+00     wgt = 5.0000E-01
+1problem summary                                                                                                       
+
+      run terminated when      5000 particle histories were done.
+
+ neutron creation       tracks   weight        energy            neutron loss           tracks   weight        energy
+                                 (per source particle)                                           (per source particle)
+
+ source                5000    9.9096E-01    4.9520E+00          escape               26667    1.1304E+00    4.3487E+00
+ nucl. interaction        0    0.            0.                  energy cutoff          240    8.0536E-03    6.2821E-04
+ particle decay           0    0.            0.                  time cutoff              0    0.            0.        
+ weight window        24007    2.7437E-01    8.8455E-01          weight window        10177    2.8830E-01    9.3277E-01
+ cell importance          0    0.            0.                  cell importance          0    0.            0.        
+ weight cutoff            0    7.0718E-03    2.0632E-02          weight cutoff          343    7.2285E-03    2.2095E-02
+ energy importance        0    0.            0.                  energy importance        0    0.            0.        
+ dxtran                   0    0.            0.                  dxtran                   0    0.            0.        
+ forced collisions     2724    7.0171E-03    3.1649E-02          forced collisions        0    7.6350E-03    3.4500E-02
+ exp. transform           0    0.            0.                  exp. transform           0    0.            0.        
+ upscattering             0    0.            0.                  downscattering           0    0.            6.4878E-01
+ photonuclear             0    0.            0.                  capture                  0    9.1156E-03    5.1544E-02
+ (n,xn)                 352    9.1677E-03    6.6185E-03          loss to (n,xn)         176    4.5839E-03    3.8611E-02
+ prompt fission        8304    2.5369E-01    5.2708E-01          loss to fission       2784    8.6968E-02    3.4489E-01
+ delayed fission          0    0.            0.                  nucl. interaction        0    0.            0.        
+                                                                 particle decay           0    0.            0.        
+ tabular boundary         0    0.            0.                  tabular boundary         0    0.            0.        
+ tabular sampling         0    0.            0.                                                                        
+     total            40387    1.5423E+00    6.4225E+00              total            40387    1.5423E+00    6.4225E+00
+
+   number of neutrons banked                   21503        average time of (shakes)              cutoffs
+   neutron tracks per source particle     8.0774E+00          escape            7.9563E-01          tco   1.0000E+20
+   neutron collisions per source particle 7.2732E+00          capture           3.0421E-01          eco   1.0000E-01
+   total neutron collisions                    36366          capture or escape 7.9169E-01          wc1  -5.0000E-01
+   net multiplication              1.1729E+00 0.0046          any termination   7.0200E-01          wc2  -2.5000E-01
+
+ computer time so far in this run     0.00 minutes            maximum number ever in bank         9
+ computer time in mcrun               0.00 minutes            bank overflows to backup file       0
+ source particles per minute            0.0000E+00            dynamic storage         0 words,          0 bytes.
+ random numbers generated                   498265            most random numbers used was     1641 in history     1265
+
+ range of sampled source weights = 2.5000E-01 to 4.4000E+00
+
+ source efficiency = 1.0000  in cell     2
+
+ source efficiency = 1.0000  in cell     3
+
+ source efficiency = 1.0000  in cell     4
+
+ source efficiency = 1.0000  in cell     5
+
+ source efficiency = 1.0000  in cell     6
+
+ source efficiency = 1.0000  in cell     8
+
+ source efficiency = 1.0000  in cell     9
+
+ source efficiency = 1.0000  in cell    10
+
+ source efficiency = 1.0000  in cell    12
+
+ source efficiency = 1.0000  in cell    13
+
+ source efficiency = 1.0000  in cell    14
+
+ source efficiency = 1.0000  in cell    15
+
+    4142 source particles had weight above window.
+
+      42 source particles had weight below window.
+ 
+ warning.  some of the geometry is covered by a weight window mesh.
+1neutron     activity in each cell                                                                      print table 126
+
+                 tracks     population   collisions   collisions     number        flux        average      average
+        cell    entering                               * weight     weighted     weighted   track weight   track mfp
+                                                    (per history)    energy       energy     (relative)      (cm)
+
+     1     1       31720        30573        17530    7.5876E-01   2.5292E+00   3.6094E+00   2.1213E-01   2.3459E+01
+     2     2           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     3     3           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     4     4           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     5     5           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     6     6           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     8     8           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     9     9           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+    10    10           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+    11    11       34998        28934        12493    4.6108E-01   2.5957E+00   3.6858E+00   1.8399E-01   2.9691E+00
+    12    12        3501         6123          298    1.6071E-02   3.5728E+00   4.4220E+00   2.5890E-01   2.9987E+00
+    13    13        3338         5882         1382    6.5182E-02   3.7385E+00   4.6145E+00   2.3831E-01   7.5090E-01
+    14    14        3260         8525         2760    1.4858E-02   3.6409E+00   4.5056E+00   1.9599E-01   3.0168E+00
+    15    15        3387         5778          313    1.6161E-02   3.6940E+00   4.5703E+00   2.7108E-01   3.0073E+00
+    16    16       37716        30008         1590    5.8316E-02   3.1888E+00   4.2037E+00   1.8451E-01   2.5160E+01
+
+     total        117920       115823        36366    1.3904E+00
+1neutron     activity in each repeated structure / lattice element                                      print table 128
+
+       source    entering  collisions        path
+
+           0       31720       17530     1
+          89         207          31    12 <    8 <    2
+          68         200          66    13 <    8 <    2
+          73         226         197    14 <    8 <    2
+          91         248          24    15 <    8 <    2
+           0        2522         103    16 <    8 <    2
+          77         216          18    12 <    9 <    2
+          80         208          85    13 <    9 <    2
+          91         235         204    14 <    9 <    2
+          73         220          32    15 <    9 <    2
+           0        2631         127    16 <    9 <    2
+          89         229          25    12 <   10 <    2
+          90         262         119    13 <   10 <    2
+          90         228         194    14 <   10 <    2
+          86         231          23    15 <   10 <    2
+           0        2772         136    16 <   10 <    2
+           0        7219        2535    11 <    2
+          87         218          19    12 <    8 <    3
+          81         204         117    13 <    8 <    3
+          71         172         142    14 <    8 <    3
+          76         192          16    15 <    8 <    3
+           0        2141          86    16 <    8 <    3
+          91         200          17    12 <    9 <    3
+          78         172          59    13 <    9 <    3
+          79         160         149    14 <    9 <    3
+          87         159           7    15 <    9 <    3
+           0        1850          71    16 <    9 <    3
+          87         194          13    12 <   10 <    3
+          95         206          76    13 <   10 <    3
+          83         191         163    14 <   10 <    3
+          98         240          34    15 <   10 <    3
+           0        2204          87    16 <   10 <    3
+           0        5638        1988    11 <    3
+          65         213          14    12 <    8 <    4
+          69         205          54    13 <    8 <    4
+          85         236         210    14 <    8 <    4
+          83         199          20    15 <    8 <    4
+           0        2541          93    16 <    8 <    4
+          83         261          22    12 <    9 <    4
+          79         219          87    13 <    9 <    4
+          91         280         222    14 <    9 <    4
+          83         239          21    15 <    9 <    4
+           0        2694         126    16 <    9 <    4
+          86         252          16    12 <   10 <    4
+          68         268         121    13 <   10 <    4
+          96         269         207    14 <   10 <    4
+          88         260          25    15 <   10 <    4
+           0        2795         121    16 <   10 <    4
+           0        7534        2631    11 <    4
+          78         177          11    12 <    8 <    5
+          89         244         107    13 <    8 <    5
+          88         232         185    14 <    8 <    5
+          74         189          20    15 <    8 <    5
+           0        2243          70    16 <    8 <    5
+          92         224          18    12 <    9 <    5
+          79         184          72    13 <    9 <    5
+          65         168         149    14 <    9 <    5
+          75         219          13    15 <    9 <    5
+           0        2179          95    16 <    9 <    5
+          73         192          14    12 <   10 <    5
+          92         193          56    13 <   10 <    5
+          84         165         137    14 <   10 <    5
+          85         195          19    15 <   10 <    5
+           0        1987          83    16 <   10 <    5
+           0        6160        2247    11 <    5
+          84         359          25    12 <    8 <    6
+          93         309         119    13 <    8 <    6
+          82         252         232    14 <    8 <    6
+          93         346          23    15 <    8 <    6
+           0        3549         162    16 <    8 <    6
+          76         303          21    12 <    9 <    6
+          84         245         128    13 <    9 <    6
+         106         309         284    14 <    9 <    6
+          86         280          30    15 <    9 <    6
+           0        3361         128    16 <    9 <    6
+          92         256          34    12 <   10 <    6
+          80         219         116    13 <   10 <    6
+          78         137          85    14 <   10 <    6
+          86         170           6    15 <   10 <    6
+           0        2247         102    16 <   10 <    6
+           0        8447        3092    11 <    6
+           0           0           0     7
+
+        5000      117920       36366
+
+1tally   4        nps =     5000
+           tally type 4    track length estimate of particle flux.      units   1/cm**2   
+           particle(s): neutron    
+           cell  e is (12<2 3 4 5 6)                                                                                   
+           cell  f is (13<2 3 4 5 6)                                                                                   
+           cell  g is (14<2 3 4 5 6)                                                                                   
+           cell  h is (15<2 3 4 5 6)                                                                                   
+
+           volumes 
+                   cell:      12           13           14           15             e            f            g    
+                         1.88496E+00  1.88496E+00  1.88496E+00  1.88496E+00  1.88496E+00  1.88496E+00  1.88496E+00
+                   cell:        h       (12<8<2)     (13<8<2)     (14<8<2)     (15<8<2)     (12<9<2)     (13<9<2)  
+                         1.88496E+00  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01
+                   cell:   (14<9<2)     (15<9<2)     (12<10<2)    (13<10<2)    (14<10<2)    (15<10<2)    (12<8<3)  
+                         1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01
+                   cell:   (13<8<3)     (14<8<3)     (15<8<3)     (12<9<3)     (13<9<3)     (14<9<3)     (15<9<3)  
+                         1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01
+                   cell:   (12<10<3)    (13<10<3)    (14<10<3)    (15<10<3)    (12<8<4)     (13<8<4)     (14<8<4)  
+                         1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01
+                   cell:   (15<8<4)     (12<9<4)     (13<9<4)     (14<9<4)     (15<9<4)     (12<10<4)    (13<10<4) 
+                         1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01
+                   cell:   (14<10<4)    (15<10<4)    (12<8<5)     (13<8<5)     (14<8<5)     (15<8<5)     (12<9<5)  
+                         1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01
+                   cell:   (13<9<5)     (14<9<5)     (15<9<5)     (12<10<5)    (13<10<5)    (14<10<5)    (15<10<5) 
+                         1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01
+                   cell:   (12<8<6)     (13<8<6)     (14<8<6)     (15<8<6)     (12<9<6)     (13<9<6)     (14<9<6)  
+                         1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01
+                   cell:   (15<9<6)     (12<10<6)    (13<10<6)    (14<10<6)    (15<10<6)                           
+                         1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01  1.25664E-01
+ 
+        cell
+       12        2.65120E-02 0.0438
+       13        2.30608E-02 0.0420
+       14        2.46266E-02 0.0422
+       15        2.55863E-02 0.0458
+         e       2.65120E-02 0.0438
+         f       2.30608E-02 0.0420
+         g       2.46266E-02 0.0422
+         h       2.55863E-02 0.0458
+    (12<8<2)     2.77439E-02 0.1548
+    (13<8<2)     1.47909E-02 0.1448
+    (14<8<2)     1.75060E-02 0.1420
+    (15<8<2)     2.69881E-02 0.1356
+    (12<9<2)     2.18906E-02 0.1798
+    (13<9<2)     2.42348E-02 0.1522
+    (14<9<2)     2.40259E-02 0.1573
+    (15<9<2)     2.23814E-02 0.1510
+    (12<10<2)    2.44492E-02 0.1593
+    (13<10<2)    2.64943E-02 0.1553
+    (14<10<2)    2.35086E-02 0.1519
+    (15<10<2)    2.35644E-02 0.1472
+    (12<8<3)     2.38111E-02 0.1608
+    (13<8<3)     2.59958E-02 0.1712
+    (14<8<3)     2.30630E-02 0.2030
+    (15<8<3)     2.31929E-02 0.1693
+    (12<9<3)     2.70414E-02 0.2064
+    (13<9<3)     2.20505E-02 0.1797
+    (14<9<3)     2.52818E-02 0.1658
+    (15<9<3)     1.84018E-02 0.1712
+    (12<10<3)    2.57411E-02 0.1556
+    (13<10<3)    2.43045E-02 0.1509
+    (14<10<3)    2.13671E-02 0.1424
+    (15<10<3)    2.86303E-02 0.1392
+    (12<8<4)     2.02213E-02 0.1721
+    (13<8<4)     1.53350E-02 0.1686
+    (14<8<4)     2.50689E-02 0.1488
+    (15<8<4)     2.45274E-02 0.1914
+    (12<9<4)     2.68559E-02 0.1741
+    (13<9<4)     1.93955E-02 0.1684
+    (14<9<4)     2.22108E-02 0.1419
+    (15<9<4)     2.73870E-02 0.1440
+    (12<10<4)    2.38332E-02 0.1443
+    (13<10<4)    2.78037E-02 0.1656
+    (14<10<4)    2.86650E-02 0.1451
+    (15<10<4)    3.23077E-02 0.2752
+    (12<8<5)     3.01176E-02 0.1840
+    (13<8<5)     3.06321E-02 0.1683
+    (14<8<5)     3.31816E-02 0.1746
+    (15<8<5)     2.78193E-02 0.2538
+    (12<9<5)     3.56355E-02 0.1837
+    (13<9<5)     1.96733E-02 0.2036
+    (14<9<5)     1.85841E-02 0.1586
+    (15<9<5)     1.92762E-02 0.1460
+    (12<10<5)    2.45546E-02 0.1614
+    (13<10<5)    2.09908E-02 0.1566
+    (14<10<5)    2.75029E-02 0.1727
+    (15<10<5)    2.80386E-02 0.1496
+    (12<8<6)     3.12305E-02 0.1490
+    (13<8<6)     2.70456E-02 0.1463
+    (14<8<6)     2.21330E-02 0.1688
+    (15<8<6)     3.12509E-02 0.1562
+    (12<9<6)     1.71890E-02 0.1732
+    (13<9<6)     2.74000E-02 0.1605
+    (14<9<6)     3.30358E-02 0.1517
+    (15<9<6)     2.48466E-02 0.1663
+    (12<10<6)    3.73651E-02 0.1646
+    (13<10<6)    1.97655E-02 0.1635
+    (14<10<6)    2.42639E-02 0.2025
+    (15<10<6)    2.51816E-02 0.1516
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 3.228E-01)**2 = (0.000E+00)*(1.042E-01) = 0.000E+00
+1tally   7        nps =     5000
+           tally type 7    track length estimate of fission heating.    units   mev/gram  
+           particle(s): neutron    
+
+           masses  
+                   cell:   (12<8<2)     (12<9<2)     (12<10<2)     (12<2)      (13<8<3)     (13<9<3)     (13<10<3) 
+                         2.26195E+00  2.26195E+00  2.26195E+00  6.78584E+00  2.26195E+00  2.26195E+00  2.26195E+00
+                   cell:    (13<3)      (14<8<5)     (14<9<5)     (14<10<5)     (14<5)      (15<8<6)     (15<9<6)  
+                         6.78584E+00  2.26195E+00  2.26195E+00  2.26195E+00  6.78584E+00  2.26195E+00  2.26195E+00
+                   cell:   (15<10<6)     (15<6)                                                                    
+                         2.26195E+00  6.78584E+00
+ 
+        cell
+    (12<8<2)     1.60504E-02 0.1445
+    (12<9<2)     1.29493E-02 0.1714
+    (12<10<2)    1.46791E-02 0.1509
+     (12<2)      1.45596E-02 0.0906
+    (13<8<3)     0.00000E+00 0.0000
+    (13<9<3)     0.00000E+00 0.0000
+    (13<10<3)    0.00000E+00 0.0000
+     (13<3)      0.00000E+00 0.0000
+    (14<8<5)     1.94078E-02 0.1656
+    (14<9<5)     1.07799E-02 0.1470
+    (14<10<5)    1.64500E-02 0.1676
+     (14<5)      1.55459E-02 0.0982
+    (15<8<6)     1.79572E-02 0.1480
+    (15<9<6)     1.45268E-02 0.1594
+    (15<10<6)    1.49217E-02 0.1508
+     (15<6)      1.58019E-02 0.0883
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 9.784E-02)**2 = (0.000E+00)*(9.573E-03) = 0.000E+00
+1status of the statistical checks used to form confidence intervals for the mean for each tally bin
+
+
+ tally   result of statistical checks for the tfc bin (the first check not passed is listed) and error magnitude check for all bins
+
+     4   missed  1 of 10 tfc bin checks: the variance of the variance appears not to decrease as 1/nps for the last half of problem
+         missed all bin error check:    68 tally bins had     0 bins with zeros and    60 bins with relative errors exceeding 0.10
+
+     7   missed  2 of 10 tfc bin checks: the relative error exceeds the recommended value of 0.1 for nonpoint detector tallies     
+         missed all bin error check:    16 tally bins had     4 bins with zeros and     9 bins with relative errors exceeding 0.10
+
+
+ the 10 statistical checks are only for the tally fluctuation chart bin and do not apply to other tally bins.
+
+ the tally bins with zeros may or may not be correct: compare the source, cutoffs, multipliers, et cetera with the tally bins.
+
+ warning.     2 of the   2 tally fluctuation chart bins did not pass all 10 statistical checks.
+ warning.     2 of the   2 tallies had bins with relative errors greater than recommended.
+1tally fluctuation charts                         
+
+                       tally    4                                tally    7
+       nps      mean     error   vov  slope    fom      mean     error   vov  slope    fom
+      1000   2.6762E-02 0.0943 0.0493  0.0           1.3772E-02 0.3715 0.3958  0.0        
+      2000   2.5934E-02 0.0696 0.0550  6.4           1.6225E-02 0.2276 0.1422  0.0        
+      3000   2.5710E-02 0.0576 0.0345  5.2           1.5253E-02 0.1847 0.1074  0.0        
+      4000   2.5836E-02 0.0489 0.0225  7.0           1.5704E-02 0.1569 0.0737  0.0        
+      5000   2.6512E-02 0.0438 0.0156 10.0           1.6050E-02 0.1445 0.0648  0.0        
+ tally data written to file inp14m  
+
+        14 warning messages so far.
+
+
+ run terminated when      5000 particle histories were done.

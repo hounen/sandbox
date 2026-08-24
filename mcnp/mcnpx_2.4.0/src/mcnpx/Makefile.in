@@ -1,0 +1,114 @@
+# $Id: Makefile.in,v 1.14 2002/06/12 14:46:48 troberts Exp $
+
+include Makefile.h
+# # # # This is the src/mcnpx level  MAKEFILE for building MCNPX # # # #
+
+# SOURCEDIR is path relative to this 'make'
+SOURCEDIR = ${srcdir}
+
+########################################################################
+#
+# Targets and suffixes depend on variable settings that come from running configure.
+#
+########################################################################
+
+# For ATARGETS static archives (target.a) are built - EXCEPT f77main - it becomes f77main.o
+ATARGETS = mcnpf mcnpc utils gvaviv lcs cem dedx meshtal histp spabi fluka89 hexs
+OTARGETS = f77main
+SKELS = mcnp_skel.o
+
+# EXPERIMENTAL CONFIGURATION :
+# The targets below are only used when doing dynamic loading (shared object version of mcnpx).
+STARGETS = dl-mod mcnpx-main mod-fortran
+
+# Default target is first target - 'make' defaults to 'make all' 
+# TARGETS will either be 'statictargets' or 'sharedtargets'
+all : @TARGETS@
+# Dependence on block data for a target (e.g., cemd) is handled in the makefile for that target (e.g., cem)
+
+# You should not install until you 'make all' and 'make tests'
+# We only enforce 'make all'
+install : all
+	@${SOURCEDIR}/../../config/install-sh -c mcnpx ${bindir}/mcnpx
+	@${ECHO} "Install of mcnpx into ${bindir} complete."
+
+# Force execution of 'make' every time for phony targets,
+# otherwise the matching directories give the appearance
+# that everything is up to date.
+.PHONY : statictargets sharedtargets
+.PHONY : ${OTARGETS} ${ATARGETS} ${STARGETS}
+
+${OTARGETS} ${ATARGETS} ${STARGETS} :
+	${MAKE} -C $@
+
+# Target mcnpx is made differently for static and shared configurations.
+mcnpx :	${OTARGETS} ${ATARGETS}
+	${FCOMP} ${LDFLAGS} -o mcnpx \
+		`$(foreach dir,${OTARGETS},  ${LS} ${dir}/*.o;)` \
+		`$(foreach dir,${ATARGETS},  ${LS} ${dir}/*.${STATSUF};)` \
+		${PARALIB} ${XLIBS}
+	${CHMOD} a+x mcnpx
+	@ ${ECHO} "Static Build of MCNPX completed."
+
+mcnpx.o : ${ATARGETS} ${SKELS}
+	${LD} -r ${SKELS} -o mcnpx.o `$(foreach dir,${ATARGETS}, ${LS} ${dir}/*.${STATSUF};)`
+ 
+mcnpx.${SHARSUF} : mcnpx.o
+	${FCOMP} ${FFLAGS} ${LDFLAGS} ${SOFLAGS} -o mcnpx.${SHARSUF}  mcnpx.o ${XLIBS}
+	@ ${ECHO} "Shared Build of the Classic MCNPX module completed."
+
+# how .o files emerge from .F files with exceptions above
+%.o : %.F
+	${FCOMP} ${FFLAGS} ${FDEFS} $< -c -o $@
+# - - - - - - - - - - - - - - - - - - -
+
+statictargets: mcnpx
+
+sharedtargets: mcnpx.${SHARSUF} ${STARGETS} ${OTARGETS}
+
+# Force 'make' to execute every time for PHONY targets.
+.PHONY : clean distclean
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean :
+	@${RM}  ${CLEANFILES}
+	@${CD} ./cem ; ${MAKE} clean; 
+	@${CD} ./dedx ; ${MAKE} clean; 
+	@${CD} ./dl-mod ; ${MAKE} clean; 
+	@${CD} ./f77main ; ${MAKE} clean; 
+	@${CD} ./fluka89 ; ${MAKE} clean; 
+	@${CD} ./gvaviv ; ${MAKE} clean; 
+	@${CD} ./hexs ; ${MAKE} clean; 
+	@${CD} ./histp ; ${MAKE} clean; 
+	@${CD} ./lcs ; ${MAKE} clean; 
+	@${CD} ./mcnpc ; ${MAKE} clean; 
+	@${CD} ./mcnpf ; ${MAKE} clean; 
+	@${CD} ./mcnpx-main ; ${MAKE} clean; 
+	@${CD} ./meshtal ; ${MAKE} clean; 
+	@${CD} ./mod-fortran ; ${MAKE} clean; 
+	@${CD} ./spabi ; ${MAKE} clean; 
+	@${CD} ./utils ; ${MAKE} clean; 
+
+# Target distclean should clean then remove executables and dependency files
+distclean : clean
+	@${RM} mcnpx mcnpx.* 
+	@-${RM} -f ${DISTCLEANFILES}
+	@-${RM} -f ${CONFFILES}
+	@${CD} ./cem ; ${MAKE} distclean; 
+	@${CD} ./dedx ; ${MAKE} distclean; 
+	@${CD} ./dl-mod ; ${MAKE} distclean; 
+	@${CD} ./f77main ; ${MAKE} distclean;
+	@${CD} ./fluka89 ; ${MAKE} distclean; 
+	@${CD} ./gvaviv ; ${MAKE} distclean; 
+	@${CD} ./hexs ; ${MAKE} distclean; 
+	@${CD} ./histp ; ${MAKE} distclean; 
+	@${CD} ./lcs ; ${MAKE} distclean; 
+	@${CD} ./mcnpc ; ${MAKE} distclean; 
+	@${CD} ./mcnpf ; ${MAKE} distclean; 
+	@${CD} ./mcnpx-main ; ${MAKE} distclean; 
+	@${CD} ./meshtal ; ${MAKE} distclean; 
+	@${CD} ./mod-fortran ; ${MAKE} distclean; 
+	@${CD} ./spabi ; ${MAKE} distclean; 
+	@${CD} ./utils ; ${MAKE} distclean; 
+
+# DO NOT DELETE THIS LINE - makedepend depends on it.

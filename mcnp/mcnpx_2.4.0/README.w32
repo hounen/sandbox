@@ -1,0 +1,212 @@
+
+  README FILE FOR INSTALLING AND EXECUTING MCNPX UNDER WINDOWS
+
+The following information is provided to install MCNPX 
+version 2.4.0 on a Windows 9X, NT, or 2000 platform. 
+This is an F90 version of MCNPX which uses standard F90 allocation
+schemes for dynamic variables. Over 200 test problems were run to
+verify this version (170+ MCNP and 30+ MCNPX). Section 1.0 is for
+those that have downloaded only the executables. Section 2.0 is
+for those who have downloaded the source and want to build an MCNPX
+executable. Section 3.0 discusses cross section issues.
+
+1.0 USING THE PC WINDOWS EXECUTABLES ONLY
+
+The following steps will install the MCNPX 2.4.0 executables for
+Windows:
+
+(1) Make a folder MCNPX on a drive with enough disk space (~50
+    Mbytes). Unzip the MCNPX_2.4.0.tar.gz file in that folder.
+
+(2) Set the needed environment variables. There are different
+    ways to do this with Windows 2000, but the simplest is to
+    run a supplied batch file (SETUPX.BAT) whenever a Command
+    Prompt window is created. To do this, modify the Command
+    Prompt properties by right-clicking on Start=>Programs=>
+    Accessories=>Command Prompt. Under the Shortcut Tab, modify
+    Target to match the following:
+
+    %SystemRoot%\system32\cmd.exe /K C:\MCNPX\BIN\SETUPX
+
+    Note this batch file assumes the MCNPX folder was put on
+    the C: drive. If that is not the case, edit this file as
+    needed. This sets the DATAPATH variable to C:\MCNPX\DATA.
+    If you already have the MCNP cross-section files in another
+    directory, copy all the files in C:\MCNPX\DATA to your
+    other directory and use that directory for the DATAPATH
+    variable. For other Windows versions, this SETUPX.BAT file
+    can be run from a DOS window to set the environment
+    variables. Some of these variables are used only for our
+    classes. To run this batch file manually from a Command
+    Prompt window enter:
+
+    C:>C:\MCNPX\BIN\SETUPX
+
+(3) If graphics are desired, download and install an X-Server.
+    Several flavors can be found on the internet (e.g., X-Deep/32,
+    WRQ Reflection X, Exceed, etc.). I suggest downloading a trial
+    version to make sure it works right - both X-Deep/32 and
+    Reflection X work for me. If you choose X-Deep/32, make it
+    a bit more user friendly by doing the following. Start the 
+    X-server from Start=>Programs=>X-Deep_32=>X-Server. Click 
+    "Try", then "Select", and then "Normal Mode" (if connected
+    to a LAN it may take a few seconds finding remote hosts after
+    "Select" is clicked). Edit the properties by right-clicking
+    on the title bar, then X-Server Menu=>X-Server Options=>Window
+    Modes=>Multiple MS Window Mode. Then click Apply and Yes to
+    restart. Be sure to start the X-Server before running MCNPX
+    for plotting.
+
+(4) If you use mesh plots and GRIDCONV to convert the mesh data,
+    consider downloading and installing Tecplot. GRIDCONV has a
+    Tecplot option and the graphics turn out quite nice. See URL
+    http://www.tecplot.com for more details.
+
+See User's Notes in Install.html for information on how to run 
+test cases with the executables contained in the mcnpx distribution.
+
+
+2.0 BUILDING MCNPX
+
+If you wish to modify the source or recreate the executables,
+you will need the Compaq Visual Fortran (CVF) compiler, version
+6.1 or later, and the MSVC compiler, version 5.0 or later. Once
+CVF and MSVC are installed, follow the following steps:
+
+(1) Make a folder MCNPX on a drive with enough disk space (~200
+    Mbytes). Unzip the MCNPX_2.4.0.TAR.GZ file in that folder. I
+    suggest using WinZip 8.0 or later as this is a GZIP/TAR file.
+
+(2) Open a "Command Prompt" window, make a build directory, and
+    CD to that directory. Execute the configure batch file:
+
+    MKDIR MCNPX_BLD
+    CD MCNPX_BLD
+    ..\MCNPX\configure
+
+    You must supply the appropriate path to this batch file
+    which is located in the folder created in step #1. At the
+    end of this process, some files specific to a Windows
+    build will be unzipped. Click on "UNZIP", then "OK", then
+    "CLOSE" to complete the configure.
+
+(3) Enter the following command in the "Command Prompt" window:
+
+    SET PATH
+
+    If your PATH environment variable is longer than 255
+    characters, you will need to complete this step. If not,
+    go to step #4. Due to a limitation of GNU Make on Windows,
+    you may need to execute the MAKEPATH batch file. You will
+    need to edit this file if you installed MCNPX in a folder
+    other than C:\MCNPX or you installed CVF or MSVC in non-
+    default directories. Go into the folder created in step #1
+    and CD into BIN. Then edit MAKEPATH.BAT to change the last
+    entry on the PATH environment variable to reflect the
+    folder created in step #1. You may also need to edit the
+    other paths on the PATH and LIB variables if you installed
+    CVF or MSVC in nondefault folders. Now execute this batch
+    file (simply type in "MAKEPATH") and return to the build
+    directory. This should limit the number of characters to
+    less than 255 for the PATH environment variable.
+
+(4) Execute GNU Make by typing "MAKE" in the "Command Prompt"
+    window. You can CD into any subdirectory and build any
+    subcomponent of MCNPX just as on a Unix platform. If you
+    wish to run the test suite, CD into SRC\TEST and execute
+    "MAKE". The MAKE executable is provided in the MCNPX\BIN
+    directory. The X11 library and include files are provided
+    in MCNPX\LIB and should not be moved from here.
+
+Patches to MCNPX can be developed, as done for MCNP; however one
+should contact us for the needed script file and instructions to
+apply such a patch. If a "stack overflow" error is generated, this
+is NOT an MCNPX bug. A stack limit must be specified upon linking.
+The included executable has a stack limit of 512 MBytes. This can
+be increased by editing the Makfile.h file in the 
+MCNPX_BLD\SRC\MCNPX directory (~line 66) and rebuilding MCNPX.
+
+3.0 CROSS SECTION DATA
+
+Cross section libraries are included in the DLC-200/MCNPXDATA 
+(RSICC ID: D00205ALLCP03) distribution.  It includes the latest 
+electron data file (EL03) which requires an MCNP 4C based code. 
+Note that the xsdir file included in D00205ALLCP03 is complete;
+therefore, xsdir does not need editing unless you are supplying
+additional cross sections.  Expanding the DLC-205 cross sections 
+will create a directory called "mcnpxdata" under your current 
+directory which will contain the cross sections.
+
+
+This version of MCNPX was compiled with XS64, or 64-bit cross sections, 
+as is MCNP 4C/4C2 distributed from RSICC, thus you can use the Type 2
+data distributed with MCNP 4C for MCNPX problems. You must be
+certain to use those labeled "DVF", as the MCNPX executable with
+this distribution was compiled with CVF 6.1 (formerly DVF). The
+following steps should be followed to include the LA150 data with
+the RSICC DVF Type 2 libraries:
+
+
+The following instructions were written for beta testers:
+(I) Convert the LA150 libraries to Type 2 files by running MAKXS
+in the C:\MCNPX\DATA directory. This will create files XSDIR2,
+TPRINT (MAKXS output file), LA150h2, LA150n2, and LA150u2.
+
+(II) Copy the new directory lines from the file XSDIR2 (grab all
+lines after the word "directory") and paste at the end of the XSDIR
+file supplied with the RSICC distribution.
+
+(III) Copy the RSICC Type 2 data files, including the modified
+XSDIR file, into C:\MCNPX\DATA.
+
+After completing these steps you should be able to run MCNPX with
+the LA150 data and/or the standard MCNP 4C data.
+
+
+4.0 CHANGES TO THE USER INTERFACE
+
+The following changes have been made to the user interface of
+previous MCNPX versions (2.1.X, 2.2.X, 2.3.X):
+
+(A) PHYS:N card entries are now:
+
+    EMAX = upper limit for neutron energy, MeV (def.=huge).
+
+    EMCNF = energy boundary above which neutrons are treated
+            with implicit capture and below which they are
+            treated with analog capture (def.=0).
+
+    IUNR = 0/1 = on/off unresolved resonance range probability
+                 tables (def.=0).
+
+    DNB = -1/0/>0 = on/off/bias delayed neutrons (def.=-1).
+
+    ECUT = maximum energy for use of table-based data (def.=20 MeV).
+
+    FISNU = -1/0/>0 = isotope dependent Guassian multiplicity nu
+                      /integer sampled average nu (old method)/
+                      FWHM of Guassian fission multiplicity nu
+                      applied to all fissionable isotopes.
+
+    RECOIL = 0/>0 = off/bias light-ion recoil particles (def.=0).
+
+(B) If you run "mcnpx.exe" with the "ip" options for plotting,
+    you will now get the Interactive Plotter. This will be 
+    described in detail at the Salt Lake City ANS meeting. See
+    step #2 below for installing an X-Server.
+
+(C) If you usually use PAW to visualize the mesh data, we have
+    not been able to get this to work as of yet on the Windows
+    platform. Consider using Tecplot as described under step #4
+    below.
+
+Call or email if any problems are encountered or if questions arise.
+If you work at LANL, we can help you in getting the MCNP 4C cross-
+section files.
+
+Gregg W. McKinney (gwm@lanl.gov)
+MCNPX Development Team
+Los Alamos National Laboratory, Group D-10
+Los Alamos, NM 87545
+
+Wk:(505)665-8367

@@ -1,0 +1,27 @@
+#
+# The specific path depends on the particular (Machine/OS/Fortran/C) test set,
+# the location of the build directory relative to the source directory.
+# The current choices are as follows:
+#
+# setenv THISTEST ../../../mcnpx_trunk/src/Test/Test.intel.linux.g77.gcc
+#
+# setenv THISTEST /export/home/hgh/mcnpx_trunk/src/Test/Test.intel.linux.pgf77.gcc
+#
+# setenv THISTEST ../../../mcnpx_trunk/src/Test/Test.sun.solaris.f77.cc
+#
+# setenv THISTEST /home/hgh/MCX_TRUNK/mcnpx_trunk/src/Test/Test.sgi.irix.f77.cc
+#
+# setenv THISTEST /export/home/hgh/mcnpx_trunk/src/Test/Test.hp.hpux.f77.cc
+#
+# setenv THISTEST /export/home/hgh/mcnpx_trunk/src/Test/Test.ibm.aix.f77.cc
+#
+# setenv THISTEST /export/home/hgh/mcnpx_trunk/src/Test/Test.dec.osf.f77.cc
+#
+# set echo
+#
+mv -f htp01m ${THISTEST}/mcth01
+mv -f htp02m ${THISTEST}/mcth02
+mv -f htp03m ${THISTEST}/mcth03
+mv -f htp04m ${THISTEST}/mcth04
+mv -f htp05m ${THISTEST}/mcth05
+mv -f htp06m ${THISTEST}/mcth06

@@ -1,0 +1,57 @@
+# $Id: Makefile.in,v 1.13 2002/06/25 16:02:40 troberts Exp $
+
+include Makefile.h
+
+# SOURCEDIR is path relative to this 'make'
+SOURCEDIR = ${srcdir}
+# INCLUDE directory  is two  levels up from this SOURCEDIR
+INCLUDE = -I${SOURCEDIR}/../../include
+
+# make a list of source files for makedepend to use
+CSRCS := $(wildcard ${SOURCEDIR}/*.c)
+HDRS := $(wildcard $INCLUDE{}/*.h) $(wildcard ${INCLUDE}/*/*.h)
+COBJS := $(notdir $(patsubst %.c,%.o,${CSRCS}))
+
+# Target mcnpc is only a statically built one
+TARGET = mcnpc
+
+# Object file
+OBJ = mcnpc.o
+
+#----------------------------
+# make rules for static and shared targets
+all : ${TARGET}.${STATSUF}
+	@${ECHO} "$@ completed."
+
+# - - - - - - - - - - - - - - - - - - - 
+# how .o files emerge from .c files
+%.o : %.c
+	${CCOMP} ${CFLAGS} ${CDEFS} $< -c -o $@
+# - - - - - - - - - - - - - - - - - - - 
+
+# the target
+${TARGET}.${STATSUF} : ${OBJ}
+	${AR_CMD} ${TARGET}.${STATSUF} ${OBJ}
+
+# force make to execute every time for PHONY targets
+.PHONY : clean distclean 
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean  :
+	@${RM} ${CLEANFILES}
+
+# Target distclean should clean then remove executables and dependency files
+distclean : clean
+	@${RM} -f ${TARGET}.${STATSUF}
+	@-${RM} -f ${DISTCLEANFILES}
+	@-${RM} -f ${CONFFILES}
+
+depend.mk: ${CSRCS} ${HDRS}
+	@${ECHO} "making dependencies for ${SOURCEDIR}"
+	@makedepend -f- -- $(CFLAGS) ${INCLUDE} -- $(CSRCS) | \
+	sed 's%^${SOURCEDIR}/%%' >depend.mk
+	@${ECHO} "depend.mk for ${SOURCEDIR} has been generated"
+
+include depend.mk
+
+# DO NOT DELETE THIS LINE -- makedepend depends on it.

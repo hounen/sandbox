@@ -1,0 +1,42 @@
+Test2 for mcnpx and mesh tallies.  (5/29/98)
+c     This inp is set up to test the standard mesh tallies
+c     and the trans option with a monodirectional source.
+c     This also test the use of a fm card with constant mult.
+c      >>CELL CARDS<<
+1     0  1 -2
+2     0 -1 -2
+3     0  2
+
+c      >>SURFACE CARDS<<
+1     px -10.0
+2     so  20.0
+
+c      >>DATA CARDS<<
+tr1   0. 0. 0. 0. 0. -1.  0.  1. 0. 1. 0. 0.
+mode  n
+imp:n  1 1 0
+sdef  sur 1 cel 1 pos -10.0 0. 0. dir 1 vec 1. 0. 0. rad d1
+si1  0. 1.414214
+nps   20000
+print
+prdmp  2j -1
+c
+f4:n   1
+fc4  Cell tally in cell 1.
+c
+tmesh
+rmesh1:n  flux trans 1
+cora1  0.0 1.0 2.0
+corb1 -1.0 0.0 1.0
+corc1 -1.0 0.0 1.0
+c
+cmesh11:n  flux trans 1
+cora11  0. 1.414214
+corb11  -1. 0. 1.
+corc11  90. 180. 270. 360.
+c
+endmd
+c
+fm1    2.0
+
+

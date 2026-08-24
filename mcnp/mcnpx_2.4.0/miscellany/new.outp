@@ -1,0 +1,66 @@
+#
+# The specific path depends on the particular (Machine/OS/Fortran/C) test set,
+# the location of the build directory relative to the source directory.
+# The current choices are as follows:
+#
+# setenv THISTEST ../../../mcnpx_trunk/src/Test/Test.intel.linux.g77.gcc
+#
+# setenv THISTEST /export/home/hgh/mcnpx_trunk/src/Test/Test.intel.linux.pgf77.gcc
+#
+# setenv THISTEST ../../../mcnpx_trunk/src/Test/Test.sun.solaris.f77.cc
+#
+# setenv THISTEST /home/hgh/MCX_TRUNK/mcnpx_trunk/src/Test/Test.sgi.irix.f77.cc
+#
+# setenv THISTEST /export/home/hgh/mcnpx_trunk/src/Test/Test.hp.hpux.f77.cc
+#
+# setenv THISTEST /export/home/hgh/mcnpx_trunk/src/Test/Test.ibm.aix.f77.cc
+#
+# setenv THISTEST /export/home/hgh/mcnpx_trunk/src/Test/Test.dec.osf.f77.cc
+#
+# set echo
+#
+mv -f inp01o ${THISTEST}/outp01
+mv -f inp02o ${THISTEST}/outp02
+mv -f inp03o ${THISTEST}/outp03
+mv -f inp04o ${THISTEST}/outp04
+mv -f inp05o ${THISTEST}/outp05
+mv -f inp06o ${THISTEST}/outp06
+mv -f inp07o ${THISTEST}/outp07
+mv -f inp08o ${THISTEST}/outp08
+mv -f inp09o ${THISTEST}/outp09
+mv -f inp10o ${THISTEST}/outp10
+mv -f inp11o ${THISTEST}/outp11
+mv -f inp12o ${THISTEST}/outp12
+mv -f inp13o ${THISTEST}/outp13
+mv -f inp14o ${THISTEST}/outp14
+mv -f inp15o ${THISTEST}/outp15
+mv -f inp16o ${THISTEST}/outp16
+mv -f inp17o ${THISTEST}/outp17
+mv -f inp18o ${THISTEST}/outp18
+mv -f inp19o ${THISTEST}/outp19
+mv -f inp20o ${THISTEST}/outp20
+mv -f inp21o ${THISTEST}/outp21
+mv -f inp22o ${THISTEST}/outp22
+mv -f inp23o ${THISTEST}/outp23
+mv -f inp24o ${THISTEST}/outp24
+mv -f inp25o ${THISTEST}/outp25
+mv -f inp26o ${THISTEST}/outp26
+mv -f inp27o ${THISTEST}/outp27
+mv -f inp28o ${THISTEST}/outp28
+mv -f inp29o ${THISTEST}/outp29
+mv -f inp30o ${THISTEST}/outp30
+mv -f inp31o ${THISTEST}/outp31
+mv -f inp32o ${THISTEST}/outp32
+mv -f inp33o ${THISTEST}/outp33
+mv -f inp34o ${THISTEST}/outp34
+mv -f inp35o ${THISTEST}/outp35
+mv -f inp36o ${THISTEST}/outp36
+mv -f inp37o ${THISTEST}/outp37
+mv -f inp38o ${THISTEST}/outp38
+mv -f inp39o ${THISTEST}/outp39
+mv -f inp40o ${THISTEST}/outp40
+mv -f inp41o ${THISTEST}/outp41
+mv -f inp42o ${THISTEST}/outp42
+mv -f inp43o ${THISTEST}/outp43
+mv -f inp44o ${THISTEST}/outp44
+mv -f inp45o ${THISTEST}/outp45

@@ -1,0 +1,112 @@
+d = /
+ifeq (Windows,Windows)
+/ = ${d:/=\}
+else
+/ = ${d}
+endif
+#^^^path for mcnpx to find needed data when run
+prefix = ${/}usr${/}local
+exec_prefix = ${prefix}
+libprefix = ${exec_prefix}${/}lib
+#^^^places to use for installing executables and library data
+bindir = ${prefix}${/}bin
+datadir = ${exec_prefix}${/}lib
+# pass the following quoted symbols to compiles so code can find its data when executing
+PATH_DEFINES = -DPREFIX=\"${prefix}\" -DLIBPREFIX=\"${libprefix}\" 
+#^^^machine hardware/software
+SYSTEM = Windows
+ARCH = x86
+DEFS =  -DDEC=1 -DCHEAP=1 -DXS64=1 -DMESHTAL=1 -DRADIOG=1 -DCEM=1 -DHISTP=1 -DSPABI=1 -DDFACT=1 -DCOINCD=1 -DPLOT=1 -DMCPLOT=1 -DGKSSIM=1 -DXLIB=1
+# -DPLOT=1 -DMCPLOT=1 -DGKSSIM=1 -DXLIB=1 
+#^^^shared or static linking file suffixes
+LINKMETH = static
+SHARSUF = 
+STATSUF = lib
+#^^^compiler optimizations
+COPT =
+FOPT = /optimize:4 
+#^^^debug settings
+CDEBUG = 
+FDEBUG = 
+LDDEBUG = 
+#^^^dynamic loading flags
+SOLIBS = 
+SOLDFLAGS = 
+SOFLAGS  = 
+#^^^dynamic compiling flags
+SOFFLAGS = 
+SOCFLAGS = 
+#^^^static linking flags
+LIBS = 
+FLAGS = 
+LDFLAGS = /exe:mcnpx.exe
+#^^^static compiling flags
+# -----------------------------------------------
+# helpful mappings to allow transmogrification of AIX Fortran -D things.
+#
+EMPTY:=
+COMMA:=,
+SPACE:=${EMPTY} ${EMPTY}
+FDEFS = ${DEFS}
+CDEFS = ${DEFS}
+# /check:bounds
+FFLAGS =  /nologo ${FOPT}
+CFLAGS =  /I${libdir} ${COPT}
+FPPFLAGS = /fpp:"/ansi /S${incdir}"
+#^^^link libs used in static
+FLIBS =  
+XLIBS = /link:"/stack:512000000 /libpath:${libdir} X11.lib"
+#^^^fortran compiler to use for our Makefile
+FCOMP = f90 
+#^^^c compiler to use for our Makefile
+CCOMP = cl
+#^^^fortran & c env vars that may be externally set
+FC = f90
+CC = cl
+#^^^modules requested
+FMODS = 
+#^^^make flags
+MFLAGS = 
+#^^^test case file identification variables
+TARCH = intel
+TSYS = Windows
+TFC = dvf
+TCC = cc
+#^^^how to find old cross section tests
+OLDXSDIR = no
+#^^^editor to use for the test case examinations
+EDITOR = view
+# -----------------------------------------------
+# helpful command mappings - these should be in /bin or /usr/bin
+ifeq (${SYSTEM},Windows)
+MV = move
+CP = copy /Y
+RM = del
+LS = dir
+ECHO = echo
+AR_CMD = lib /out:
+CD = cd
+COMP = fc /w
+CLEANFILES = nohup.out core a.out *.hh *.l *.i *.f *.C *.cc *.cpp *~ *.o *.mod *.lib
+SOURCES = *.F *.c
+else
+export SHELL = /bin/sh
+export MV = /bin/mv
+export CP = /bin/cp
+export RM = /bin/rm -f
+export LS = /bin/ls
+export ECHO = /bin/echo
+export AR_CMD = /usr/lanl/gnu/bin/ar -r
+export CHMOD = /bin/chmod
+export SED = /bin/sed
+export LD = /usr/ucb/ld
+export LN = /bin/ln
+export COMP = /bin/diff -b
+# helpful variable settings
+export CONFFILES = conf*.log conf*.status conf*.cache conf*.f Makefile* conftest
+export CLEANFILES = nohup.out core a.out *.hh *.l *.i *.f *.C *.cc *.cpp *~ *.o
+export DISTCLEANFILES = depend.mk *.a *.so *.sa
+export SOURCES = *.F *.c
+endif
+# use autoconf SET_MAKE
+

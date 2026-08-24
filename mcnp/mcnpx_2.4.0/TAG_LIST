@@ -1,0 +1,376 @@
+$Id: TAG_LIST,v 1.40 2002/08/01 20:19:45 jxh Exp $
+
+___________
+MCNPX_2_4_0
+
+RSICC release: MCNPX_2_4_k with proton and photonuclear plotting
+and reaction multipliers (D-10:JSH-02-98), corrections, and cleanup.
+
+___________
+MCNPX_2_4_k
+
+Preliminary MCNPX_2_4_0 which upgrades MCNPX_2_4_j with
+the following new features:
+   * Distributed memory multitasking for the entire energy range of
+        all particles (GWM);
+   * Light ion recoil (JSH) D-10:JSH-02-076;
+   * Enhanced color geometry plots (GWM/JSH)  D-10:JSH-02-075;
+   * Spontaneous fission (JSH) D-10:JSH-02-072;
+   * Photonuclear reaction multipliers (GWM);
+   * Corrections,  D-10:JSH-02-076.
+
+___________
+MCNPX_2_4_j
+
+Preliminary MCNPX_2_4_0 which combines MCNPX_23002 and
+MCNP4C3, adds identifiers/patching capability, and the
+following new features:
+
+      * FORTRAN 90 modularity and dynamic memory allocation 
+      * Repeated structures source specification improvements
+      * Default dose functions: DFn
+      * Speedup of slow plot problems
+      * Cosine binning of surface flux tallies
+      * Specification of cosine binning by degrees
+      * Logarithmic interpolation: Nlog
+      * Improved test set 
+      * Error corrections 
+
+___________
+MCNPX_23002
+
+Tag for the result of a join from the Modularity Branch.
+This version should be equivalent to the state of the
+branch that is tagged "br_mcnpx_23002_Modularity", which
+contains Prael's corrections for a bug affecting multiple
+distributions of TR specifications on the SDEF card, the
+changes to test problem inp34 to confirm the correction,
+some corrections to the aclocal.m4 file and associated
+configure files, and a better discription in INSTALL.html.
+The load date is "Wed Feb 27 13:33:07 MST 2002" and the
+version number is "23002".
+
+_____________________________
+Branch_MCNPX_23001_Modularity
+
+Branch created at the MCNPX_23001 release for development
+of modularity and related issues. The first new commit on
+this branch will be this new entry in the TAG_LIST file
+(this file) and a change of the load date to
+"Tue Jan 29 16:57:01 MST 2002" to distinguish the branch
+initially from the main trunk.
+
+___________
+MCNPX_23001
+
+The next tagged version on the main development trunk
+after the "2.3.0" release (for RSICC).  The new load
+date is "Tue Jan 29 14:16:41 MST 2002".  A first pass
+at fixing the setting of JAN whenever IPT is set has
+been included.  Also the VER character variable now
+has the form shown in the tag name, e.g. "23001" to
+allow for much more frequent tagged versions without
+changing the number of characters (5).
+
+________________________
+Branch_MCNPX_2_3_0_RSICC
+
+Branch created at the MCNPX_2_3_0 release for future use
+in support of the RSICC release of Version 2.3.0 of MCNPX.
+Comparing this branch, with any bug fixes, etc., against
+its root can produce UNIX PATCH files to send to RSICC as
+needed.  The first commit on this branch will be this new
+entry in the TAG_LIST file (this file) and a change of the
+load date to "Tue Jan 22 14:01:39 MST 2002" to distinguish
+the branch from the original release.  The load date will
+advance as bug fixes are added to the branch.
+
+___________
+MCNPX_2_3_0
+
+The final form of the RSICC release.  The main differences are
+in the Docs directory, from which most of the information has
+been eliminated in favor of including more recent information
+in the forthcoming User's Guide.  There are also some cleanups
+of comments in Makefile's and Readmes's.  Some utility scripts
+have been updated to be aware of the new test problems, and
+some obsolete utilities have been eliminated.  The new load
+date is "Wed Dec 19 14:37:55 MST 2001".
+
+___________
+MCNPX_2_2_6
+
+Release Version 2.2.6 with date "Tue Dec 11 15:17:27 MST 2001".
+This is essentially identical to MCNPX_Dec_10_2001 with only a
+few changes in the Docs directory and a new load date.  This
+could be the RSICC release, although a few things could also
+be cleaned up:
+  1. Some of the information in the Docs directory is obsolete.
+  2. Should the User Guide be in the Docs directory?
+  3. G. W. McKinney's email of Nov. 20, 2001, concerning CEM
+     remains unresolved.
+  4. The final point in McKinney's email of Dec. 5, 2001, about
+     heating tallies for energy-cutoff particles is unresolved.
+  5. The specific lines for photons and positrons in INTERACT.F
+     are still present, and to be examined.
+
+_________________
+MCNPX_Dec_10_2001
+
+This version includes Prael's fix for a problem reported by
+McKinney whereby in high-energy-cutoff problems, antiprotons
+could undergo terminal processing in CHG_PL, but emerge from
+INTERACT with nonterminal events.  A floating-point exception
+found by Egdorf and Roberts is also avoided by initializing
+the substep-distance to zero for generic charged particles
+emerging from the bank below the energy cutoff (this was a
+different bug).  Also, LODDAT is promoted to a character
+parameter and moved with KOD and VER to a globally-available
+include file, eliminating the need for SETLDD.F.  In RUCOM.H,
+two parameters were increased at McKinney's suggestion.  The
+test problems were updated to cover the bug fixes, and to
+include changed answers where appropriate.
+The new load date is "Mon Dec 10 14:40:33 MST 2001".
+
+_________________
+MCNPX_Dec_04_2001
+
+With load date "Tue Dec  4 16:49:52 MST 2001".  This version has
+all of Prael's changes from his Oct. 11, 2001, package.  A few
+minor changes were necessary, including a bug fix for getidt.F
+on three systems, and a variable needing to be in common.  Also
+ETIME from MCNPC.C is not currently available to HTAPE3X nor to
+XSEX3, so these auxiliary programs do not report elapsed time.
+
+____________________
+Partial_REP_12_02_01
+
+This tag is a kind of "safety stop" with parts of R. E. Prael's
+desired changes to fix a few bugs and reconcile auxiliary codes
+between LCS and MCNPX.  If the complete set of changes causes
+trouble, this tag will be useful for diagnosis of the problem.
+
+_________________
+MCNPX_Dec_01_2001
+
+Possibly a suitable final form for the 2.2.6 release.  Includes
+the new Vavilov logic and test problems, Ed Snow's corrections
+for the infinite loop problem and for other errors in both the
+cylindrical and spherical mesh tallies, Prael's correction for
+the frame-of-reference bug in elastic scattering, correction
+of a long-standing but newly-discovered bug in the RNOK biasing
+of knock-on electrons (and a test problem for that), and the
+necessary backing-off of a build system change that caused SGI
+systems to fail to load.
+
+___________
+MCNPX_2_2_5
+
+Release Version 2.2.5 with date "Wed Nov 21 17:24:34 MST 2001".
+This is close to a final version to go to RSICC, but needs one
+correction to the mesh tally (to avoid an infinite loop), a new
+test problem for Vavilov logic in the tabular proton domain, a
+fix for an apparent new build system bug affecting SGI, and any
+corrections discovered by developers in the next few days.
+This version differs from MCNPX_Nov_21_2001 primarily in having
+R. E. Prael's fix for a frame-of-reference bug affecting elastic
+scattering.  Changed test problems are included.
+
+_________________
+MCNPX_Nov_21_2001
+
+Includes Ed Snow's latest changes (from Nov. 15, 16, 20)
+and the corresponding changes in the mesh tally test set.
+
+_________________
+MCNPX_Nov_20_2001
+
+Extends the new Vavilov logic to LOW_PROT for protons in
+the tabular range.  No test problem yet exists for this
+case, but will soon be added.
+
+_________________
+MCNPX_Nov_14_2001
+
+A plausible final form for the new Vavilov logic for heavy
+charged particles, as described by R. E. Prael in research
+note X-5-RN(U)00-30.  Includes slight changes (by HGH) to
+Prael's logic to handle energy cutoff issues.  Includes a
+new Vavilov test problem, suitable for conversion to a long
+run to study details of the energy straggling.
+
+___________
+MCNPX_2_2_4
+
+Release Version 2.2.4 with date "Thu Oct 18 09:52:35 MDT 2001".
+Basically it is the code of Oct. 15, with cosmetic changes to
+eliminate spurious warning messages on Redhat 7.1 LINUX.
+A few such warnings remain because of long strings in DATA
+statements.  These will probably disappear with F90 syntax.
+
+_________________
+MCNPX_Oct_15_2001
+
+Tagged immediately after the installation in code and in
+test problems of the various changes to energy deposition
+tallies provided by Ed Snow and Gregg McKinney.
+loddat == "Mon Oct 15 20:29:50 MDT 2001".
+
+_________________
+MCNPX_Oct_12_2001
+
+Tagged immediately before the installation in code and in
+test problems of the various changes to energy deposition
+tallies provided by Ed Snow and Gregg McKinney.
+loddat == "Fri Oct 12 14:40:25 MDT 2001".
+
+_________________
+MCNPX_Sep_17_2001
+
+Tagged immediately after the correction to the Vavilov calls
+for multiply-charged particles.  The code and the appropriate
+test problems are changed.  No other changes have been made
+from the MCNPX_Sep_14_2001 version.
+loddat == "Mon Sep 17 10:55:54 MDT 2001".
+
+_________________
+MCNPX_Sep_14_2001
+
+Tagged immediately before the correction to the Vavilov calls
+for multiply-charged particles.
+loddat == "Fri Sep 14 15:38:41 MDT 2001".
+
+_________________
+MCNPX_Jul_30_2001
+
+Tagged immediately after the change from 32-bit cross sections
+to 64-bit cross sections (the preprocessor symbol XS64 is now
+defined).  The configure system and many of the test problems
+are changed.  There is no change from MCNPX_Jul_29_2001 other
+than the defining of XS64.
+loddat == "Mon Jul 30 09:50:22 MDT 2001".
+
+_________________
+MCNPX_Jul_29_2001
+
+Has loddat == "Sun Jul 29 16:47:34 MDT 2001". Includes small
+changes to test sets due to more recent HPUX compiler set.
+Immediately precedes the change to XS64. The next tag should
+include all test set changes due only to the XS64 definition.
+
+___________
+MCNPX_2_2_3
+
+Release Version 2.2.3 with date "Tue May 29 10:20:17 MDT 2001".
+This version has all of Ed Snow's corrections to the mesh tally
+and heating tallies, the new "mfact" option and test problem,
+Morgan White's final correction to coldpn.F, which fixes the
+nontracking of problem 42 on LINUX.
+
+_________________
+MCNPX_May_21_2001
+
+Identical to MCNPX_May_18_2001 except for a (large) number of
+files changed to make comments begin with "!" and continuation
+lines have "&" in column 6.  This will ease the transition to
+FORTRAN 90 in the future.
+
+_________________
+MCNPX_May_18_2001
+
+This version adds Ed Snow's new mesh tally test problem, and
+Morgan White's new work on coldpn.F along with his two new
+test problems.  The latter work well on all systems, but on
+LINUX the new problem 42 does not track the results on all
+other systems.  This must be looked into later.  This tag
+is also a "safety tag" before a commit of almost all of the
+*.F and *.h files that will make the comment and continuation
+lines more FORTRAN90-like.
+
+_________________
+MCNPX_May_08_2001
+
+This version includes all currently available work from Ed
+Snow, mentioned below, but not his new test problems.  This
+tag was to preserve a version that still does not define the
+preprocessor symbol XS64. However, the investigation of XS64
+has been postponed until another stage.
+
+_________________
+MCNPX_May_03_2001
+
+This version immediately precedes installation of the latest
+corrections from Ed Snow.  Those corrections should affect
+test problem 36 and could affect at least one mesh problem.
+
+__________________________
+Branch_MCNPX_2_2_2_Vavilov
+
+A special-purpose branch was created on March 8, 2001, in order
+to work on Vavilov straggling model issues.  That branch should
+never be merged back into this main trunk of MCNPX development.
+
+___________
+MCNPX_2_2_2
+
+Release Version 2.2.2 with date "Wed Mar  7 15:47:21 MST 2001".
+Includes R. E. Prael's last changes to the defined cross section
+package, with new masses, along with various enhancements and
+corrections.  Also includes E. C. Snow's changes to the mesh
+tally, and some new mesh tally test problems.  Many improvements
+by Skip Egdorf and Teri Roberts to the configure/make system are
+also installed.
+
+_________________
+MCNPX_Jan_10_2001
+
+Rearranged the getidt/getjdt routines into .../utils/ for future
+experiments in modularity.  Also fixed a bug in mdata writing for
+continue runs.  This tag immediately precedes Skip's new work on
+shared libraries for DEC and AIX.
+
+___________
+MCNPX_2_2_1
+
+Release Version 2.2.1 with date "Fri Jan  5 09:40:25 MST 2001".
+Eliminates the last known problem preventing the building of the
+statically-linked version on AIX systems (the omission of getjdt.F
+in XSEX3), replaces routines called "setidt" with mcnpx versions
+called "getidt", and removes getidt/getjdt from bertin and phtlib,
+where they are not used.  Also includes Ed Snow's latest changes
+to GRIDCONV, transmitted Dec. 19, 2000.  These changes fix some
+bugs in the TECPLOT support, and add new support for GNUPLOT.
+
+_________________
+MCNPX_Jan_02_2001
+
+Includes Skip Egdorf's near-final fixes to make the system work on AIX
+machines, some changed test problems for AIX, and Jeremy Sweezy's fix
+for the "lods" variable in vv.h common.  This tag is mainly for safety
+before reconciling the setidt/getidt/getjdt routines between the main
+mcnpx source and the auxiliary codes, especially xsex3.
+
+___________
+MCNPX_2_2_0
+
+The Dec. 31, 2000 milestone release of Version 2.2.0, with date of
+"Fri Dec 22 16:40:37 MST 2000".  Includes Ed Snow's October, 2000,
+bug fixes and changes to eliminate the 35-th particle.  Also makes
+various corrections to the configure/build system.  However, this
+version does not yet work on AIX systems.
+
+_________________
+MCNPX_Dec_07_2000
+
+All code changes from Version 2.1.6 and the temporary working versions
+called 2.2.0 and 2.2.1 (with the old masses, and with the new defined
+cross sections and masses, respectively) have been reconciled with the
+initial CVS imported version.  Ed Snow's October, 2000, bug fixes and
+changes to eliminate the 35-th particle have not yet been implemented.
+Dick Prael's modifications emailed on December 6, 2000, also have not
+yet been implemented.  Existing test problems are in place, and have
+been reconciled with the results available to me on SUN, SGI, LINUX,
+and HP.  I am not sure of the status of the test problems for AIX and
+DEC.  The appropriate set of test problems is automatically selected
+at configure time.             --- hgh
+_______________________________________________________________________

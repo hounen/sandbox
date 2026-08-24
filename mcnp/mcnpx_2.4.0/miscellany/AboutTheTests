@@ -1,0 +1,71 @@
+Summary of the test set.
+
+INP:
+01 (N)
+02 (N)
+03 (N)
+04 (P)
+05 (N)
+06 (N)
+07 (N) -> WSS/RSS ->  8 (NPE)
+                  -> 29 (NPE)
+09 (K) ->  SRCTP  -> 17 (NP)
+       ->  RUNTPE -> 26 (K) -> WSS/RSS -> 27 (N)
+10 (NP)
+11 (NP)
+12 (N)
+13 (N)
+14 (N)
+15 (N)
+16 (P)
+18 (K)
+19 (N = BFP)
+20 (PE)
+21 (P) -> WSS/RSS -> 22 (P)
+23 (PE)
+24 (K) ->  RUNTPE -> 25 (K)
+28 (N)
+29 (NPE)
+30 (NHPDTSA)
+31 (HNP/|ZDTSA)
+32 (HNPDTSA)
+33 (NHDTSA/Z)
+34 (N)
+35 (HNPDTSA) Proton tables.
+36 (NHDTSA/Z)
+37 (NHPDTSA)
+38 (H)
+39 (H)
+40 (H)
+41 (PNHD) Proton tables and photonuclear tables.
+42 (PNHD) Proton tables and photonuclear tables.
+43 (NHDTSA) New Vavilov logic.
+44 (NHDTSA) New Vavilov logic with proton tables.
+45 (PE) Tests bug fix for RNOK biasing of knock-on electrons.
+
+MES:
+01 (N)
+02 (N)
+03 (N)
+04 (N)
+05 (N)
+06 (N)
+07 (N)
+08 (N)
+09 (E)
+10 (E)
+11 (E)
+12 (PE)
+13 (NP|*UVWHL+-XYOC!?</Z)
+14 (N)
+15 (N)
+16 (N)
+
+HTP:
+01 (NHPDTSA)
+02 (NHPDTSA)
+03 (HNPE/Z|K%^)
+04 (NHDTSA/Z|K%^) Tests fix for antiproton-elastic-scattering-below-cutoff bug.
+05 (H) and cross-section generation.
+06 (N) and cross-section generation. 
+

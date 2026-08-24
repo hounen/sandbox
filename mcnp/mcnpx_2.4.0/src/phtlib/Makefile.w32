@@ -1,0 +1,79 @@
+# Generated automatically from Makefile.in by configure.
+# $Id: Makefile.w32,v 1.1 2002/07/22 17:04:22 jxh Exp $
+
+include Makefile.h
+
+# SOURCEDIR is path relative to this 'make'
+SOURCEDIR = ${srcdir}
+# INCLUDE directory is one level up from this SOURCEDIR
+INCLUDE = -I${SOURCEDIR}/../include
+
+# construct a list of source files for makedepend to use
+FSRCS := $(wildcard ${SOURCEDIR}/*.F)
+HDRS := $(wildcard ${INCLUDE}/*.h) $(wildcard ${INCLUDE}/*/*.h)
+FOBJS := $(notdir $(patsubst %.F,%.o,${FSRCS}))
+
+# DATASRC directory is where ascii files live
+DATASRC = ${SOURCEDIR}\..\..\Data\LCS
+
+# Sources in this directory depend upon BLOCK DATA references, 
+# BUT there is only one target to make, which is an executable
+TARGET = trx
+
+BDOBJS = bdtr.o
+# Object Files
+OBJS = trx.o bcdin.o bcdout.o binin.o binout.o ckchar.o errorf.o exemes.o  \
+expire.o fill.o get.o getexm.o inqire.o iptx.o izaf.o leng.o list.o llib.o \
+nxtsym.o pout.o unique.o uopen.o
+
+#----------------------------
+# builds and executes a program to translate text to binary
+all :  ${TARGET}
+	@${ECHO} "$@ completed."
+
+# Help file is the shared one at the top level
+help :
+	@more ${SOURCEDIR}/../../Readme.make
+# You should not install until you 'make all' and 'make tests'
+# We only enforce 'make all'
+install : all
+	@${SOURCEDIR}/../../config/install-sh -c phtlib ${datadir}/phtlib
+	@${ECHO} "Install of phtlib into ${datadir} complete."
+
+# - - - - - - - - - - - - - - - - - - - 
+# how .o files emerge from .F files
+%.o : %.F
+	${FCOMP} /compile_only ${FPPFLAGS} ${FFLAGS} ${FDEFS} /object:$@ ${srcdir}\$(<F)
+# - - - - - - - - - - - - - - - - - - - 
+
+# the target - make executable trx program, copy the input file from source dir,
+# execute trx program, rename the binary output to phtlib, remove excess files
+${TARGET} :  ${BDOBJS} ${OBJS}
+	${FCOMP} ${FFLAGS} ${LDFLAGS} /exe:$@ ${BDOBJS} ${OBJS}
+	@${CP} ${DATASRC}\bcdlib .
+	.\$@ < ${SOURCEDIR}\$@.input
+	@${CP}  binlib phtlib
+	-@${RM} bcdlib binlib otrx
+
+# force make to execute every time for PHONY targets
+.PHONY : clean distclean 
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean :
+	@-${RM} ${CLEANFILES} phtlib trx.exe
+
+# Target distclean should clean then remove executables and dependency files
+distclean : clean
+	@${RM} -f ${TARGET} phtlib
+	@-${RM} -f ${DISTCLEANFILES}
+	@-${RM} -f ${CONFFILES}
+
+depend.mk: ${FSRCS} ${HDRS}
+	@${ECHO} "making dependencies for ${SOURCEDIR}"
+	@makedepend -f- -- $(FFLAGS) ${INCLUDE} -- $(FSRCS) | \
+	sed 's%^${SOURCEDIR}/%%' >depend.mk
+	@${ECHO} "depend.mk for ${SOURCEDIR} has been generated"
+
+# include depend.mk
+
+# DO NOT DELETE THIS LINE -- makedepend depends on it.

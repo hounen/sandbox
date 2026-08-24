@@ -1,0 +1,272 @@
+ *****************************************************
+ *                                                   *
+ *            Copyright Notice for MCNPX             *
+ *                                                   *
+ * This program was prepared by the Regents of the   *
+ * University of California at Los Alamos National   *
+ * Laboratory (the University) under contract number *
+ * W-7405-ENG-36 with the U.S. Department of Energy  *
+ * (DOE).  The University has certain rights in the  *
+ * program pursuant to the contract and the program  *
+ * should not be copied or distributed outside your  *
+ * organization.   All rights in the program are     *
+ * reserved by the DOE and the University.  Neither  *
+ * the U.S. Government nor the University makes any  *
+ * warranty, express or implied, or assumes any      *
+ * liability or responsibility for the use of this   *
+ * software.                                         *
+ *                                                   *
+ *****************************************************
+ testprob24 -- reflecting lattice.  15x15 at 3.75 w/o u-235 enrichment.          
+ 
+    1-       CONTINUE    testprob25                                                          
+    2-       KCODE 250 .7 1 4                                                                
+    3-                                                                                       
+
+        19 warning messages so far.
+
+  estimator     cycle     4   ave of     3 cycles      combination         simple average    combined average     corr
+ k(collision)      0.439441       0.469072 0.0389     k(col/abs)          0.459207 0.0258     0.445227 0.0280   0.7112
+ k(absorption)     0.435645       0.449342 0.0154     k(abs/tk ln)        0.467889 0.0433     0.439711 0.0023   0.9983
+ k(trk length)     0.419655       0.486436 0.0690     k(tk ln/col)        0.477754 0.0510     0.464976 0.0598   0.7512
+ rem life(col)   2.8814E+03     3.4460E+03 0.0849
+ rem life(abs)   2.7489E+03     3.3639E+03 0.0916     life(col/abs)     3.4049E+03 0.0878   3.5049E+03 0.1597   0.9800
+ source points generated    179
+
+ source distribution written to file inp25s          cycle =     4
+1problem summary (active cycles only)              source particle weight for summary table normalization =      600.00
+
+      run terminated when     4 kcode cycles were done.
+
+ neutron creation       tracks   weight        energy            neutron loss           tracks   weight        energy
+                                 (per source particle)                                           (per source particle)
+
+ source                 525    1.0000E+00    1.9660E+00          escape                   0    0.            0.        
+ nucl. interaction        0    0.            0.                  energy cutoff            0    0.            0.        
+ particle decay           0    0.            0.                  time cutoff              0    0.            0.        
+ weight window            0    0.            0.                  weight window            0    0.            0.        
+ cell importance          0    0.            0.                  cell importance          0    0.            0.        
+ weight cutoff            0    4.5187E-02    2.3514E-06          weight cutoff          525    3.5154E-02    1.6294E-06
+ energy importance        0    0.            0.                  energy importance        0    0.            0.        
+ dxtran                   0    0.            0.                  dxtran                   0    0.            0.        
+ forced collisions        0    0.            0.                  forced collisions        0    0.            0.        
+ exp. transform           0    0.            0.                  exp. transform           0    0.            0.        
+ upscattering             0    0.            1.1597E-07          downscattering           0    0.            1.8614E+00
+ photonuclear             0    0.            0.                  capture                  0    8.2962E-01    2.1892E-02
+ (n,xn)                   0    0.            0.                  loss to (n,xn)           0    0.            0.        
+ prompt fission           0    0.            0.                  loss to fission          0    1.8041E-01    8.2742E-02
+ delayed fission          0    0.            0.                  nucl. interaction        0    0.            0.        
+                                                                 particle decay           0    0.            0.        
+ tabular boundary         0    0.            0.                  tabular boundary         0    0.            0.        
+ tabular sampling         0    0.            0.                                                                        
+     total              525    1.0452E+00    1.9660E+00              total              525    1.0452E+00    1.9660E+00
+
+   number of neutrons banked                       1        average time of (shakes)              cutoffs
+   neutron tracks per source particle     8.7500E-01          escape            0.0000E+00          tco   1.0000E+34
+   neutron collisions per source particle 4.6328E+01          capture           3.2026E+03          eco   0.0000E+00
+   total neutron collisions                    27797          capture or escape 3.2026E+03          wc1  -5.0000E-01
+   net multiplication              1.0000E+00 0.0000          any termination   3.5384E+03          wc2  -2.5000E-01
+
+ computer time so far in this run     0.00 minutes            maximum number ever in bank         1
+ computer time in mcrun               0.00 minutes            bank overflows to backup file       0
+ source particles per minute            0.0000E+00            dynamic storage         0 words,          0 bytes.
+ random numbers generated                   474026            most random numbers used was     2856 in history      305
+
+ range of sampled source weights = 9.6154E-01 to 1.6807E+00
+1neutron     activity in each cell                                                                      print table 126
+
+                 tracks     population   collisions   collisions     number        flux        average      average
+        cell    entering                               * weight     weighted     weighted   track weight   track mfp
+                                                    (per history)    energy       energy     (relative)      (cm)
+
+     1     1        7894          525         2230    3.2954E+00   4.5610E-04   6.6844E-01   9.2122E-01   3.8309E+00
+     2     2       15232          525            0    0.0000E+00   4.0876E-04   6.3529E-01   9.2140E-01   9.2520E+03
+     3     3       16411          525          469    7.0334E-01   4.0541E-04   6.2880E-01   9.2604E-01   3.6601E+00
+     4     4       23391          525        19446    2.5773E+01   3.5781E-04   6.0367E-01   9.2210E-01   1.5102E+00
+     5     5        4299          460         4241    5.2062E+00   2.7543E-04   5.5195E-01   8.7864E-01   1.4039E+00
+     6     6        2587          422           58    8.6702E-02   2.8459E-04   5.9687E-01   8.8120E-01   3.6131E+00
+     7     7        1728          369          829    1.2992E+00   1.2444E-03   7.1463E-01   9.9851E-01   1.7561E+00
+     8     8           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+     9     9         804          359          524    8.4414E-01   4.9121E-03   8.3311E-01   1.0405E+00   4.2774E+00
+    10    10           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+    11    11           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+    12    12           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+    13    13           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+    14    14           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+    15    15           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+    16    16           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+    17    17           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+    18    18           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+    19    19           0            0            0    0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00   0.0000E+00
+
+     total         72346         3710        27797    3.7208E+01
+
+ the initial fission neutron source distribution used the   1 source points that were input on the ksrc card.
+ the criticality problem was scheduled to skip   1 cycles and run a total of    4 cycles with nominally      200 neutrons per cycle.
+ this problem has run   1 inactive cycles with      200 neutron histories and    3 active cycles with         525 neutron histories.
+
+
+ this calculation has completed the requested number of keff cycles using a total of         725 fission neutron source histories.
+ all cells with fissionable material were sampled and had fission neutron source points.
+
+
+ print table 128 off:  cannot determine if all repeated structures / lattice elements were sampled.
+
+
+ there is no combined collision/absorption/track-length estimate for keff because only 3 active cycles were run.
+
+
+ the estimated average keffs, one standard deviations, and 68, 95, and 99 percent confidence intervals are:
+
+        keff estimator       keff     standard deviation      68% confidence        95% confidence        99% confidence       corr
+
+             collision     0.46907         0.01822
+            absorption     0.44934         0.00693
+          track length     0.48644         0.03356
+
+
+ if the largest of each keff occurred on the next cycle, the keff results and 68, 95, and 99 percent confidence intervals would be:
+
+        keff estimator       keff     standard deviation      68% confidence        95% confidence        99% confidence
+
+             collision     0.47737         0.01533
+            absorption     0.45153         0.00537
+          track length     0.49623         0.02567
+       col/abs/trk len     0.44003         0.00098
+
+
+ the estimated average prompt removal lifetimes, one standard deviations, and 68, 95, and 99 percent confidence intervals are (sec):
+
+       estimator      lifetime     std. dev.         68% confidence           95% confidence           99% confidence           corr
+
+       collision   3.44597E-05   2.92555E-06
+      absorption   3.36390E-05   3.08166E-06
+    track length   3.30352E-05   2.70178E-06
+
+ absorption estimates of prompt lifetimes (sec):
+
+                             escape        capture        fission        removal
+
+            lifespan    0.00000E+00    3.20265E-05    4.12480E-05    3.36736E-05
+            fraction    0.00000E+00    8.21379E-01    1.78621E-01    1.00000E+00
+       lifetime(abs)    0.00000E+00    4.09543E-05    1.88326E-04    3.36390E-05
+     lifetime(c/a/t)    0.00000E+00    0.00000E+00    0.00000E+00    0.00000E+00
+
+1individual and average keff estimator results by cycle
+
+  keff     neutron    keff estimators by cycle           average keff estimators and deviations                average k(c/a/t)
+ cycle   histories   k(coll)  k(abs)  k(track)     k(coll)  st dev    k(abs)  st dev   k(track) st dev    k(c/a/t)  st dev    fom
+
+     1         200 | 0.46869  0.42237  0.50909  | 
+ -------------------  begin active keff cycles  ------------------------------------------------------------------------------------
+     2         119 | 0.46551  0.45808  0.52560  | 
+     3         198 | 0.50227  0.45430  0.51406  |  0.48389 0.01838   0.45619 0.00189   0.51983 0.00577  | 
+     4         208 | 0.43944  0.43565  0.41965  |  0.46907 0.01822   0.44934 0.00693   0.48644 0.03356  | 
+
+
+  the largest active cycle keffs by estimator are:                               the smallest active cycle keffs by estimator are:
+
+                   collision 0.50227 on cycle   3                                                  collision 0.43944 on cycle   4
+                  absorption 0.45808 on cycle   2                                                 absorption 0.43565 on cycle   4
+                track length 0.52560 on cycle   2                                               track length 0.41965 on cycle   4
+1tally   6        nps =      725
+           tally type 6    track length estimate of heating.            units   mev/gram  
+           particle(s): neutron     
+ number of histories used for normalizing tallies =      600.00
+
+           masses  
+                   cell:       8           12           13           14           15                               
+                         1.00000E+00  1.00000E+00  1.00000E+00  1.00000E+00  1.00000E+00
+ 
+ cell  8                                                                                                               
+                 3.47411E+01 0.0452
+ 
+ cell  12                                                                                                              
+                 2.18743E+01 0.0645
+ 
+ cell  13                                                                                                              
+                 1.25690E+01 0.0857
+ 
+ cell  14                                                                                                              
+                 8.11828E-01 0.2803
+ 
+ cell  15                                                                                                              
+                 6.19601E-04 0.9992
+1analysis of the results in the tally fluctuation chart bin (tfc) for tally   6 with nps =       725    print table 160
+
+
+ normed average tally per history  = 3.47411E+01          unnormed average tally per history  = 3.47411E+01
+ estimated tally relative error    = 0.0452               estimated variance of the variance  = 0.0098
+ relative error from zero tallies  = 0.0154               relative error from nonzero scores  = 0.0424
+
+ number of nonzero history tallies =         525          efficiency for the nonzero tallies  = 0.8750
+ history number of largest  tally  =         305          largest  unnormalized history tally = 2.53142E+02
+ (largest  tally)/(average tally)  = 7.28652E+00          (largest  tally)/(avg nonzero tally)= 6.37571E+00
+
+ (confidence interval shift)/mean  = 0.0016               shifted confidence interval center  = 3.47962E+01
+
+
+ if the largest  history score sampled so far were to occur on the next history, the tfc bin quantities would change as follows:
+ nps =       525 for this table because   1 keff cycles and       200 histories were skipped before tally accumulation.
+
+      estimated quantities           value at nps           value at nps+1           value(nps+1)/value(nps)-1.
+
+      mean                            3.47411E+01             3.51563E+01                     0.011952
+      relative error                  4.51500E-02             4.31235E-02                    -0.044885
+      variance of the variance        9.83731E-03             1.23829E-02                     0.258771
+      shifted center                  3.47962E+01             3.48344E+01                     0.001099
+      figure of merit                 0.00000E+00             0.00000E+00                     0.000000
+
+ the estimated slope of the  26 largest  tallies starting at  1.14007E+02 appears to be decreasing at least exponentially.
+ the large score tail of the empirical history score probability density function appears to have no unsampled regions.
+
+
+ ***** the nps-dependent tfc bin check results are suspect because there are only  1 nps tally values to analyze *****
+
+
+ ===================================================================================================================================
+
+           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc) bin of tally   6
+
+ tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-
+ behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope
+
+ desired      random       <0.10      yes      1/sqrt(nps)       <0.10      yes        1/nps           constant    random      >3.00
+ observed     random        0.05      yes          yes            0.01      yes         yes                                    10.00
+ passed?        yes          yes      yes          yes             yes      yes         yes                                      yes
+
+ ===================================================================================================================================
+
+
+
+
+ this tally meets the statistical criteria used to form confidence intervals: check the tally fluctuation chart to verify.
+ the results in other bins associated with this tally may not meet these statistical criteria.
+
+ estimated asymmetric confidence interval(1,2,3 sigma): 3.3225E+01 to 3.6367E+01; 3.1654E+01 to 3.7938E+01; 3.0083E+01 to 3.9509E+01
+ estimated  symmetric confidence interval(1,2,3 sigma): 3.3173E+01 to 3.6310E+01; 3.1604E+01 to 3.7878E+01; 3.0035E+01 to 3.9447E+01
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 9.042E-01)**2 = (0.000E+00)*(8.176E-01) = 0.000E+00
+1status of the statistical checks used to form confidence intervals for the mean for each tally bin
+
+
+ tally   result of statistical checks for the tfc bin (the first check not passed is listed) and error magnitude check for all bins
+
+     6   passed the 10 statistical checks for the tally fluctuation chart bin result               
+         missed all bin error check:     5 tally bins had     0 bins with zeros and     2 bins with relative errors exceeding 0.10
+
+
+ the 10 statistical checks are only for the tally fluctuation chart bin and do not apply to other tally bins.
+
+ warning.     1 of the   1 tallies had bins with relative errors greater than recommended.
+1tally fluctuation charts                         
+
+                       tally    6                                
+       nps      mean     error   vov  slope    fom      
+       725   3.4741E+01 0.0452 0.0098 10.0          
+ tally data written to file inp25m  
+
+        20 warning messages so far.
+
+
+ run terminated when     4 kcode cycles were done.

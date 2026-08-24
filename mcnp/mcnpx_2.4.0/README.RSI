@@ -1,0 +1,76 @@
+  NOTES: You can NOT write to the CDROM.
+ Be sure you are in a working directory where the files can be installed.
+
+ For Unix files:
+  The filenames have been shortened to comply with
+  ISO-9660 standards.     RSICC code names such as
+  d00189allcp00.tar.Z have been changed to d189tar0.z
+ You need to uncompress then tar extract the unix "*.z" file.
+ Copy the file(s) to a working directory on your hard drive,
+ Change to that directory and "uncompress *.Z", then "tar xvf file".
+ If the file ends in ".gz", it must be uncompressed using
+ the GNU "gunzip" command.
+
+ To extract the files from the CD-R Disc when disk space is limited,Try:
+zcat /cdrom/d189tar0 | tar xvf -
+ Please note the ".z" was left off, as the files list as lowercase.z
+ but can be extracted as uppercase or aNy ComBINaTioN.z unless the
+ exact syntax is required as: cat /cdrom/"README.RSI;1"
+ You may wish to: mount -t cdfs -o noversion /dev/cdrom /cdr to
+ override the version/extension, OR alternately:
+ create a soft link to the file on /cdrom
+ln -s /cdrom/"D189TAR0.Z;1" Local.Z (or)
+ln -s /cdrom/D189TAR0.Z\;1 Local.Z  (then)
+zcat Local.Z | tar xvf -     (and) rm local.Z
+ The ISO-9660, HFS, High Sierra, and Rock Ridge specifies the use of the
+ extension fields.
+ 
+ Unix users have several other options for DOS format:
+ 1)AIX users can read the CD with the dosread command.  Other unix systems
+   may have similar utilities.
+ 2)Read files directly under Unix and the run "tr" to delete the ctrl-M's.
+   (see help- man translate  ie. tr -d '\015'  <in  >out
+ 3)From PC, run ftp using ASCII mode to put the needed files on Unix.
+
+ DOS users may extract the files with a tar utility (available with TCP/IP
+ software or other source) then use the FLIP utility which can be used to
+ translate the end-of-line characters.  FLIP1 and tar4dos are freeware
+ available from the simtel.net on the WWW at
+                http://oak.oakland.edu/simtel.net/msdos.
+
+ For DOS files:
+   The files may be distributed in binary compressed form.
+ You need to decompress the '*.EXE' file (files) to get all
+ the necessary files. To perform decompression, place the
+ distribution diskette in drive A.  Be sure you are in the
+ working directory where the files should be installed.
+ For example if 'program.exe' is a compressed file, then type
+A:program -d
+ Extract to your hard disk by executing .EXE with -d switch
+ to restore the directory structure.
+ The program will list the files being unpacked.  The compression
+ was performed using the pkzip utility from PKware, Inc.
+
+ Note some of the documents are in Portable Document Format (pdf) for viewing
+ with the Adobe Acrobat Reader which is available for free from Adobe for many
+ platforms.  To view these files on-line, you must have the Acrobat Reader
+ installed on your computer:
+                "http://www.adobe.com/acrobat/readstep.html"
+ You may need to configure the helper application. From the Netscape menu bar
+ choose: Options, Preferences, Helper Applications, Mime Type: application,
+ Mime Subtype: pdf, Extensions: pdf, Action: Launch Application, Click on
+ Browse and select Acroread as the application to launch, then press OK.
+ Warning: If Acrobat Reader is NOT installed as a viewer on your computer,
+ your browser will probably ask if you want the file stored on your hard disk.
+
+ Users with internet access may now get updated package information on the
+ ORNL ftp server via anonymous ftp to "ftp://infosrv1.ctd.ornl.gov/pub/rsic/",
+ specify binary or ascii mode and get the file(s).
+                                        
+ This code/data package is part of the collections of the Radiation Safety
+ Information Computational Center (RSICC) developed by various government
+ and private organizations and contributed to RSICC for distribution.  Any
+ further distribution by any holder, unless otherwise specifically provided
+ for, is prohibited by the U.S. Dept. of Energy without the approval of
+ RSICC, P.O. Box 2008, Oak Ridge, TN 37831-6362.
+                                        

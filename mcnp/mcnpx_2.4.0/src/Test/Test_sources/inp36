@@ -1,0 +1,56 @@
+Energy deposition test problem for mcnpx without the mesh tally.
+c    Written by Ed Snow 02/08/99. Updated 09/22/99
+c
+c    Energy depositied in a 1.0 cm disk of tungsten 5.05587 cm
+c    in radius by an 800 MeV proton beam, 2 cm in diameter,
+c    directed at the center of a flat side.
+c
+1    1  -19.35  1 -2 -3
+2    0          -4 #1
+3    0   4
+
+1    pz  0.0
+2    pz  1.0
+3    cz  5.05587
+4    so  100.0
+
+mode   n h d t s a / z
+imp:h  1 1 0
+c
+c    niobium  density 19.25 g/cc
+c     <subsitute for tungsten>
+m1   41093.40c  1.0
+sdef   cel 1 pos 0. 0. 0. sur 1 dir 1 rad d1 erg 800. par 9
+si1   0. 1.
+nps   10000
+prdmp  j -60 -1
+phys:h  800. 3j -1
+phys:n  800.
+print
+c
+c       << TALLY CARDS >>
+c
+c       Track-length neutron heating estimate.
+c       Note that the tabular region should agree with f26:n, but
+c       that the high-energy region is nonsense, since the heating
+c       numbers at the top of the table continue to be used for all
+c       energies above the table.  Note also that the segment divisor
+c       is the mass of the cell, replacing the cell volume that would
+c       by default have been used for the normalization.
+c       This shows how to convert MeV/cm**3 to MeV/gram for f4 tallies.
+f4:n    1
+fm4     -1.0 1 -1 -4
+sd4     1553.8984702
+c
+c       Best available neutron heating tally.
+f26:n   1
+c
+c       Best available proton heating tally.
+f16:h   1
+c
+c       Best available all-particle heating tally.
++f6     1
+c
+e0      20. 800.
+phys:d,t,s,a,/  4j  -1
+

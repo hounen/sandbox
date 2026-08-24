@@ -1,0 +1,156 @@
+README_X.1ST
+
+			   MCNPX 2.4.0
+	     Official MCNPX Release date August 1, 2002
+
+		   RSICC identifier C00715MNYCP00
+
+This distribution CD includes the LANL MCNPX code system plus 
+MCNPXDATA cross sections for Unix operating systems.  In RSICC's 
+collection, the packages are identified as C00715MNYCP00 MCNPX 2.4.0 
+and D00205ALLCP03 MCNPXDATA. This release is for Unix, Linux or
+Windows operating systems.  
+
+
+WinZIP 8.0 or later is required to expand the distribution tar
+files on Windows.
+
+The GZIP and GMAKE utilities are required for MCNPX installation 
+and may be downloaded through the web. A GNU make.exe file is
+included in the Windows distribution. If you do not have gmake, you
+may download it ftp://ftp.gnu.org/pub/gnu/.  Click on the applications 
+you need (i.e. gzip or make), then select and save the versions you want.
+
+
+Documentation
+-------------
+
+Installation instructions will be extracted to 
+	/mcnpx_2.4.0/Docs/Install.html.
+
+The DOC subdirectory on the distribution CD contains 2 files: 
+C715.PDF and D205.PDF.
+
+C715.PDF includes 2 LANL reports on mcnpx2.4.0: 
+"MCNPX User's Manual, Version 2.4.0,"  LA-CP-02-408  (September, 2002).
+L. S. Waters, ed., “MCNPX User’s Manual, Version 2.3.0,” LA-UR-02-2607 (April 2002)
+
+Various reports and information files for the MCNPXDATA package 
+are included in the D205.PDF file in the DOC subdirectory on CD.
+Readme files will be expanded to various subdirectories in your 
+mcnpx_2.4.0 directory.
+
+
+You must read the Install.html file before building mcnpx.
+The mcnpx report also includes installation information.
+The scripts and make files are configured to run in the Bourne shell.  
+They can also run in the ksh and bash shells on some systems.
+
+
+Graphics
+--------
+
+The only graphics support for this release is X11 
+http://www.x.org/Downloads_terms.htm.
+
+If graphics are desired, an X-Server is required.   
+Several flavors can be found on the internet 
+(e.g., X-Deep/32, WRQ Reflection X, Exceed, etc.). 
+
+The mcnpx_2.4.0/README.w32 text file contains 
+information on downloading and customizing for 
+Windows. The  x11.dll binary file is included 
+for Windows users and will be expanded by the 
+build procedure from mcnpx_2.4.0/Win32.exe.  
+X11 is generally included on Unix and Linux systems. 
+
+
+Sample install
+--------------
+
+An example of the commands RSICC used to run mcnpx on a Linux PC are 
+listed below. These commands build mcnpx, run test cases, and store 
+exes and libraries in the /home/uid/Build/bin and /home/uid/Build/lib 
+directories. If you do not specify "--prefix", the "gmake install" 
+procedure saves them in /usr/local. In this example, the Portland 
+Group Fortran 90 and GNU CC compiler are specified.
+
+cd /home/uid
+gzip -dc C715TAR0.GZ | tar xf - 
+mkdir Build		(create dir in which to build the code system)
+cd Build
+../mcnpx_2.4.0/configure --prefix=/home/uid/Build --with-FC=pgf90 --with-CC=gcc
+gmake all	(build mcnpx exe and libraries)
+		(executable will be in file /home/uid/Build/src/mcnpx)
+gmake tests	(run tests in /home/uid/Build/src/Test)
+gmake install	(store exes and libraries and clean up)
+
+
+The "gmake tests" step runs test cases and writes results 
+and dif* files in the Build/src/Test directory. The diff 
+comparisons are run only if a user's configuration matches 
+one of the configurations provided. 
+
+
+Included executables
+--------------------
+
+The LANL developers ran MCNPX 2.4.0 on the following systems. 
+They provided  executables included in mcnpx_2.4.0/exe. 
+Compilation may fail with different compilers.
+LANL results for these systems in mcnpx_2.4.0/src/Test
+
+Sun-Solaris/WorkShop Fortran Compilers 6, update 2 (Fortran 95 6.2)
+SGI-IRIX/MIPSpro Compilers: Version 7.30 under 64 bit IRIX & 32 bit IRIX
+HP-HPUX/HP F90 v2.4.10
+IBM-AIX/xlf90 Version 7 Release 1
+DEC Alpha-Tru64 running OSF1 V5.0 with Compaq Fortran V5.3-915
+Intel-Linux 7 with The Portland Group Fortran Group, Inc. f90 3.2-3
+Windows2000 on Pentium IV - Compaq Visual Studio 6.6 and Microsoft C++ 6.0
+(Note that Compaq Visual Studio 6.5 fails to compile the code, but 6.1 works.)
+
+See User's Notes in Install.html for information on how to run 
+test cases with the executables contained in the mcnpx distribution.
+
+
+DATA libraries
+--------------
+
+Cross section libraries are in the DLC-200/MCNPXDATA package
+(RSICC ID: D00205ALLCP03), which includes data for previous mcnp
+releases plus the LA150 libraries and the latest electron data 
+file (EL03) which requires an MCNP4C based code. The cross 
+sections will expand and create a directory called "mcnpxdata" 
+under your current directory.
+
+Other LAHET data are distributed in the CCC-715 distribution.
+The ASCI version of the original PHTLIB released with 
+MCNPX 2.1.5 is distributed in mcnpx_2.4.0/Data/LCS/bcdlib.
+The build procedure will create a binary phtlib file from
+the bcdlib file using the hcnv program.
+
+An alternate version of PHTLIB is now available.  
+More information is included in the MCNPX2.3.0 report. 
+See Section 4.3.1.5 on page 54 of LA-UR-02-2607. The 
+alternate data are included in this distribution in 
+mcnpx_2.4.0/Data/LCS/bcdlib.spec1l.
+
+
+The MCNPXDATA Read*.txt files contain brief descriptions 
+of data libraries that are distributed with the cross sections 
+in the mcnpxdata subdirectory. See the revised Appendix G of 
+the MCNP manual which is included in the RSICC documentation 
+for DLC-205 (file DOC/D205.PDF on the distribution CD.) 
+Readme_x.txt includes some general info about the MCNPXDATA 
+distribution, and Readme_la150* files include information on 
+the new LA150 libraries. Readme_4c.txt and Readme_endf60.txt 
+were copied from the DLC-200 distribution.
+
+
+Expanding the code system requires ~250 MB, and about another 
+125MB is required to build executables and run test cases. The 
+cross section libraries require ~1.2 GB of hard disk space. 
+The makxs utility is built by the mcnpx install procedure. 
+It can be used to convert ASCII cross sections to binary mode 
+which saves space and enables mcnpx to run faster.
+

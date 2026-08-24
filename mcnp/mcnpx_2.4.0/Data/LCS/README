@@ -1,0 +1,26 @@
+Changes in LCS_Data_2 relative to LCS_Data_1.
+
+Modification to PHTLIB:
+
+Duplicate specification of the ground state of In-123
+was removed.
+
+Changes in LCS_Data_3 relative to LCS_Data_2.
+
+Modification to BERTIN:
+
+New LCS mass data tabulation added.
+Maximum cross section tables added.
+
+------------------------------------------------
+
+The ASCI version of the original PHTLIB released with 
+MCNPX 2.1.5 is distributed in mcnpx_2.4.0/Data/LCS/bcdlib.
+The build procedure will create a binary phtlib file from
+the bcdlib file using the hcnv program.
+
+An alternate version of PHTLIB is now available.  
+More information on this library is included in
+the MCNPX2.3.0 report. See Section 4.3.1.5 on
+page 54 of LA-UR-02-2607. It is included in this 
+distribution in mcnpx_2.4.0/Data/LCS/bcdlib.spec1l.

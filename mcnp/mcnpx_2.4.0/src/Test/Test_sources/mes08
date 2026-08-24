@@ -1,0 +1,25 @@
+Test problem for mcnpx and the spherical mesh tally.
+c    Written by Ed Snow 01/21/00.
+1    0    1  -100
+2    0   -1 -100
+100  0    100
+
+1      px   -55.0
+100    so  100.0
+
+mode n
+imp:n  1 1 0
+c
+sdef   sur 1 pos -55. 0. 0. rad d1 dir 1 vec 1. 0. 0.
+si1    60.0
+nps    2000
+prdmp  2j -1
+print
+c
+tmesh
+smesh1:n   flux
+cora1      0. 25.0 50.0
+corb1      60. 90. 120. 180.
+corc1      45. 6i 360.
+endmd
+

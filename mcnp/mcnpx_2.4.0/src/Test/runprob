@@ -1,0 +1,316 @@
+#! /bin/sh
+# script to test ./mcnpx.
+set -x
+./mcnpx name=inp01 xsdir=testdir
+diff -b inp01m mctl01 > difm01
+diff -b inp01o outp01 > difo01
+rm -f inp01r
+./mcnpx name=inp02 xsdir=testdir fatal
+diff -b inp02m mctl02 > difm02
+diff -b inp02o outp02 > difo02
+rm -f inp02r
+./mcnpx name=inp03 xsdir=testdir
+diff -b inp03m mctl03 > difm03
+diff -b inp03o outp03 > difo03
+rm -f inp03r
+./mcnpx name=inp04 xsdir=testdir
+diff -b inp04m mctl04 > difm04
+diff -b inp04o outp04 > difo04
+rm -f inp04r
+./mcnpx name=inp05 xsdir=testdir
+diff -b inp05m mctl05 > difm05
+diff -b inp05o outp05 > difo05
+rm -f inp05r
+./mcnpx name=inp06 xsdir=testdir fatal
+diff -b inp06m mctl06 > difm06
+diff -b inp06o outp06 > difo06
+rm -f inp06r
+./mcnpx name=inp07 xsdir=testdir
+diff -b inp07m mctl07 > difm07
+diff -b inp07o outp07 > difo07
+rm -f inp07r
+./mcnpx name=inp08 xsdir=testdir wwinp=wwinp08 rssa=inp07w
+diff -b inp08m mctl08 > difm08
+diff -b inp08o outp08 > difo08
+diff -b inp08e wout08 > difw08
+rm -f inp08r
+./mcnpx xsdir=testdir name=inp09
+diff -b inp09m mctl09 > difm09
+diff -b inp09o outp09 > difo09
+./mcnpx name=inp10 xsdir=testdir wwinp=wwinp10
+diff -b inp10m mctl10 > difm10
+diff -b inp10o outp10 > difo10
+diff -b inp10e wout10 > difw10
+rm -f inp10r
+./mcnpx name=inp11 xsdir=testdir fatal
+diff -b inp11m mctl11 > difm11
+diff -b inp11o outp11 > difo11
+rm -f inp11r
+./mcnpx name=inp12 xsdir=testdir
+diff -b inp12m mctl12 > difm12
+diff -b inp12o outp12 > difo12
+diff -b inp12e wout12 > difw12
+rm -f inp12r
+./mcnpx name=inp13 xsdir=testdir
+diff -b inp13m mctl13 > difm13
+diff -b inp13o outp13 > difo13
+rm -f inp13r
+./mcnpx name=inp14 xsdir=testdir wwinp=wwinp14 fatal
+diff -b inp14m mctl14 > difm14
+diff -b inp14o outp14 > difo14
+diff -b inp14e wout14 > difw14
+rm -f inp14r
+./mcnpx name=inp15 xsdir=testdir
+diff -b inp15m mctl15 > difm15
+diff -b inp15o outp15 > difo15
+rm -f inp15r
+./mcnpx name=inp16 xsdir=testdir
+diff -b inp16m mctl16 > difm16
+diff -b inp16o outp16 > difo16
+rm -f inp16r
+cp inp09s srctp17
+./mcnpx name=inp17 s=srctp17 xsdir=testdir
+diff -b inp17m mctl17 > difm17
+diff -b inp17o outp17 > difo17
+rm -f inp17r srctp17
+./mcnpx name=inp18 xsdir=testdir
+diff -b inp18m mctl18 > difm18
+diff -b inp18o outp18 > difo18
+rm -f inp18r
+./mcnpx name=inp19 xsdir=testdir
+diff -b inp19m mctl19 > difm19
+diff -b inp19o outp19 > difo19
+rm -f inp19r
+./mcnpx name=inp20 xsdir=testdir
+diff -b inp20m mctl20 > difm20
+diff -b inp20o outp20 > difo20
+rm -f inp20r
+./mcnpx name=inp21 xsdir=testdir
+diff -b inp21m mctl21 > difm21
+diff -b inp21o outp21 > difo21
+rm -f inp21r
+./mcnpx xsdir=testdir name=inp22 rs=inp21w
+diff -b inp22m mctl22 > difm22
+diff -b inp22o outp22 > difo22
+rm -f inp22r
+./mcnpx name=inp23 xsdir=testdir
+diff -b inp23m mctl23 > difm23
+diff -b inp23o outp23 > difo23
+rm -f inp23r
+./mcnpx name=inp24 xsdir=testdir
+diff -b inp24m mctl24 > difm24
+diff -b inp24o outp24 > difo24
+./mcnpx name=inp25 run=inp24r CN
+diff -b inp25m mctl25 > difm25
+diff -b inp25o outp25 > difo25
+./mcnpx name=inp26 wss=inp09w run=inp09r CN
+diff -b inp26m mctl26 > difm26
+diff -b inp26o outp26 > difo26
+rm -f inp24r inp09r
+./mcnpx name=inp27 rss=inp09w xsdir=testdir
+diff -b inp27m mctl27 > difm27
+diff -b inp27o outp27 > difo27
+rm -f inp27r
+./mcnpx name=inp28 xsdir=testdir
+mv ex5a.out inp28o
+diff -b inp28m mctl28 > difm28
+diff -b inp28o outp28 > difo28
+rm -f ex5a.run
+./mcnpx name=inp29 xsdir=testdir rssa=inp07w
+diff -b inp29m mctl29 > difm29
+diff -b inp29o outp29 > difo29
+rm -f inp29r
+./mcnpx name=inp30 xsdir=testdir
+diff -b inp30m mctl30 > difm30
+diff -b inp30o outp30 > difo30
+rm -f inp30r
+./mcnpx name=inp31 xsdir=testdir
+diff -b inp31m mctl31 > difm31
+diff -b inp31o outp31 > difo31
+rm -f inp31r
+./mcnpx name=inp32 xsdir=testdir
+diff -b inp32m mctl32 > difm32
+diff -b inp32o outp32 > difo32
+rm -f inp32r inp32s
+./mcnpx name=inp33 xsdir=testdir
+diff -b inp33m mctl33 > difm33
+diff -b inp33o outp33 > difo33
+rm -f inp33r
+./mcnpx name=inp34 xsdir=testdir
+diff -b inp34m mctl34 > difm34
+diff -b inp34o outp34 > difo34
+rm -f inp34r
+./mcnpx name=inp35 xsdir=testdir
+diff -b inp35m mctl35 > difm35
+diff -b inp35o outp35 > difo35
+rm -f inp35r
+./mcnpx name=inp36 xsdir=testdir
+diff -b inp36m mctl36 > difm36
+diff -b inp36o outp36 > difo36
+rm -f inp36r
+./mcnpx name=inp37 xsdir=testdir
+diff -b inp37m mctl37 > difm37
+diff -b inp37o outp37 > difo37
+rm -f inp37r
+./mcnpx name=inp38 xsdir=testdir
+diff -b inp38m mctl38 > difm38
+diff -b inp38o outp38 > difo38
+rm -f inp38r
+./mcnpx name=inp39 xsdir=testdir
+diff -b inp39m mctl39 > difm39
+diff -b inp39o outp39 > difo39
+rm -f inp39r
+./mcnpx name=inp40 xsdir=testdir
+diff -b inp40m mctl40 > difm40
+diff -b inp40o outp40 > difo40
+rm -f inp40r
+./mcnpx name=inp41 xsdir=testdir
+diff -b inp41m mctl41 > difm41
+diff -b inp41o outp41 > difo41
+rm -f inp41r
+./mcnpx name=inp42 xsdir=testdir
+diff -b inp42m mctl42 > difm42
+diff -b inp42o outp42 > difo42
+rm -f inp42r
+./mcnpx name=inp43 xsdir=testdir
+diff -b inp43m mctl43 > difm43
+diff -b inp43o outp43 > difo43
+rm -f inp43r
+./mcnpx name=inp44 xsdir=testdir
+diff -b inp44m mctl44 > difm44
+diff -b inp44o outp44 > difo44
+rm -f inp44r
+./mcnpx name=inp45 xsdir=testdir
+diff -b inp45m mctl45 > difm45
+diff -b inp45o outp45 > difo45
+rm -f inp45r
+./mcnpx name=inp46 xsdir=testdir
+diff -b inp46m mctl46 > difm46
+diff -b inp46o outp46 > difo46
+rm -f inp46r
+./mcnpx name=inp47 xsdir=testdir
+diff -b inp47m mctl47 > difm47
+diff -b inp47o outp47 > difo47
+rm -f inp47r
+./mcnpx name=mes01 xsdir=testdir mdata=mes01d
+diff -b mes01m mcts01 > difsm01
+diff -b mes01o outs01 > difso01
+diff -b mes01d mdat01 > difd01
+rm -f mes01r
+./mcnpx name=mes02 xsdir=testdir mdata=mes02d
+diff -b mes02m mcts02 > difsm02
+diff -b mes02o outs02 > difso02
+diff -b mes02d mdat02 > difd02
+rm -f mes02r
+./mcnpx name=mes03 xsdir=testdir mdata=mes03d
+diff -b mes03m mcts03 > difsm03
+diff -b mes03o outs03 > difso03
+diff -b mes03d mdat03 > difd03
+rm -f mes03r
+./mcnpx name=mes04 xsdir=testdir mdata=mes04d
+diff -b mes04m mcts04 > difsm04
+diff -b mes04o outs04 > difso04
+diff -b mes04d mdat04 > difd04
+rm -f mes04r
+./mcnpx name=mes05 xsdir=testdir mdata=mes05d
+diff -b mes05m mcts05 > difsm05
+diff -b mes05o outs05 > difso05
+diff -b mes05d mdat05 > difd05
+rm -f mes05r
+./mcnpx name=mes06 xsdir=testdir mdata=mes06d
+diff -b mes06m mcts06 > difsm06
+diff -b mes06o outs06 > difso06
+diff -b mes06d mdat06 > difd06
+rm -f mes06r
+./mcnpx name=mes07 xsdir=testdir mdata=mes07d
+diff -b mes07m mcts07 > difsm07
+diff -b mes07o outs07 > difso07
+diff -b mes07d mdat07 > difd07
+rm -f mes07r
+./mcnpx name=mes08 xsdir=testdir mdata=mes08d
+diff -b mes08m mcts08 > difsm08
+diff -b mes08o outs08 > difso08
+diff -b mes08d mdat08 > difd08
+rm -f mes08r
+./mcnpx name=mes09 xsdir=testdir mdata=mes09d
+diff -b mes09m mcts09 > difsm09
+diff -b mes09o outs09 > difso09
+diff -b mes09d mdat09 > difd09
+rm -f mes09r
+./mcnpx name=mes10 xsdir=testdir mdata=mes10d
+diff -b mes10m mcts10 > difsm10
+diff -b mes10o outs10 > difso10
+diff -b mes10d mdat10 > difd10
+rm -f mes10r
+./mcnpx name=mes11 xsdir=testdir mdata=mes11d
+diff -b mes11m mcts11 > difsm11
+diff -b mes11o outs11 > difso11
+diff -b mes11d mdat11 > difd11
+rm -f mes11r
+./mcnpx name=mes12 xsdir=testdir mdata=mes12d
+diff -b mes12m mcts12 > difsm12
+diff -b mes12o outs12 > difso12
+diff -b mes12d mdat12 > difd12
+rm -f mes12r
+./mcnpx name=mes13 xsdir=testdir mdata=mes13d
+diff -b mes13m mcts13 > difsm13
+diff -b mes13o outs13 > difso13
+diff -b mes13d mdat13 > difd13
+rm -f mes13r
+./mcnpx name=mes14 xsdir=testdir mdata=mes14d
+diff -b mes14m mcts14 > difsm14
+diff -b mes14o outs14 > difso14
+diff -b mes14d mdat14 > difd14
+rm -f mes14r
+./mcnpx name=mes15 xsdir=testdir mdata=mes15d
+diff -b mes15m mcts15 > difsm15
+diff -b mes15o outs15 > difso15
+diff -b mes15d mdat15 > difd15
+rm -f mes15r
+./mcnpx name=mes16 xsdir=testdir mdata=mes16d
+diff -b mes16m mcts16 > difsm16
+diff -b mes16o outs16 > difso16
+diff -b mes16d mdat16 > difd16
+rm -f mes16r
+./mcnpx name=htp01 xsdir=testdir
+diff -b htp01m mcth01 > difmt01
+./htape3x int=int01 histx=htp01w
+mv outt htp01t
+diff -b htp01t outt01 > dift01
+rm -f htp01r htp01o histp
+./mcnpx name=htp02 xsdir=testdir
+diff -b htp02m mcth02 > difmt02
+./htape3x int=int02 histx=htp02w
+mv outt htp02t
+diff -b htp02t outt02 > dift02
+rm -f htp02r htp02o histp
+./mcnpx name=htp03 xsdir=testdir
+diff -b htp03m mcth03 > difmt03
+./htape3x int=int03 histx=htp03w
+mv outt htp03t
+diff -b htp03t outt03 > dift03
+rm -f htp03r htp03o histp
+./mcnpx name=htp04 xsdir=testdir
+diff -b htp04m mcth04 > difmt04
+./htape3x int=int04 histx=htp04w
+mv outt htp04t
+diff -b htp04t outt04 > dift04
+rm -f htp04r htp04o histp
+./mcnpx name=htp05 xsdir=testdir
+diff -b htp05m mcth05 > difmt05
+./htape3x int=int05 histx=htp05w
+mv outt htp05t
+diff -b htp05t outt05 > dift05
+./xsex3 inxs=inxs05
+mv outxs htp05x
+diff -b htp05x outxs05 > difx05
+rm -f htp05r htp05o histp
+./mcnpx name=htp06 xsdir=testdir
+diff -b htp06m mcth06 > difmt06
+./htape3x int=int06 histx=htp06w
+mv outt htp06t
+diff -b htp06t outt06 > dift06
+./xsex3 inxs=inxs06
+mv outxs htp06x
+diff -b htp06x outxs06 > difx06
+rm -f htp06r htp06o histp

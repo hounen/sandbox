@@ -1,0 +1,106 @@
+# Generated automatically from Makefile.in by configure.
+# $Id: Makefile.w32,v 1.1 2002/07/22 17:04:19 jxh Exp $
+
+include Makefile.h
+
+# SOURCEDIR is path relative to this 'make'
+SOURCEDIR = ${srcdir}
+# INCLUDE directory  is two  levels up from this SOURCEDIR
+INCLUDE = -I${SOURCEDIR}/../../include
+
+# construct a list of source files for makedepend to use
+FSRCS := $(wildcard ${SOURCEDIR}/*.F)
+HDRS := $(wildcard ${INCLUDE}/*.h) $(wildcard ${INCLUDE}/*/*.h)
+FOBJS := $(notdir $(patsubst %.F,%.o,${FSRCS}))
+
+# Sources in this directory depend upon BLOCK DATA references, 
+# so there are two targets to make
+TARGET1 = lcsd
+TARGET2 = lcs
+
+# Block Data object files
+BDOBJS = btbd.o cabd.o e0bd.o elbd.o h1bd.o hebd.o inbd.o isbd.o phbd.o pqbd.o
+# Object files
+OBJS = abran.o ace_tot.o afill.o afill0.o aiangl.o ainput.o ainter.o aiout.o   \
+aiouta.o aitota.o ajtest.o alp19.o alp28.o alpha.o amass.o amfp.o angid.o      \
+anglen.o angli1.o aptota.o azirn.o bcasc.o bert.o betac.o betad.o bg6b.o       \
+bg6c.o bg6ca.o big7.o binin.o binom1.o binter.o boost.o bovera.o branch.o      \
+calcu.o cascad.o cascas.o cbreak.o cbrset.o ccpes.o cep.o ch2.o ch3.o cii.o    \
+cij.o clect.o clmb1.o clmb2.o clmb3.o cma.o cmb.o cmc.o cole4.o coll.o         \
+collide.o collm.o conprb.o coulmb.o countv.o crdet.o crjab.o crsec.o cut_mc.o  \
+datahi.o datalo.o dcintp.o dcnpar.o dcpr.o decay.o defcmg.o delta.o den1.o     \
+denk.o dfmax.o dist1.o dost.o drein1.o drein2.o dres.o ecpl.o elas.o elment.o  \
+elsc2.o emit.o en.o energy.o errorf.o erup.o eskale.o esneut.o esprot.o eswh.o \
+f1.o f2.o f3.o find.o finlii.o finlij.o fint.o fisdis.o fissed.o fixm.o fmax.o \
+fnkaon.o fprob.o fsgels.o fsinfo.o gammar.o gamr.o gaurn.o gaussn.o gene.o     \
+geo.o get_tot.o geta.o getg.o getwig.o gms.o gthsig.o gtiso.o hcasc.o heh.o    \
+hilonx.o hrc.o hyd.o iahn.o iann.o ianp.o idk.o iehn.o ieidxn.o ieidxp.o       \
+ienn.o ienp.o ifrist.o igetd.o inevap.o info.o inisbl.o inputf.o insig.o       \
+interact.o interp.o isabel.o isedt.o islink.o isob.o keave.o kinels.o kranch.o \
+levbrk.o levset.o look.o masedt.o matinp.o mc4.o mcell.o mcmosc.o mfpd2.o      \
+moment.o mscat3.o mspin.o mtinp0.o mtinp1.o mtran.o mud.o nasanx.o nasapx.o    \
+nn.o nobal.o nopart.o nucnuc.o onepin.o                                        \
+openlcsdata.o pairr.o pangle.o panglk.o partin.o                             \
+pclct.o pcol.o pfmax.o pgamma.o pgs.o phase.o phsbst.o phsp0.o pht.o pi.o      \
+pih.o pin1pi.o pinst.o pinuc.o plev.o plt.o pmcdg.o pmkd.o poe.o poenew.o      \
+polrn.o prob.o prot.o psel.o pstor.o ptotal.o ptotkl.o punp.o qdk.o qene.o     \
+qlp19.o qlp28.o qlpha.o qmaxx.o qngid.o qoll.o qollm.o qou17.o qou18.o qou19.o \
+qou21.o qrdet.o qstor.o qsubb.o rebalb.o rebali.o recoil.o redmas.o refl.o     \
+regb.o rejgam.o resto.o rlar.o rou10.o rou11.o rou12.o rou13.o rou14.o rou15.o \
+rou16.o rou17.o rou18.o rou19.o rou20.o rou21.o rou22.o rout1.o rout2.o        \
+rout3.o rout4.o rout5.o rout6.o rout6a.o rout7.o rout7a.o rout8.o save.o       \
+scattl.o selcst.o selj1.o selpt.o set_i.o set_pcap.o setcmg.o setlcs.o         \
+setwig.o sgm2.o shxd.o signex.o skale.o skeme.o sliq.o spac32.o spcn.o         \
+spisom.o stnew.o stor.o stora.o store.o stph.o stpl.o stpr.o swapp.o           \
+transform.o trns.o twopin.o undis.o updat1.o update.o updeca.o vl.o writem.o   \
+wssto.o wwsst.o xin.o xsecl.o xxa.o xyi.o z_hold.o zero.o zprobf.o             \
+
+
+#----------------------------
+all : ${TARGET1}.${STATSUF} ${TARGET2}.${STATSUF}
+	@${ECHO} "$@ completed."
+
+# Help file is the shared one at the top level
+help :
+	@more ${SOURCEDIR}/../../../Readme.make
+
+# - - - - - - - - - - - - - - - - - - - 
+# special compilation case for IRIX64 and ONE particular file - remove FOPT and FFLAGS
+# use -O1 for optimization
+ifeq (${SYSTEM}, "IRIX64" )
+nobal.o : nobal.F
+	${FCOMP} -c $(filter-out ${FOPT},${FFLAGS}) ${FDEFS} -O1 ${SOURCEDIR}/nobal.F
+endif
+# how .o files emerge from .F files (with exception above)
+%.o : %.F
+	${FCOMP} /compile_only ${FPPFLAGS} ${FFLAGS} ${FDEFS} /object:$@ ${srcdir}\$(<F)
+# - - - - - - - - - - - - - - - - - - - 
+
+${TARGET1}.${STATSUF} : ${BDOBJS}
+	${AR_CMD}${TARGET1}.${STATSUF} ${BDOBJS}
+${TARGET2}.${STATSUF} : ${OBJS}
+	${AR_CMD}${TARGET2}.${STATSUF} ${OBJS}
+
+# force make to execute every time for PHONY targets
+.PHONY : clean distclean 
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean :
+	@-${RM} ${CLEANFILES}
+
+# Target distclean should clean then remove executables and dependency files
+distclean : clean
+	@${RM} -f ${TARGET1}.* ${TARGET2}.*
+	@-${RM} -f ${DISTCLEANFILES}
+	@-${RM} -f ${CONFFILES}
+
+depend.mk: ${FSRCS} ${HDRS}
+	@${ECHO} "making dependencies for ${SOURCEDIR}"
+	@makedepend -f- -- $(FFLAGS) ${INCLUDE} -- $(FSRCS) | \
+	sed 's%^${SOURCEDIR}/%%' >depend.mk
+	@${ECHO} "depend.mk for ${SOURCEDIR} has been generated"
+
+# include depend.mk
+
+# DO NOT DELETE THIS LINE -- makedepend depends on it.
+

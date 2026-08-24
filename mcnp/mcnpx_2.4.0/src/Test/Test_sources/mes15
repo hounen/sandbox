@@ -1,0 +1,56 @@
+Energy deposition test problem for mcnpx and the mesh tally
+c    Written by Ed Snow 06/19/2000.
+1    1  -1.0  1 -2 3 -4 5 -6
+2    0    -7 #1
+3    0     7
+
+1    px  -50.
+2    px   50.
+3    py  -50.
+4    py   50.
+5    pz  -50.
+6    pz   50.
+7    so  1000.0
+
+mode n
+imp:n  1 1 0
+c
+c      Material #1: Water
+c      Mass density 1.0 g/cc
+m1     1001. .66667  8016. .33333
+sdef  sur=1 dir=1 rad=d1 erg=20.
+si1   0.0 0.1
+nps   1000
+phys:n  100.
+prdmp  j -60 -1
+print
+f4:n   1
+c
+tmesh
+rmesh1:n  flux
+cora1   -50. 4i 0.0 1i 50.
+corb1   -50.  50.
+corc1   -50.  50.
+c
+rmesh11:n  flux
+cora11   -50. -40. -30. -20. -10 0.0 25.  50.
+corb11   -50.  50.
+corc11   -50.  50.
+c
+cmesh21:n  flux
+cora21     0.  50.
+corb21   -50.  50.
+corc21    7i 360.
+c
+cmesh31:n  flux
+cora31     0.  50.
+corb31   -50.  50.
+corc31    1i 90. 5i 360.
+c
+cmesh41:n  flux
+cora41     0.  50.
+corb41   -50.  50.
+corc41    45. 90. 135. 180. 225. 270. 315. 360.
+c
+endmd
+

@@ -1,0 +1,185 @@
+dnl Process this file with autoconf to produce a configure script.
+dnl  @configure_input@
+dnl **********************************************************************
+dnl                                   !!!!BEWARE!!!!
+dnl THESE AC MACRO CALLS ARE ORDER DEPENDENT
+dnl                  (see aclocal.m4 for m4 macro definitions)
+dnl **********************************************************************
+dnl ==========================================================
+AC_INIT(Readme)
+
+dnl Identify machine particulars
+AC_SET_ARCH
+dnl Establish some initial/default settings for local and environment variables
+AC_CLL_DEFAULTS
+
+dnl See if user gave a specific C compiler and Fortran compiler via the --with mechanism
+AC_ARG_WITH(CC,[ ], [AC_SET_CC], [AC_DFLT_CC] )
+AC_ARG_WITH(FC, [ ], [AC_SET_FC], [AC_DFLT_FC] )
+
+dnl See if user gave a shared or static linking option via the --with mechanism
+AC_ARG_WITH(SHARED, [ ], [AC_SET_SHARED])
+AC_ARG_WITH(STATIC, [ ], [AC_SET_STATIC])
+dnl We can do one or the other, not both, and this is checked
+AC_CHK_MUTEX
+
+dnl See if user gave a debug option via the --with mechanism
+AC_ARG_WITH(DEBUG,[ ], [AC_SET_DEBUG])
+
+dnl See if user gave a preference for PVM parallel library via the --with mechanism
+AC_ARG_WITH(PVMLIB,[ ], [AC_SET_PVMLIB])
+dnl See if user gave a TASKS value to use with PVM
+AC_ARG_WITH(TASKS,[ ], [AC_SET_TASKS])
+
+dnl ----------------------------------------------------
+dnl There is a set of things that may/may not be optional
+dnl but they have to be checked for. Right now most of these
+dnl MUST be defined, so the default is to define them 
+dnl whether or not they appeared as a --with on the 
+dnl configure command.
+dnl ----------------------------------------------------
+dnl some internal behavior packages
+dnl Here's an explanation of how these work using the first package, meshtal.
+dnl configure --with-meshtal=yes or --with-meshtal => define MESHTAL
+dnl configure --with-meshtal=no => do not define MESHTAL
+dnl configure  => default behavior, which is define MESHTAL
+AC_ARG_WITH(meshtal, [ ], 
+   [  if test "${withval}" = yes; then
+	AC_DEFINE(MESHTAL)
+      fi ], 
+   [ AC_DEFINE(MESHTAL) ])
+
+AC_ARG_WITH(radiog, [ ],
+   [ if test "${withval}" = yes; then
+	AC_DEFINE(RADIOG)
+     fi ],
+   [ AC_DEFINE(RADIOG) ])
+
+AC_ARG_WITH(cem, [ ],
+   [ if test "${withval}" = yes; then
+	AC_DEFINE(CEM)
+     fi ],
+   [ AC_DEFINE(CEM) ])
+
+AC_ARG_WITH(histp, [ ],
+   [ if test "${withval}" = yes; then
+	AC_DEFINE(HISTP)
+     fi ],
+   [ AC_DEFINE(HISTP) ])
+
+AC_ARG_WITH(spabi, [ ],
+   [ if test "${withval}" = yes; then
+	AC_DEFINE(SPABI)
+     fi ],
+   [AC_DEFINE(SPABI) ])
+
+AC_ARG_WITH(dfact, [ ],
+   [ if test "${withval}" = yes; then
+	AC_DEFINE(DFACT)
+     fi ],
+   [ AC_DEFINE(DFACT) ])
+
+AC_ARG_WITH(xs64, [ ],
+   [ if test "${withval}" = yes; then
+	AC_DEFINE(XS64)
+     fi ],
+   [ AC_DEFINE(XS64) ])
+dnl some graphics packages
+AC_ARG_WITH(plot, [ ],
+   [ if test "${withval}" = yes; then
+	AC_DEFINE(PLOT)
+     fi ],
+   [ AC_DEFINE(PLOT) ])
+
+AC_ARG_WITH(mcplot, [ ],
+   [ if test "${withval}" = yes; then
+	AC_DEFINE(MCPLOT)
+     fi ],
+   [ AC_DEFINE(MCPLOT) ])
+
+AC_ARG_WITH(gkssim, [ ],
+   [ if test "${withval}" = yes; then
+	AC_DEFINE(GKSSIM)
+     fi ],
+   [ AC_DEFINE(GKSSIM) ])
+
+AC_ARG_WITH(xlib, [ ],
+   [ if test "${withval}" = yes; then
+	AC_DEFINE(XLIB)
+     fi ],
+   [ AC_DEFINE(XLIB) ])
+
+dnl the infamous NO_PAW
+dnl Here's an explanation of this confusing package
+dnl configure --with-no_paw or --with-no_paw=yes => define NO_PAW
+dnl configure --with-no_paw=no => do not define NO_PAW
+dnl configure => default is system dependent 
+AC_ARG_WITH(no_paw, [ ],
+   [ if test "${withval}" = yes; then
+	AC_DEFINE(NO_PAW)
+        paw_done=1
+     fi ],
+   [ AC_DEFAULT_NO_PAW ])
+
+dnl the PAW companion to the infamous NO_PAW
+dnl Here's an explanation of this confusing package
+dnl configure --with-paw or --with-paw=yes => do not define NO_PAW
+dnl configure --with-paw=no => define NO_PAW
+dnl configure => default is system dependent
+AC_ARG_WITH(paw, [ ],
+   [ if test "${withval}" != yes; then
+	if test "${paw_done}" = 1; then
+           echo "NO_PAW already defined"
+        else
+           AC_DEFINE(NO_PAW)
+           paw_done=1
+        fi
+     fi ],
+   [ AC_DEFAULT_NO_PAW ])
+dnl
+dnl ----------------------------------------------------
+
+
+
+
+dnl Set library vars
+AC_SET_LIBS
+
+dnl Get symbols defined and flags set 
+dnl NOTE: This must occur after the compiler checks are made
+dnl in order to avoid ${DEFS} conflicts
+dnl These are calculated or default settings
+AC_ENV_FLAGS_VARS
+AC_ARG_WITH(COPT, [ ], [AC_SET_COPT], [AC_DFLT_COPT] )
+AC_ARG_WITH(FOPT, [ ], [AC_SET_FOPT], [AC_DFLT_FOPT] )
+dnl These settings will override the calculated or default settings
+AC_ARG_WITH(FFLAGS, [ ], [AC_SET_FFLAGS])
+AC_ARG_WITH(CFLAGS, [ ], [AC_SET_CFLAGS])
+
+dnl ---- FUTURE EXTENSION - MODULE REQUEST HANDLING ----
+dnl These 4 are a set - you must have them all in order to link cleanly
+dnl AC_ARG_WITH(MCNPF, [ ], [AC_FMOD([MCNPF])])
+dnl AC_ARG_WITH(LCS, [ ], [AC_FMOD([LCS])])
+dnl AC_ARG_WITH(CEM, [ ], [AC_FMOD([CEM])])
+dnl AC_ARG_WITH(DEDX, [ ], [AC_FMOD([DEDX])])
+
+dnl These seem to be OK individually - they link cleanly
+dnl AC_ARG_WITH(MESHTAL, [ ], [AC_FMOD([MESHTAL])])
+dnl AC_ARG_WITH(SPABI, [ ], [AC_FMOD([SPABI])])
+dnl AC_ARG_WITH(HISTP, [ ], [AC_FMOD([HISTP])])
+dnl ---------------------------------------------------
+
+dnl append any debug flag settings to the end of existing flag settings
+AC_APPEND_DEBUGS
+
+dnl Simplify the Makefile by merging to one set of flags where possible
+AC_MERGE_FLAGS
+
+dnl Map (substitute) macro variables to environment vars for Makefile
+AC_MAP_OUT_TO_ENV
+
+dnl There are no subdirs to propagate at this level
+
+dnl Create a Makefile for this level
+AC_OUTPUT(Makefile.h Makefile)
+dnl ==========================================================

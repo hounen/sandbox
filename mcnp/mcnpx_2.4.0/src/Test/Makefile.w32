@@ -1,0 +1,498 @@
+# Generated automatically from Makefile.in by configure.
+# $Id: Makefile.w32,v 1.1 2002/07/22 17:04:18 jxh Exp $
+ 
+include Makefile.h
+# # # # THIS IS THE ROOT MAKEFILE FOR BUILDING TESTS FOR MCNPX # # # #
+ 
+# Use SOURCEDIR to construct path names relative to where this build is taking place.
+ifeq (${SYSTEM},Windows)
+SOURCEDIR = $(subst /,\,${srcdir})
+else
+SOURCEDIR = ${srcdir}
+endif
+
+ 
+# DATASRC directory is where ascii files live
+DATASRC = ${SOURCEDIR}${/}..${/}..${/}Data${/}LCS
+ 
+# Identify the appropriate machine architecture, operating system, & FORTRAN compiler
+TESTARCH = Test.${TARCH}.${TSYS}.${TFC}.${TCC}
+ 
+# Files are named using regular test problem numbers.
+# The total list of regular mcnpx test problems is :
+PROBS = 01s 02s 03s 04s 05s 06s 07s 08s 09s 10s 11s 12s 13s 14s 15s \
+        16s 17s 18s 19s 20s 21s 22s 23s 24s 25s 26s 27s 28s 29s 30s \
+        31s 32s 33s 34s 35s 36s 37s 38s 39s 40s 41s 42s 43s 44s 45s \
+        46s 47s
+# A selected subset of problems that can share a make target is :
+SUBSET = 01s 03s 04s 05s 07s 13s 15s 16s 18s 19s 20s 21s 23s 30s 31s \
+         32s 33s 34s 35s 36s 37s 38s 39s 40s 41s 42s 43s 44s 45s 46s 47s
+# The remaining problems have their own targets.
+# * * * * * Look near the middle of this file for regular targets * * * * *
+ 
+# Mesh tally problem numbers have the letter m preprended to avoid conflict
+# with regular test problem targets. A sed script removes the m for file naming.
+# The total list of mesh tally problems is :
+MESH_PROBS = 01m 02m 03m 04m 05m 06m 07m 08m 09m 10m 11m 12m 13m 14m 15m 16m
+# A selected subset of mesh tally problems that can share a make target is :
+MESH_SUBSET = 01m 02m 03m 04m 05m 06m 07m 08m 09m 10m 11m 12m 13m 14m 15m 16m
+# There are no remaining problems with their own targets.
+# * * * * * Look near the bottom of this file for mesh tally targets * * * * *
+ 
+# Htape problem numbers have the letters ht preprended to avoid conflict
+# with regular test problem targets. A sed script removes the ht for file naming.
+# The total list of htape problems is :
+HT_PROBS = 01h 02h 03h 04h 05h 06h
+# A selected subset of htape problems that can share a make target
+HT_SUBSET = 01h 02h 03h 04h
+# The remaining problems have their own targets.
+# htape cross section problems
+XS_PROBS = 05h 06h
+# * * * * * Look near the bottom of this file for htape targets * * * * *
+ 
+# The executable programs that are relative to this build dir
+MCNPX = ..${/}mcnpx${/}mcnpx
+HTAPE = ..${/}htape3x${/}htape3x
+XSEX = ..${/}xsex3${/}xsex3
+
+# Default (1st target) does all the tests (regular, mesh tally, htape)
+all : tests m-tests ht-tests
+ 
+# There are make targets for mcnpx bertin phtlib htape3x one level up from here
+mcnpx bertin phtlib htape3x xsex3 :
+	${MAKE} -C ..${/}$@
+ 
+# Force execution every time for phony targets
+.PHONY : required in-links out-links
+ 
+# - - - - - - - - - - links - - - - - - - - - - - -
+# Establish links to various input files
+#    ( inp*, wwinp*, htp* int*, inxs*, mes* )
+# Establish links to cross-section files (TestXS/*)
+# Establish links to bertin & phtlib libraries
+in-links :
+	${CP} ${SOURCEDIR}${/}Test_sources${/}inp?? .
+	${CP} ${SOURCEDIR}${/}Test_sources${/}htp?? .
+	${CP} ${SOURCEDIR}${/}Test_sources${/}int?? .
+	${CP} ${SOURCEDIR}${/}Test_sources${/}inxs?? .
+	${CP} ${SOURCEDIR}${/}Test_sources${/}mes?? .
+	${CP} ${SOURCEDIR}${/}Test_sources${/}wwinp?? .
+	${CP} ${SOURCEDIR}${/}TestXS${/}testdir .
+	${CP} ${SOURCEDIR}${/}TestXS${/}testlib1 .
+	${CP} ..${/}bertin${/}bertin .
+	${CP} ..${/}phtlib${/}phtlib .
+	${CP} ${DATASRC}${/}barpol.dat .
+ 
+# Establish links to platform specific expected right answer files
+# ( outp* wwout* mctl* mdat* mcth* outt* outxs*)
+# If the expected set of output files for the given platform do not exist,
+# the tests still can be run, but the diff operations will fail.
+# Generated output can become the new expected right answers by
+# executing 'make generate-test-data' (if you are confident the
+# generated output is correct for the platform in use).
+out-links :
+	${CP} ${SOURCEDIR}${/}${TESTARCH}${/}outp?? .
+	${CP} ${SOURCEDIR}${/}${TESTARCH}${/}mctl?? .
+	${CP} ${SOURCEDIR}${/}${TESTARCH}${/}wout?? .
+	${CP} ${SOURCEDIR}${/}${TESTARCH}${/}mdat?? .
+	${CP} ${SOURCEDIR}${/}${TESTARCH}${/}mcth?? .
+	${CP} ${SOURCEDIR}${/}${TESTARCH}${/}mcts?? .
+	${CP} ${SOURCEDIR}${/}${TESTARCH}${/}outt?? .
+	${CP} ${SOURCEDIR}${/}${TESTARCH}${/}outs?? .
+	${CP} ${SOURCEDIR}${/}${TESTARCH}${/}outxs?? .
+ 
+
+# - - - - - - - some utilities - - - - - - - - - - -
+# The difm* and difo* files can be listed and counted by making m and o targets
+m :
+	@${ECHO} " "
+	@${LS} -al inp*m htp*m | wc | awk '{print "===========  Expected $(words ${PROBS}) + $(words ${HT_PROBS}) MCTAL files.  Produced " $$1 "  ==========="}' 
+	@${LS} -al difm*
+	@${LS} -al difm* | wc | awk '{print "=========================  " $$1 " DIFM files  ========================="}'
+	@${ECHO} " "
+ 
+# Note that for now, only the standard test problems save OUTP comparison information.
+o :
+	@${ECHO} " "
+	${LS} -al inp*o | wc | awk '{print  "==============  Expected $(words ${PROBS}) OUTP files.  Produced " $$1 "  ============="}' 
+	@${LS} -al difo*
+	@${LS} -al difo* | wc | awk '{print "=========================  " $$1 " DIFO files  ========================="}'
+	@${ECHO} " "
+ 
+# For mesh tally tests, this  lists difd* files, showing the differences in the MDATA files.
+d :
+	@${ECHO} " "
+	@${LS} -al mes*d | wc | awk '{print "=============  Expected $(words ${MESH_PROBS}) MDATA files.  Produced " $$1 "  ============="}'
+	@${LS} -al difd*
+	@${LS} -al difd* | wc | awk '{print "=========================  " $$1 " DIFD files  ========================="}'
+	@${ECHO} " "
+ 
+# For htape tests, this lists dift* files, showing the differences in the OUTT files.
+t :
+	@${ECHO} " "
+	@${LS} -al htp*t | wc | awk '{print "===============  Expected $(words ${HT_PROBS}) OUTT files.  Produced " $$1 "  =============="}'
+	@${LS} -al dift*
+	@${LS} -al dift* | wc | awk '{print "==========================  " $$1 " DIFT files  ========================="}'
+	@${ECHO} " "
+ 
+# For cross-section generation tests, this lists difx* files, showing differences in OUTXS files.
+x :
+	@${ECHO} " "
+	@${LS} -al htp*x | wc | awk '{print "==============  Expected $(words ${XS_PROBS}) OUTXS files.  Produced " $$1 "  =============="}'
+	@${LS} -al difx*
+	@${LS} -al difx* | wc | awk '{print "==========================  " $$1 " DIFX files  ========================="}'
+	@${ECHO} " "
+ 
+# After tests are run, if not all of the dif* files have zero length, the results
+# can be examined with this target
+examine :
+	@for file in `${LS} dif*` ; do \
+	  if \
+	    test ! -s $${file} ; \
+	  then \
+	    ${RM} $${file} ; \
+	  fi \
+	done
+	-@${EDITOR} `${LS} dif*`
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+# % % % % % % % %  Regular Targets % % % % % % % %
+# Run mcnpx for all tests to generate output files with current answers
+# (to be compared to expected right answers).
+# Perform the diff operation on the 2 sets of output files.
+ 
+# You can't do all of the tests if the mcnpx bertin phtlib executables don't exist
+required : mcnpx bertin phtlib
+ 
+tests : clean required in-links out-links identify ${PROBS}
+	@${ECHO} ""
+	@${ECHO} " "
+	@${ECHO} "There should be $(words ${PROBS}) non-empty files in the following list:"
+	@${ECHO} " "
+ifneq (${SYSTEM},Windows)
+	@${LS} -al inp*m
+	@${ECHO} "-------------------------------"
+	@${LS} -al inp*m | wc
+else
+	@${LS} inp*m
+	@${ECHO} "-------------------------------"
+endif
+	@${ECHO} " "
+ 
+identify :
+	@${ECHO} "__________"
+	@${ECHO} " Testing: ${MCNPX}"
+	@${ECHO} " single-task version."
+	@${ECHO} "---------------------"
+ 
+${SUBSET} :
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=inp${@:s=} xsdir=testdir
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	@${RM} inp${@:s=}r
+ 
+02s 06s 11s :
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=inp${@:s=} xsdir=testdir fatal
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	@${RM} inp${@:s=}r
+ 
+08s : inp07w
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=inp${@:s=} xsdir=testdir wwinp=wwinp08 rssa=inp07w
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	-@${COMP} inp${@:s=}e wout${@:s=} > dife${@:s=}
+	@${RM} inp${@:s=}r
+ 
+09s 24s :
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} xsdir=testdir name=inp${@:s=}
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+ 
+10s :
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=inp${@:s=} xsdir=testdir wwinp=wwinp10
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	-@${COMP} inp${@:s=}e wout${@:s=} > dife${@:s=}
+	@${RM} inp${@:s=}r
+ 
+12s :
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=inp${@:s=} xsdir=testdir
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	-@${COMP} inp${@:s=}e wout${@:s=} > dife${@:s=}
+	@${RM} inp${@:s=}r
+ 
+14s :
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=inp${@:s=} xsdir=testdir wwinp=wwinp14 fatal
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	-@${COMP} inp${@:s=}e wout${@:s=} > dife${@:s=}
+	@${RM} inp${@:s=}r
+ 
+17s : inp09s
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	@${CP} inp09s srctp17
+	${MCNPX} name=inp${@:s=} s=srctp17 xsdir=testdir
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	@${RM} inp${@:s=}r srctp17
+ 
+22s : inp21w
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} xsdir=testdir name=inp${@:s=} rs=inp21w
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	@${RM} inp${@:s=}r
+ 
+25s : inp24r
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=inp${@:s=} run=inp24r CN
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	@${RM} inp${@:s=}r inp24r
+ 
+26s : inp09r inp09w
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=inp${@:s=} wss=inp09w run=inp09r CN
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	@${RM} inp09r
+ 
+27s : inp09w
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=inp${@:s=} rss=inp09w xsdir=testdir
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	@${RM} inp${@:s=}r
+ 
+28s :
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=inp${@:s=} xsdir=testdir
+	@${CP} ex5a.out inp${@:s=}o
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	@${RM} ex5a.run ex5a.out
+ 
+29s : inp07w
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Test Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=inp${@:s=} xsdir=testdir rssa=inp07w
+	-@${COMP} inp${@:s=}m mctl${@:s=} > difm${@:s=}
+	-@${COMP} inp${@:s=}o outp${@:s=} > difo${@:s=}
+	@${RM} inp${@:s=}r
+ 
+# % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+ 
+# These next targets are the mesh tally test cases
+# To prevent duplication of target names the letter m
+# precedes each problem number, but is removed when
+# executing the code
+# * * * * * * * * * * * * * * * * * * * * Mesh Tally Targets  * * * * * * * * * * * * * * * * * * *
+m-tests : clean required in-links out-links m-identify ${MESH_PROBS}
+	@${ECHO} ""
+	@${ECHO} " "
+	@${ECHO} "There should be $(words ${MESH_PROBS}) non-empty files in the following list:"
+	@${ECHO} " "
+ifneq (${SYSTEM},Windows)
+	@${LS} -al mes*m
+	@${ECHO} "-------------------------------"
+	@${LS} -al mes*m | wc
+else
+	@${LS} mes*m
+	@${ECHO} "-------------------------------"
+endif
+	@${ECHO} " "
+ 
+m-identify :
+	@${ECHO} "__________"
+	@${ECHO} " Testing: ${MCNPX}"
+	@${ECHO} " mesh tally capability."
+	@${ECHO} "-----------------------"
+ 
+${MESH_SUBSET} :
+	@${ECHO} "-----------------------------"
+	@${ECHO} "-----  Mesh Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=mes${@:m=} xsdir=testdir
+	${CP}  mdata mes${@:m=}d
+	-@${COMP} mes${@:m=}m mcts${@:m=} > difsm${@:m=}
+	-@${COMP} mes${@:m=}o outs${@:m=} > difso${@:m=}
+	-@${RM} mdata
+	-@${COMP} mes${@:m=}d mdat${@:m=} > difd${@:m=}
+	@${RM} mes${@:m=}r
+ 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+# These next targets are the htape test cases
+# To prevent duplication of target names the letters ht
+# precede each problem number, but are removed when
+# executing the code
+# @ @ @ @ @ @ Htape Targets @ @ @ @ @ @ @ @
+ 
+# You can't do the htape tests if the htape3x executable doesn't exist
+ht-req : htape3x xsex3
+ 
+ht-tests : clean required ht-req in-links out-links ht-identify ${HT_PROBS}
+	@${ECHO} ""
+	@${ECHO} " "
+	@${ECHO} "There should be $(words ${HT_PROBS}) non-empty files in the following list:"
+	@${ECHO} " "
+ifneq (${SYSTEM},Windows)
+	@${LS} -al htp*m
+	@${ECHO} "-------------------------------"
+	@${LS} -al htp*m | wc
+else
+	@${LS} htp*m
+	@${ECHO} "-------------------------------"
+endif
+	@${ECHO} " "
+ 
+ht-identify :
+	@${ECHO} "__________"
+	@${ECHO} " Testing: ${MCNPX} and ${HTAPE}"
+	@${ECHO} " history file capability."
+	@${ECHO} "-------------------------"
+ 
+${HT_SUBSET} :
+	@${ECHO} "-----------------------------"
+	@${ECHO} "----  Htape Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=htp${@:h=} xsdir=testdir
+	${HTAPE} int=int${@:h=} histx=htp${@:h=}w
+	${CP} outt htp${@:h=}t
+	-@${RM} outt
+	-@${COMP} htp${@:h=}m mcth${@:h=} > difmt${@:h=}
+	-@${COMP} htp${@:h=}t outt${@:h=} > dift${@:h=}
+	@${RM} histp htp${@:h=}r htp${@:h=}w opt*
+ 
+${XS_PROBS} :
+	@${ECHO} "-----------------------------"
+	@${ECHO} "----  Htape Problem $@  -----"
+	@${ECHO} "-----------------------------"
+	${MCNPX} name=htp${@:h=} xsdir=testdir
+	${HTAPE} int=int${@:h=}
+	${CP} outt htp${@:h=}t
+	-@${RM} outt
+	${XSEX} inxs=inxs${@:h=}
+	${CP} outxs htp${@:h=}x
+	-@${RM} outxs
+	-@${COMP} htp${@:h=}m mcth${@:h=} > difmt${@:h=}
+	-@${COMP} htp${@:h=}t outt${@:h=} > dift${@:h=}
+	-@${COMP} htp${@:h=}x outxs${@:h=} > difx${@:h=}
+	@${RM} histp htp${@:h=}r htp${@:h=}w opt*
+ 
+# @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @
+# The next 2 targets allow for generation of the expected
+# right answer files.
+# WARNING - THIS DOES ALL FILES, NOT A SUBSET OF FILES
+# See individual targets for replacing or creating subsets.
+ 
+generate-test-data :
+ifneq (${SYSTEM},Windows)
+	-@if test -d ${SOURCEDIR}${/}${TESTARCH} ; then \
+		${ECHO} "Replacing existing ${SOURCEDIR}${/}${TESTARCH} data."; \
+		${RM} ${SOURCEDIR}${/}${TESTARCH}${/}*; \
+		${MAKE} ${MFLAGS} copy-data; \
+	else \
+		${ECHO} "Creating new ${SOURCEDIR}${/}${TESTARCH} data."; \
+		mkdir -p ${SOURCEDIR}${/}${TESTARCH}; \
+		${MAKE} ${MFLAGS} copy-data; \
+	fi
+else
+	-@mkdir ${SOURCEDIR}${/}${TESTARCH}
+	${MAKE} ${MFLAGS} copy-data
+endif
+
+copy-data : gen-outp gen-mctl gen-wout gen-outs gen-mcts gen-mdat gen-outt gen-mcth gen-outxs
+
+# Individual targets for replacing/creating just subsets of blessed answers
+gen-outp : ${PROBS:s=s1}
+
+${PROBS:s=s1} :
+	@${CP} inp${@:s1=}o ${SOURCEDIR}${/}${TESTARCH}${/}outp${@:s1=}
+
+gen-mctl : ${PROBS:s=s2}
+
+${PROBS:s=s2} :
+	@${CP} inp${@:s2=}m ${SOURCEDIR}${/}${TESTARCH}${/}mctl${@:s2=}
+
+gen-wout : 08s3 10s3 12s3 14s3
+
+08s3 10s3 12s3 14s3 :
+	@${CP} inp${@:s3=}e ${SOURCEDIR}${/}${TESTARCH}${/}wout${@:s3=}
+
+gen-outs : ${MESH_PROBS:m=m1}
+
+${MESH_PROBS:m=m1} :
+	@${CP} mes${@:m1=}o ${SOURCEDIR}${/}${TESTARCH}${/}outs${@:m1=}
+
+gen-mcts : ${MESH_PROBS:m=m2}
+
+${MESH_PROBS:m=m2} :
+	@${CP} mes${@:m2=}m ${SOURCEDIR}${/}${TESTARCH}${/}mcts${@:m2=}
+
+gen-mdat : ${MESH_PROBS:m=m3}
+
+${MESH_PROBS:m=m3} :
+	@${CP} mes${@:m3=}d ${SOURCEDIR}${/}${TESTARCH}${/}mdat${@:m3=}
+
+gen-outt : ${HT_PROBS:h=h1}
+
+${HT_PROBS:h=h1} :
+	@${CP} htp${@:h1=}t ${SOURCEDIR}${/}${TESTARCH}${/}outt${@:h1=}
+
+gen-mcth : ${HT_PROBS:h=h2}
+
+${HT_PROBS:h=h2} :
+	@${CP} htp${@:h2=}m ${SOURCEDIR}${/}${TESTARCH}${/}mcth${@:h2=}
+
+gen-outxs : ${XS_PROBS:h=h3}
+
+${HT_PROBS:h=h3} :
+	@${CP} htp${@:h3=}x ${SOURCEDIR}${/}${TESTARCH}${/}outxs${@:h3=}
+
+# The next 2 targets are for cleaning up the directory.
+# get rid of all the links and generated output from any/all target building activity above
+clean :
+	@-${RM} bertin phtlib testlib1 testdir mes* htp* int* inp* wwinp*
+	@-${RM} inxs* outxs* mctl* outp* wout* mdat* outt* mcth* mcts* outs*
+	@-${RM} difd* dife* dift* difm* difo* difx* tmp* difso* difsm*
+	@-${RM} core barpol.dat *.out out? opt* histp* wxxa wxxb
+ 
+distclean :
+	@-${RM} ${DISTCLEANFILES}
+	@-${RM} ${CONFFILES}

@@ -1,0 +1,35 @@
+Test Problem for Photonuclear Physics
+1  1  -1.0   -1  imp:p,n,h,d=1
+2  0          1  imp:p,n,h,d=0
+
+1  so  15.0
+
+m1      26056.00c 1  8016.00c 2
+c
+mode    p n h d
+sdef    par=2 erg=50
+c
+phys:p  j 1 j 1
+phys:n  j j 150
+phys:h  j j 150 j -1
+c
+cut:p   j 0.001 0.5000 0.25000
+cut:n   j 0.0   0.0500 0.02500
+cut:h   j 1.0   0.0050 0.00250
+cut:d   j 1.0   0.0005 0.00025
+c
+f11:n   1
+f24:n   1
+c
+f31:p   1
+f44:p   1
+c
+f54:h   1
+c
+f64:d   1
+c
+nps     10000
+print   -85
+prdmp   j j -1
+phys:d  4j  -1
+

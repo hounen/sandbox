@@ -1,0 +1,115 @@
+# Generated automatically from Makefile.in by configure.
+# $Id: Makefile.w32,v 1.1 2002/07/22 17:04:18 jxh Exp $
+
+include Makefile.h
+# # # # This is the src level  MAKEFILE for building MCNPX # # # #
+
+# SOURCEDIR is path relative to this 'make'
+SOURCEDIR = ${srcdir}
+
+# Default target is first target - 'make' defaults to 'make all'.
+all : gridconv bertin htape3x makxs phtlib xsex3 mcnpx
+
+# Help file is the shared one at the top level
+help :
+	@more ${SOURCEDIR}/../Readme.make
+
+# You should not install until you 'make all' and 'make tests'
+# We only enforce 'make all'
+install : all
+	@${SOURCEDIR}/../config/install-sh -c ${SOURCEDIR}/../Data/LCS/barpol.dat ${datadir}/barpol.dat
+	@${ECHO} "Install of barpol.dat  into ${datadir} complete."
+	@${MAKE} -C bertin install
+	@${MAKE} -C phtlib install
+	@${MAKE} -C mcnpx install
+
+# If you want utilities to be installed along with mcnpx,
+# the following (uncommented) lines should be placed after
+# the last line of the install target
+#	@${MAKE} -C gridconv install
+#	@${MAKE} -C htape3x install
+#	@${MAKE} -C xsex3 install
+#	@${MAKE} -C mkxs install
+# otherwise you will have to go into each subdirectory
+# and execute 'make install'
+
+# Source code for targets are not at the src level directory.
+# Sources are at the next level (or multiple levels) down.
+
+# Force execution of 'make' every time for phony targets,
+# otherwise the matching directory names give the appearance
+# that everything is up to date.
+.PHONY : gridconv bertin htape3x makxs phtlib xsex3 mcnpx tests
+
+# Targets with matching subdirectories 
+mcnpx gridconv htape3x makxs xsex3 bertin phtlib:
+	${MAKE} -C $@ all
+
+# Target tests has non-matching subdirectory
+# and depends on mcnpx bertin phtlib barpol targets
+# Data to use with tests determined by old or new cross-section physics
+tests : mcnpx bertin phtlib barpol
+	@if test ${OLDXSDIR} = no; then \
+		${MAKE} -C Test all ; \
+	else \
+		${MAKE} -C Test/${OLDXSDIR} all ; \
+	fi
+
+# Maintain a maping back to old individual test target names
+single meshtal htape : 
+	@if test ${OLDXSDIR} = no; then \
+		${MAKE} -C Test $@ ; \
+	else \
+		${MAKE} -C Test/${OLDXSDIR} $@ ; \
+	fi
+
+# Target barpol and generate-test-data occur in both the Test and
+# Test/OLDXS subdirectories
+barpol generate-test-data :
+	@if test ${OLDXSDIR} = no; then \
+		${MAKE} -C Test $@ ; \
+	else \
+		${MAKE} -C Test/${OLDXSDIR} $@ ; \
+	fi
+
+# The m, o, d, t, x, examine targets are for convenience utilities
+# when looking at test results - pass them down.
+.PHONY : m o d t x examine
+m o d t x examine :
+	@if test ${OLDXSDIR} = no; then \
+		${MAKE} -C Test $@ ; \
+	else \
+		${MAKE} -C Test/${OLDXSDIR} $@ ; \
+	fi
+
+# Force 'make' to execute every time for PHONY targets.
+.PHONY : clean distclean 
+
+# Target clean should remove intermediate files and .o files but leave executables alone
+clean  :
+	@-${RM}  ${CLEANFILES}
+	@${MAKE} -C .\gridconv clean
+	@${MAKE} -C .\bertin clean
+	@${MAKE} -C .\htape3x clean
+	@${MAKE} -C .\makxs clean
+	@${MAKE} -C .\phtlib clean
+	@${MAKE} -C .\xsex3 clean
+	@${MAKE} -C .\mcnpx clean
+	@${MAKE} -C .\Test clean
+#	@${MAKE} -C .\Test\OLDXS clean
+
+# Target distclean should clean then remove executables and dependency files
+distclean : clean
+	@-${RM} ${DISTCLEANFILES}
+	@-${RM} ${CONFFILES}
+	@${MAKE} -C ./gridconv distclean
+	@${MAKE} -C ./bertin distclean
+	@${MAKE} -C ./htape3x distclean
+	@${MAKE} -C ./makxs distclean
+	@${MAKE} -C ./phtlib distclean
+	@${MAKE} -C ./xsex3 distclean
+	@${MAKE} -C ./mcnpx distclean
+	@${MAKE} -C ./Test distclean
+	@${MAKE} -C ./Test/OLDXS distclean
+
+# DO NOT DELETE THIS LINE - makedepend depends on it
