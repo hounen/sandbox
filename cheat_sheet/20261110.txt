@@ -1,0 +1,4 @@
+https://developer.microsoft.com/graph/graph-explorer
+でサインインして
+https://graph.microsoft.com/v1.0/me
+JSONが返ってくればOK
